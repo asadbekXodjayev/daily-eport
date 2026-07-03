@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 03.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+  .placeholder{display:flex;align-items:center;justify-content:center;min-height:150px;background:repeating-linear-gradient(45deg,#f6f8fc,#f6f8fc 12px,#eef1f8 12px,#eef1f8 24px);color:var(--muted);font-size:13px;text-align:center;padding:22px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;3 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">Крупный день по <b>девяти областям</b> в диспетчерском приложении и админ-консоли. Главное — <b>две большие функции реального времени</b>: <b>WebRTC-видеозвонок</b> (со звонком, камерой и демонстрацией экрана поверх существующего аудиозвонка) и <b>видео-заметки в чате</b> (кружочки-видеосообщения). Плюс <b>поиск адреса маршрута</b> на карте (автодополнение Yandex), <b>переработка админ-командного центра</b>, перевод <b>модерации водителей</b> с KYC на «допуск», <b>гейт модерации диспетчера</b> и три дефекта по грузам/звонкам. Всё закоммичено в <b>4 коммита</b>; <span class="mono">tsc -b</span> — 0 ошибок.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммиты:</b> <span class="mono">ba518948 · 9cde2a45 · f23c1fdc · 5a9235ab</span></span>
+      <span><b>Объём:</b> <span class="tag">4 функции</span> <span class="tag">3 дефекта</span> <span class="tag">~15 новых файлов</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">03.07.2026 — насыщенный день по <b>Sarbon Frontend</b>. <b>Видеозвонок:</b> модалка звонка <span class="mono">GlobalAudioCallModal</span> расширена до полноценного P2P-видео — камера вкл/выкл, демонстрация экрана, локальное превью и удалённое видео, сворачивание/разворачивание панели, входящий вызов «ответить с видео / только аудио», а также <b>подстройка под слабую сеть</b> (кодек-предпочтение, ограничение битрейта/FPS) в новом <span class="mono">webrtcTuning.ts</span>. <b>Видео-заметки:</b> запись «кружочков» прямо из композера чата (запрос доступа к камере, выбор/переключение камеры, лимиты длительности, оптимистичный «uploading»-пузырёк, воспроизведение с кольцом-прогрессом). <b>Груз:</b> поиск адреса точки маршрута через геокодер Yandex с автодополнением от 3-го символа. <b>Админ:</b> переработан командный центр (плитки по ролям, пофильтровые диапазоны дат, счётчики модерации по ролям), модерация водителей переведена с KYC на «допуск» (паритет с менеджерами). <b>Дефекты:</b> вкладка «Все» в «Моих грузах» теперь показывает все статусы; редактирование груза переведено на <span class="mono">PATCH</span> (деактивированные грузы снова сохраняются); гейт модерации диспетчера на входе.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">9</div><div class="l">областей изменений</div></div>
+    <div class="stat blue"><div class="v">4</div><div class="l">функции добавлено</div></div>
+    <div class="stat blue"><div class="v">3</div><div class="l">дефекта закрыто</div></div>
+    <div class="stat blue"><div class="v">4</div><div class="l">коммита за день</div></div>
+    <div class="stat good"><div class="v">~15</div><div class="l">новых файлов · ~7 наборов тестов</div></div>
+    <div class="stat good"><div class="v">15</div><div class="l">локалей · ~55 новых ключей i18n</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">✓ Главное за день</div>
+    Наиболее содержательная работа — <b>WebRTC-видеозвонок с демонстрацией экрана</b>. Существующая аудио-модалка звонка превращена в универсальную: видео-трансивер теперь <span class="mono">sendrecv</span> на <i>каждом</i> звонке (даже аудио), поэтому включить видео/шаринг экрана можно в любой момент без пересоздания сессии; удалённое видео показывается по «unmute» трека, а не по его наличию. Тип звонка (<span class="mono">audio | video | screen</span>) — только UI-подсказка, реальный набор медиа задаёт SDP, поэтому старые клиенты не ломаются. Параллельно добавлены <b>видео-заметки</b> в чат и <b>поиск адреса</b> на карте груза.
+  </div>
+  <div class="callout warn">
+    <div class="h">⚠ Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок и демонстрация экрана</b> — сквозной P2P-сценарий (2 участника, камера, шаринг экрана, слабая сеть) воспроизводится только на живом звонке под диспетчерской авторизацией; нужен живой раунд между двумя реальными абонентами.</li>
+      <li><b>Видео-заметки</b> — запись гейтится доступом к камере/микрофону и защищённым контекстом (HTTPS); нужен клик на реальном устройстве с камерой (запись → отправка → воспроизведение).</li>
+      <li><b>Поиск адреса маршрута</b> — зависит от квоты и языка ответа геокодера Yandex; проверить многоязычный ответ и выбор точки на карте.</li>
+      <li><b>Гейт модерации диспетчера</b> — «fail-open»: бэкенд пока <b>не отдаёт</b> <span class="mono">moderation_status</span> в <span class="mono">/v1/dispatchers/profile</span>; до этого гейт всегда пропускает. Живой раунд — после появления поля на бэкенде.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>4 функции · 3 дефекта · инфраструктура</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Видеозвонок (WebRTC) + демонстрация экрана</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Был только аудиозвонок. Не было видео, камеры, шаринга экрана и подстройки под слабую сеть.</td>
+      <td>Модалка звонка расширена до видео: камера вкл/выкл, демонстрация экрана (<span class="mono">getDisplayMedia</span>), локальное превью + удалённое видео, сворачивание/разворачивание панели, входящий «ответить с видео / только аудио». Тип звонка <span class="mono">audio|video|screen</span> — UI-подсказка (медиа задаёт SDP). Тюнинг слабой сети: кодек-предпочтение, ограничение битрейта/FPS, degradation preference.</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">webrtcTuning.ts</span> (+тест), <span class="mono">callTypes.ts</span>, <span class="mono">useCallStore.ts</span>, <span class="mono">ChatPage.tsx</span>, <span class="mono">ChatThreadPanel.tsx</span>, <span class="mono">useDispatcherSseSubscriptions.ts</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Видео-заметки в чате («кружочки»)</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>В чате нельзя было записать короткое видеосообщение прямо из композера.</td>
+      <td>Запись видео-заметки: запрос доступа к камере/мик., выбор и переключение камеры, лимиты мин./макс. длительности, выбор MIME/битрейта, оптимистичный «uploading»-пузырёк, воспроизведение с кольцом-прогрессом. Обработаны все состояния отказа (нет камеры, запрет доступа, небезопасный контекст, не поддерживается).</td>
+      <td><span class="mono">useVideoNoteRecorder.ts</span>, <span class="mono">chatVideoNoteRecorder.ts</span> (+тест), <span class="mono">ChatVideoNoteRecorder.tsx</span>, <span class="mono">ChatVideoNoteMessage.tsx</span>, <span class="mono">ChatVideoNoteRing.tsx</span>, <span class="mono">ChatComposerPanel.tsx</span>, <span class="mono">MessageBubble.tsx</span>, <span class="mono">ConversationItem.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Груз — поиск адреса маршрута</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Точку маршрута можно было выбрать в основном на карте; текстового автодополнения адреса не было.</td>
+      <td>Поле поиска адреса с автодополнением через геокодер Yandex: запрос с 3-го символа, дебаунс 400 мс, до 7 результатов; выбранная точка резолвится в мультиязычные поля адреса (uz/ru/en/zh) + город/таймзона.</td>
+      <td><span class="mono">RoutePointAddressSearch.tsx</span>, <span class="mono">resolveYandexRoutePoint.ts</span> (+тест), <span class="mono">Step2Route.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — командный центр (переработка)</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Единый глобальный диапазон дат; счётчики модерации только по грузам/водителям; графики в основном потоке.</td>
+      <td>Плитки-сводка по ролям; <b>пофильтровые</b> диапазоны дат в таблицах (новый <span class="mono">DateRangeFilterDropdown</span> + фильтр колонки по датам); графики композиции/рейсов вынесены в модалку; добавлены счётчики «в модерации» <b>по ролям</b> (менеджеры грузов / водителей) из <span class="mono">analytics/moderation</span>.</td>
+      <td><span class="mono">AdminCommandCenterPage.tsx</span>, <span class="mono">DateRangeFilterDropdown.tsx</span>, <span class="mono">tableFilters.tsx</span> (+тест), <span class="mono">AdminKpiTile.tsx</span>, <span class="mono">commandCenterChartData.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — модерация водителей (KYC → допуск)</b> <span class="badge b-med">change</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Вкладка «Водители» модерировала <b>KYC</b> (личность), а требовалось модерировать <b>допуск</b> (<span class="mono">moderation_status</span>), как у менеджеров.</td>
+      <td>Панель переписана по образцу менеджеров: очередь <span class="mono">/admin/drivers/moderation</span> (<span class="mono">moderation_status: pending</span>), Accept → <span class="mono">…/moderation/approve</span>, Reject → <span class="mono">…/moderation/reject { reason }</span>; колонка теперь «moderation_status», KYC-колонка убрана.</td>
+      <td><span class="mono">DriverModerationPanel.tsx</span>, <span class="mono">AdminModerationPage.tsx</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Гейт модерации диспетчера + модерация менеджеров</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Не было ограничения доступа для «pending»-диспетчеров; вкладка «Менеджеры» модерации требовала перевода на выделенные эндпоинты.</td>
+      <td>Диспетчер со статусом <span class="mono">pending/rejected</span> видит экран ограниченного доступа вместо приложения (предикат «fail-open», kill-switch в env). Модерация менеджеров переведена на выделенные эндпоинты <span class="mono">DISPATCHER_MODERATION_{approve,reject}</span>.</td>
+      <td><span class="mono">ModerationGate.tsx</span>, <span class="mono">Account{UnderReview,Rejected}Screen.tsx</span>, <span class="mono">moderationGate.ts</span> (+тест), <span class="mono">guestPaths.ts</span>, <span class="mono">ProtectedRoute.tsx</span>, <span class="mono">ManagerModerationPanel.tsx</span>, <span class="mono">endpoints.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Груз — вкладка «Все» показывала не все статусы</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Вкладка «Все» отдавала только грузы в статусе «Searching (all)» — модерация/в работе/завершённые/архив пропадали, т.к. параметр <span class="mono">status</span> опускался, а бэкенд по умолчанию сужает до «поиска».</td>
+      <td>Вкладка «Все» теперь шлёт <b>объединение</b> статусов всех остальных вкладок (выводится программно, чтобы не «разъезжалось»); Excel-экспорт со вкладки «Все» тоже стал полным.</td>
+      <td><span class="mono">myCargosConstants.ts</span> (+тест <span class="mono">myCargosTabStatus</span>)</td>
+    </tr>
+    <tr>
+      <td><b>Груз — редактирование (PUT→PATCH)</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Сохранение правок <b>деактивированного</b> груза падало с <span class="mono">400</span>; бэкенд перевёл обновление груза с <span class="mono">PUT</span> на <span class="mono">PATCH</span>.</td>
+      <td>Мутация обновления груза переведена <span class="mono">usePut → usePatch</span> (drop-in замена). Деактивированные грузы снова сохраняются. Задокументировано в <span class="mono">docs/backend/cargo-update-deactivated-400.md</span>.</td>
+      <td><span class="mono">MyCargoEditForm.tsx</span>, <span class="mono">docs/backend/cargo-update-deactivated-400.md</span></td>
+    </tr>
+    <tr>
+      <td><b>Аудиозвонок — устойчивость к обрыву</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Перенос из работы 02.07: при локальном сбое звонка модалка закрывалась, тогда как серверный звонок оставался <span class="mono">ACTIVE</span>.</td>
+      <td><span class="mono">preserveSession</span> сохраняет сессию на ошибках, модалка остаётся с рабочей кнопкой «Завершить»; в закрывающем review устранены 2 регрессии. Закоммичено в составе <span class="mono">ba518948</span>.</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">ChatThreadPanel.tsx</span></td>
+    </tr>
+  </table></div>
+
+  <h3>Суть видеозвонка — ключевые решения</h3>
+  <pre class="diff"><span class="cmt">// src/components/shared/GlobalAudioCallModal.tsx</span>
+<span class="add">+ // Видео-трансивер всегда sendrecv — даже в аудио-звонке, поэтому ontrack по видео</span>
+<span class="add">+ // срабатывает на каждом звонке и видео можно включить без пересоздания сессии.</span>
+<span class="add">+ const isVideoCall = callType === 'video' || callType === 'screen'</span>
+<span class="add">+ const [hasRemoteVideo, setHasRemoteVideo] = useState(false)  // по unmute трека, не по наличию</span>
+<span class="add">+ const canShareScreen = typeof navigator.mediaDevices?.getDisplayMedia === 'function'</span>
+
+<span class="cmt">// src/utils/webrtcTuning.ts — подстройка под слабую сеть (всё feature-detected / try-catch)</span>
+<span class="add">+ export const CAMERA_CONSTRAINTS = { width:{ideal:640}, height:{ideal:360}, frameRate:{ideal:20,max:24} }</span>
+<span class="add">+ preferVideoCodec(...) · tuneVideoSender(maxBitrate, maxFramerate, degradationPreference)</span></pre>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по коммитам</small></h2>
+  <p class="lead">Изменения дня собраны в 4 коммита ветки <span class="mono">staging</span>. Технические записи по дефектам — в <span class="mono">bug.md</span> (корень репозитория, записи 03.07).</p>
+
+  <div class="timeline">
+    <div class="ev feat">
+      <div class="t">03.07.2026 · 10:33 · <span class="mono">ba518948</span></div>
+      <h4>Гейт модерации диспетчера + модерация менеджеров + устойчивость звонка <span class="badge b-new">feature</span> <span class="badge b-high">bug</span></h4>
+      <ul>
+        <li>Гейт: «pending/rejected»-диспетчер видит экран ограниченного доступа; предикат <span class="mono">moderationGateDecision</span> «fail-open», kill-switch <span class="mono">VITE_MODERATION_GATE_ENABLED</span>.</li>
+        <li>Админ: модерация менеджеров переведена на выделенные эндпоинты; новые константы очереди/approve/reject для диспетчеров и водителей.</li>
+        <li>Звонки: <span class="mono">preserveSession</span> при обрыве (перенос из 02.07), 2 регрессии устранены в review.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">03.07.2026 · 15:08 · <span class="mono">9cde2a45</span> «03.07»</div>
+      <h4>Видео-заметки, поиск адреса, командный центр, модерация водителей, грузы <span class="badge b-new">feature</span> <span class="badge b-high">bug</span></h4>
+      <ul>
+        <li>Видео-заметки в чате (запись/отправка/воспроизведение), поиск адреса маршрута (Yandex geocode).</li>
+        <li>Переработан админ командный центр (плитки по ролям, пофильтровые даты, счётчики модерации по ролям).</li>
+        <li>Модерация водителей: KYC → допуск. Груз: вкладка «Все» = объединение статусов; редактирование <span class="mono">PUT→PATCH</span>.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">03.07.2026 · 16:25 · <span class="mono">f23c1fdc</span> «video call»</div>
+      <h4>WebRTC-видеозвонок + демонстрация экрана + тюнинг слабой сети <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Модалка звонка → видео: камера, <span class="mono">getDisplayMedia</span>, локальное/удалённое видео, сворачивание панели, «ответить с видео / только аудио».</li>
+        <li>Новый <span class="mono">webrtcTuning.ts</span>: кодек-предпочтение, ограничение битрейта/FPS, degradation preference (всё feature-detected).</li>
+        <li>Тип звонка <span class="mono">audio|video|screen</span> (<span class="mono">callTypes.ts</span>, <span class="mono">useCallStore.ts</span>); оптимистичный «uploading»-пузырёк видео-заметки.</li>
+        <li>Тесты: <span class="mono">webrtcTuning.test.ts</span> (+110), <span class="mono">chatHelpers.test.ts</span>, <span class="mono">chatVideoNoteRecorder.test.ts</span>.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">03.07.2026 · 17:17 · <span class="mono">5a9235ab</span> «video call»</div>
+      <h4>Полировка видеозвонка + локализация <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Доработка модалки видеозвонка (94 строки), правки композера.</li>
+        <li>Ключи видеозвонка добавлены во <b>все 15</b> локалей: <span class="mono">startVideoCall</span>, <span class="mono">incomingVideoCall</span>, <span class="mono">answerWithVideo</span>, <span class="mono">answerAudioOnly</span>, <span class="mono">shareScreen</span>, <span class="mono">stopShareScreen</span>, <span class="mono">cameraOn/Off</span>, <span class="mono">screenSharingBadge</span>, <span class="mono">minimize/restoreCallPanel</span> и др.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span> (CI-ворота — полная сборка проекта)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах (pre-commit)</li>
+        <li>Новые наборы тестов: <span class="mono">webrtcTuning</span>, <span class="mono">chatVideoNoteRecorder</span>, <span class="mono">resolveYandexRoutePoint</span>, <span class="mono">dateRangeColumnFilter</span>, <span class="mono">myCargosTabStatus</span>, <span class="mono">moderationGate</span>, <span class="mono">dispatcherModeration</span></li>
+        <li>Локализация: ~55 новых ключей во всех 15 локалях (видео-заметки, видеозвонок, поиск адреса, модерация)</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Статус изменений</div>
+      <ul class="clean">
+        <li>Все изменения дня <b>закоммичены</b> (4 коммита ветки <span class="mono">staging</span>)</li>
+        <li>Рабочее дерево на момент отчёта чистое, кроме мелкого <span class="mono">HomeLayout.tsx</span> (порядок Tailwind-классов)</li>
+        <li>CI (<span class="mono">deploy-staging.yml</span>) прогоняет только <span class="mono">pnpm build</span> — типы зелёные</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Живая проверка (runtime) — что осталось</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок/шаринг экрана</b> и <b>видео-заметки</b> — сквозной клик под диспетчерской авторизацией на устройстве с камерой; в текущей среде отчёта авторизованный GUI и камера недоступны.</li>
+      <li><b>Гейт модерации диспетчера</b> — зависит от появления <span class="mono">moderation_status</span> в <span class="mono">/v1/dispatchers/profile</span> на бэкенде (до этого «fail-open»).</li>
+      <li><b>Модерация водителей/менеджеров</b> — approve/reject меняют реальные данные; живой раунд-трип — на staging (не на проде).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>03.07.2026</small></h2>
+  <p class="lead">Ниже — реальный скриншот из <b>живого приложения на staging</b> (диспетчерская авторизация, тест-аккаунт «Paul Allen · Cargo manager»), демонстрирующий результат нового <b>поиска адреса маршрута</b> в карточках грузов. Остальные функции дня (видеозвонок, видео-заметки) гейтятся камерой/микрофоном и P2P-сессией между двумя абонентами — их живая съёмка отложена до QA-клика на реальном устройстве; для админ-страниц в папке есть готовые <span class="mono">capture-*.mjs</span> (Playwright), запускаемые на локальном dev-сервере против staging.</p>
+
+  <h3>Груз — детальный адрес маршрута из геокодера (живой staging)</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/cargos-address-search-dispatcher.png" alt="Cargos list with detailed route address" loading="lazy" />
+      <div class="ss-cap"><b>Список грузов · диспетчер (staging)</b><span class="tag-change">детальный многоязычный адрес точки, напр. «Tashkent Region, Yangiyul… yig'ini, Olmazor ko'chasi» — результат нового поиска адреса</span></div>
+    </div>
+  </div>
+
+  <h3>Видеозвонок / видео-заметки / админ командный центр</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>видеозвонок требует P2P-сессии между 2 абонентами под авторизацией</div>
+      <div class="ss-cap"><b>Видеозвонок + демонстрация экрана</b><span class="tag-change">QA-клик на живом звонке</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>запись видео-заметки гейтится камерой/микрофоном и HTTPS-контекстом</div>
+      <div class="ss-cap"><b>Видео-заметки в чате</b><span class="tag-change">QA-клик на устройстве с камерой</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Готов <span class="mono" style="background:none;border:none;color:#334">capture-admin-command-center.mjs</span><br>запуск на dev-сервере против staging</div>
+      <div class="ss-cap"><b>Админ — командный центр</b><span class="tag-change">Playwright, админ-авторизация</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Готов <span class="mono" style="background:none;border:none;color:#334">capture-admin-driver-moderation.mjs</span><br>запуск на dev-сервере против staging</div>
+      <div class="ss-cap"><b>Админ — модерация водителей (допуск)</b><span class="tag-change">Playwright, админ-авторизация</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (записи 03.07)</td><td class="mono">bug.md (10:45 · 14:00 · 14:30 · 15:05)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/03.07.26/report-03.07.26.xlsx</td></tr>
+    <tr><td>Видеозвонок: модалка + тюнинг сети</td><td class="mono">src/components/shared/GlobalAudioCallModal.tsx · src/utils/webrtcTuning.ts</td></tr>
+    <tr><td>Видео-заметки: запись/сообщение/кольцо</td><td class="mono">src/hooks/useVideoNoteRecorder.ts · src/pages/chat/components/ChatVideoNote{Recorder,Message,Ring}.tsx · src/pages/chat/utils/chatVideoNoteRecorder.ts</td></tr>
+    <tr><td>Груз: поиск адреса маршрута</td><td class="mono">src/pages/cargos/cargo-create/components/RoutePointAddressSearch.tsx · src/utils/resolveYandexRoutePoint.ts</td></tr>
+    <tr><td>Админ: командный центр + фильтр дат</td><td class="mono">src/pages/admin/command-center/AdminCommandCenterPage.tsx · src/components/shared/admin/DateRangeFilterDropdown.tsx</td></tr>
+    <tr><td>Админ: модерация водителей (допуск)</td><td class="mono">src/pages/admin/moderation/components/DriverModerationPanel.tsx</td></tr>
+    <tr><td>Гейт модерации диспетчера</td><td class="mono">src/components/shared/moderation/*.tsx · src/utils/moderationGate.ts · src/router/guestPaths.ts</td></tr>
+    <tr><td>Груз: вкладка «Все» / редактирование</td><td class="mono">src/pages/cargos/my-cargos/utils/myCargosConstants.ts · my-cargo-detail/components/MyCargoEditForm.tsx</td></tr>
+    <tr><td>Скриншот (staging) + capture-скрипты</td><td class="mono">daily-report/03.07.26/img/ · daily-report/03.07.26/capture-*.mjs</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/02.07.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Живой раунд видеозвонка</b> — 2 абонента, камера + демонстрация экрана + слабая сеть; убедиться, что видео включается без пересоздания сессии и удалённое видео появляется по «unmute».</li>
+    <li><b>2. Видео-заметки на устройстве с камерой</b> — запись → отправка → воспроизведение; проверить лимиты длительности, переключение камеры и состояния отказа доступа.</li>
+    <li><b>3. Бэкенд-зависимость гейта модерации</b> — добавить <span class="mono">moderation_status</span> в <span class="mono">/v1/dispatchers/profile</span> и enforce-лимиты на сервере (гейт — только UX).</li>
+    <li><b>4. Поиск адреса</b> — проверить квоту/язык геокодера Yandex и корректность мультиязычных полей адреса.</li>
+    <li><b>5. Скриншоты админ-страниц</b> — запустить <span class="mono">capture-admin-command-center.mjs</span> / <span class="mono">capture-admin-driver-moderation.mjs</span> на dev-сервере против staging и вложить PNG в <span class="mono">img/</span>.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Очень продуктивный день: 4 функции (видеозвонок + шаринг экрана, видео-заметки, поиск адреса, переработка командного центра), 3 дефекта закрыты (вкладка «Все», редактирование груза PATCH, модерация водителей на «допуск»), плюс гейт модерации диспетчера. Всё закоммичено в 4 коммита, типы зелёные, покрыто новыми тестами и локализовано на 15 языков. Открытые зависимости — живой QA-клик видеофункций и появление <span class="mono">moderation_status</span> на бэкенде.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 03.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 03.07.2026) и в коммитах <span class="mono">ba518948 · 9cde2a45 · f23c1fdc · 5a9235ab</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
