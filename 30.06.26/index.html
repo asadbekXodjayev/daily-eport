@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 30.06.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:820px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:900px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;30 июня 2026 — Sarbon Frontend</h1>
+    <div class="sub">День целиком посвящён <b>доведению админ-панели до production-quality</b>: 14 задач — 5 фиксов неверных данных и 9 улучшений/фич. Ключевые результаты: <b>8 новых специализированных компонентов</b> аналитики, пагинация на 16 таблицах, исторические тренды на графиках, TrendBadge с delta-стрелками, полная локализация трёх представлений. ESLint — 0 предупреждений, <span class="mono">tsc -b</span> — 0 ошибок.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Окружение:</b> staging</span>
+      <span><b>Задачи:</b> <span class="tag">14 задач (5 фиксов + 9 улучшений)</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">30.06.2026 — работа по <b>Sarbon Frontend</b>, фокус на <b>Admin Panel</b>. Закрыто <b>5 дефектов</b> (неверные имена полей → «Нет данных» на ключевых страницах, пустые столбцы в таблице грузов, неправильный тип графика, три регрессии из code-review) и выполнено <b>9 улучшений/фич</b> (пагинация всех таблиц, исторические тренды, специализированные аналитические виды для 5 страниц, TrendBadge, фильтр по диапазону дат, полная i18n). Создано <b>8 новых компонентов</b>. Воротные проверки: <span class="mono">tsc -b</span> — чисто, <span class="mono">eslint --max-warnings 0</span> — 0 предупреждений, <span class="mono">pnpm build</span> — exit 0.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">14</div><div class="l">задач (5 фиксов + 9 улучшений/фич)</div></div>
+    <div class="stat blue"><div class="v">8</div><div class="l">новых компонентов-файлов</div></div>
+    <div class="stat blue"><div class="v">16</div><div class="l">таблиц получили пагинацию</div></div>
+    <div class="stat blue"><div class="v">15</div><div class="l">локалей обновлено</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок типов · 0 warnings ESLint</div></div>
+    <div class="stat good"><div class="v">exit 0</div><div class="l">pnpm build (tsc + vite)</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">✓ Главное за день</div>
+    Пять страниц админки (<b>Users, Communications, Metrics, Moderation, Moderation Log</b>) получили специализированные аналитические виды вместо generic-заглушек. Выявлено и исправлено критическое несоответствие имён полей: страницы <b>Metrics</b> и <b>Communications</b> показывали «Нет данных» из-за неверных field names, заимствованных из ранних предположений о структуре API — обе переписаны под реальный OpenAPI. Все 16 таблиц получили AntD-пагинацию (было <code>pagination={false}</code>).
+  </div>
+  <div class="callout warn">
+    <div class="h">⚠ Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Communications и Metrics tabs</b> — показывают корректные поля, но бэкенд на dev/staging пока возвращает <code>null</code> для ratings/chat аналитики (событий нет). QA проверить в production-среде или после наполнения данными.</li>
+      <li><b>Исторические тренды (WAU/DAU)</b> — <span class="mono">findHistoricalData</span> ищет time-series в <span class="mono">payload.breakdown</span>; подтвердить, что бэкенд реально кладёт туда массивы (сейчас fallback на period-bar).</li>
+      <li><b>Специализированные виды (Ratings, Chat, SystemHealth, Audit, Moderation)</b> — спроектированы по OpenAPI spec, не верифицированы live-кликом под реальной авторизацией.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ФИЧИ И УЛУЧШЕНИЯ -->
+<section id="features">
+  <h2><span class="n">1</span> Новые фичи и улучшения <small>Sarbon Admin · что добавлено</small></h2>
+  <div class="card"><table>
+    <tr><th>Что сделано</th><th>Назначение / результат</th><th>Где (ключевые файлы)</th></tr>
+    <tr>
+      <td><b>Специализированные аналитические виды для 5 страниц + TrendBadge</b> <span class="badge b-new">фича</span></td>
+      <td>Новые компоненты: <code>AdminRatingsSummaryView</code>, <code>AdminChatSummaryView</code>, <code>AdminSystemHealthSummaryView</code>, <code>AdminAuditSummaryView</code>, <code>AdminModerationSummaryView</code>. Разделы Ratings/Chat/SystemHealth/Audit/Moderation получили hero-KPI, alert-баннеры, детальные секции. Новый <code>TrendBadge</code> — дельта-стрелки «+12%↑» рядом с DAU/WAU.</td>
+      <td><span class="mono">src/components/shared/admin/Admin*SummaryView.tsx</span>, <span class="mono">TrendBadge.tsx</span> (новые)</td>
+    </tr>
+    <tr>
+      <td><b>Специализированные виды для Users-вкладок (Cargo Managers, Driver Managers)</b> <span class="badge b-new">фича</span></td>
+      <td>Два новых компонента: <code>AdminCargoManagersSummaryView</code> (CM Activity, Cargo Pipeline, Offer Speed, Quality), <code>AdminDriverManagersSummaryView</code> (DM Activity, Fleet Health). Hero KPI с TrendBadge. Проводка в <code>AdminUsersPage</code> для всех трёх вкладок.</td>
+      <td><span class="mono">AdminCargoManagersSummaryView.tsx</span>, <span class="mono">AdminDriverManagersSummaryView.tsx</span> (новые)</td>
+    </tr>
+    <tr>
+      <td><b>Исторический time-series в графиках + fix Registration Funnel</b> <span class="badge b-new">фича</span></td>
+      <td>Новый <code>findHistoricalData(breakdown, metricHints)</code> ищет time-series массивы в <code>payload.breakdown</code> → click-to-chart показывает линейный тренд, а не 3 статичных бара. Registration Funnel исправлен: читает из <code>breakdown.registration_funnel</code> (не из flat totals).</td>
+      <td><span class="mono">AdminDriversSummaryView.tsx</span>, <span class="mono">AdminCargoManagersSummaryView.tsx</span>, <span class="mono">AdminDriverManagersSummaryView.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Пагинация на всех 16 таблицах</b> <span class="badge b-new">улучшение</span></td>
+      <td>Все таблицы с <code>pagination={false}</code> → <code>pageSize:10, pageSizeOptions:[10,20,50,100], hideOnSinglePage:true</code>. Фильтрация AntD теперь работает по всему in-memory dataset (не только по странице).</td>
+      <td>16 файлов: <span class="mono">AdminDriversPage</span>, <span class="mono">AdminCargoPage</span>, <span class="mono">AdminModeration</span>, <span class="mono">AdminModerationLogPage</span>, <span class="mono">AdminAnalyticsView</span> и др.</td>
+    </tr>
+    <tr>
+      <td><b>Command Center: фильтр по диапазону дат</b> <span class="badge b-new">фича</span></td>
+      <td>Добавлен <code>DatePicker.RangePicker</code> в шапку страницы. Все 4 запроса (overview, analytics, financial, drivers analytics) получают <code>date_from/date_to</code>. Заголовок «Новых (30 дней)» переключается в «Новых (период)».</td>
+      <td><span class="mono">AdminCommandCenterPage.tsx</span>, все 15 локалей</td>
+    </tr>
+    <tr>
+      <td><b>Карточки активности: прогресс-бары → плоские строки с trend-стрелками</b> <span class="badge b-new">улучшение</span></td>
+      <td>DAU/WAU/MAU отображаются как <code>divide-y</code>-список строк: label | bold value | TrendBadge. Убраны прогресс-бары «% от total» (визуально шумные, несравнимые). Inverse-метрики (inactive_30d, logins_failed) получают <code>inverse={true}</code>.</td>
+      <td><span class="mono">AdminDriversSummaryView</span>, <span class="mono">AdminCargoManagersSummaryView</span>, <span class="mono">AdminDriverManagersSummaryView</span></td>
+    </tr>
+    <tr>
+      <td><b>Moderation Log: фильтры по колонкам, локализация статусов</b> <span class="badge b-new">улучшение</span></td>
+      <td><code>distinctColumnFilter</code> добавлен на все колонки страницы журнала модерации. Пустые ячейки теперь показывают локализованное «Нет данных» вместо <code>—</code>. Статусы <code>from_status/to_status</code> переведены через i18n.</td>
+      <td><span class="mono">AdminModerationLogPage.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Moderation: фильтры колонок + переработка FilterBar</b> <span class="badge b-new">улучшение</span></td>
+      <td>Добавлены <code>distinctColumnFilter</code> для <code>weight/volume/created_at/updated_at</code>. <code>ModerationFilterBar</code> переработан: 4-колоночный CSS-grid с подписями групп + строка «N фильтров активно + Сбросить».</td>
+      <td><span class="mono">AdminModerationPage.tsx</span>, <span class="mono">DriverModerationPanel.tsx</span>, <span class="mono">ManagerModerationPanel.tsx</span>, <span class="mono">ModerationFilterBar.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Command Center: i18n для заголовков лидербордов и breakdown</b> <span class="badge b-new">улучшение</span></td>
+      <td>Заголовки секций лидербордов (Top Drivers By GMV, By Trips...) и названия breakdown-групп/категорий переведены через <code>t()</code> вместо <code>prettifyKey()</code>. Параметр <code>t: TFunction</code> добавлен в <code>topToBoards()</code>.</td>
+      <td><span class="mono">AdminCommandCenterPage.tsx</span>, все 15 локалей</td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ИСПРАВЛЕННЫЕ БАГИ -->
+<section id="fixes">
+  <h2><span class="n">2</span> Исправленные дефекты <small>5 багов</small></h2>
+  <div class="card"><table>
+    <tr><th>Дефект</th><th>Причина</th><th>Исправление</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Admin Cargo: все колонки показывали «Нет данных»</b> <span class="badge b-high">data bug</span></td>
+      <td>Поля строились с PascalCase именами (<code>Name, Weight, Status, CreatedByName</code>) — как у Go-структур. API возвращает snake_case (<code>name, weight, status, created_by_name</code>). AntD <code>dataIndex</code> читал <code>undefined</code>.</td>
+      <td>Все ~50 field references переведены в snake_case. <code>CargoTypeNameUZ/RU/EN</code> заменён на <code>cargoTypeLabel(toRecord(row.cargo_type))</code>.</td>
+      <td><span class="mono">AdminCargoPage.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Admin Metrics: SystemHealth и Audit показывали «Нет данных»</b> <span class="badge b-high">data bug</span></td>
+      <td>View читали несуществующие поля (<code>uptime_pct, error_rate_pct, total_actions</code>). API возвращает <code>push_sent/push_delivered/otp_median_delivery_seconds</code> (SystemHealth) и <code>phone_changes/password_changes/master_token_uses</code> (Audit).</td>
+      <td>Обе вьюхи полностью переписаны под реальные поля из OpenAPI spec.</td>
+      <td><span class="mono">AdminSystemHealthSummaryView.tsx</span>, <span class="mono">AdminAuditSummaryView.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Admin Communications: Ratings и Chat показывали «Нет данных»</b> <span class="badge b-med">data bug</span></td>
+      <td>Несовпадение имён полей: <code>avg_rating</code> вместо <code>avg_driver_stars/avg_cm_stars/avg_dm_stars</code>; <code>messages_today</code> вместо <code>today</code>; <code>total_conversations</code> вместо <code>total_window</code> и т.д.</td>
+      <td>Обе вьюхи переписаны под spec. Graceful <code>null</code>-fallback когда данных нет.</td>
+      <td><span class="mono">AdminRatingsSummaryView.tsx</span>, <span class="mono">AdminChatSummaryView.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Admin Users: тренд-дровер показывал бар-чарт вместо линейного</b> <span class="badge b-low">ui bug</span></td>
+      <td>(1) Fallback ветка <code>openChart</code> всегда ставила <code>chartType:'bar'</code>. (2) Regex time-ключей <code>/^(date|week|month)$/</code> не матчил составные поля типа <code>week_start, period_label</code>.</td>
+      <td>Fallback <code>'bar'</code> → <code>'line'</code>. Regex расширен до <code>/(^|_)(date|week|month|day|period|time)($|_)/i</code>.</td>
+      <td><span class="mono">AdminDriversSummaryView.tsx</span>, <span class="mono">AdminCargoManagersSummaryView.tsx</span>, <span class="mono">AdminDriverManagersSummaryView.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Code-review: 3 регрессии (zero-bars, cargo_type, acceptKyc)</b> <span class="badge b-low">review find</span></td>
+      <td>(1) <code>renderBarChart</code> рендерил невидимые zero-height бары (фильтр <code>v&gt;0</code> был только в pie). (2) <code>cargoTypeName</code> не обрабатывал <code>cargo_type</code> как plain string. (3) <code>acceptKyc</code> POST не имел body.</td>
+      <td>Добавлен <code>&amp;&amp; v&gt;0</code> в bar-фильтр. Добавлен <code>|| str(row.cargo_type)</code> fallback. Добавлен <code>data: {}</code> к мутации.</td>
+      <td><span class="mono">AdminAnalyticsView.tsx</span>, <span class="mono">AdminCargoPage.tsx</span>, <span class="mono">DriverModerationPanel.tsx</span></td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">3</span> Детальный таймлайн дня <small>14 задач · хронологически</small></h2>
+  <p class="lead">Все записи внесены 30.06.2026 в <span class="mono">bug.md</span> (корень репозитория).</p>
+
+  <div class="timeline">
+
+    <div class="ev fix">
+      <div class="t">30.06.2026 · 10:42</div>
+      <h4>Admin Cargo: все колонки пустые — PascalCase vs snake_case <span class="badge b-high">data bug</span></h4>
+      <ul>
+        <li><b>Что:</b> <span class="mono">/admin/cargo</span> загружал строки, но каждая колонка показывала «нет значения».</li>
+        <li><b>Почему:</b> page построена с <code>dataIndex</code> в PascalCase (<code>Name, Weight, Status, CreatedByName</code>) по аналогии с Go-struct — но API возвращает snake_case. AntD читал <code>undefined</code> по каждому ключу.</li>
+        <li><b>Исправление:</b> ~50 field references переведены в snake_case; cargo-type ID заменён на <span class="mono">cargoTypeLabel()</span>. <span class="mono">pnpm build exit 0</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">30.06.2026 · ~11:00</div>
+      <h4>Code-review: 3 регрессии после предыдущего релиза <span class="badge b-low">review fix</span></h4>
+      <ul>
+        <li><b>(1)</b> <span class="mono">renderBarChart</span> — zero-height бары на all-zero данных (фильтр <code>v&gt;0</code> был упущен, в отличие от <span class="mono">renderPieChart</span>).</li>
+        <li><b>(2)</b> <span class="mono">cargoTypeName</span> — plain-string <code>cargo_type</code> молча отбрасывался (нет fallback).</li>
+        <li><b>(3)</b> <span class="mono">acceptKyc</span> POST — тело запроса отсутствовало (<code>data: {}</code> не передавалось).</li>
+        <li><b>Где:</b> <span class="mono">AdminAnalyticsView.tsx</span>, <span class="mono">AdminCargoPage.tsx</span>, <span class="mono">DriverModerationPanel.tsx</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~11:30</div>
+      <h4>Admin Users: специализированные виды + TrendBadge + click-to-chart <span class="badge b-new">фича</span></h4>
+      <ul>
+        <li><b>Было:</b> все три вкладки Users (Drivers/CM/DM) использовали generic <span class="mono">AdminAnalyticsView</span> без специализации.</li>
+        <li><b>Сделано:</b> новый <span class="mono">TrendBadge.tsx</span> — инлайн-значок <code>+12%↑ (+5)</code> с inverse-режимом. Два новых компонента: <span class="mono">AdminCargoManagersSummaryView</span> (Online Now, DAU+trend, New This Week, Active Cargos, No Offer 24h alert) и <span class="mono">AdminDriverManagersSummaryView</span> (Online Now, DAU+trend, Avg Fleet Size, Empty DMs alert). <span class="mono">AdminUsersPage</span> проводит все три вкладки через <span class="mono">viewComponent</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~12:30</div>
+      <h4>Admin analytics: исторические тренды + fix Registration Funnel + 5 специализированных видов <span class="badge b-new">фича</span></h4>
+      <ul>
+        <li><b>Было:</b> графики показывали 3 статичных агрегатных бара (Today/Week/Month), а не временной ряд. Registration Funnel брал данные из flat totals, хотя API кладёт их в <span class="mono">breakdown.registration_funnel</span>.</li>
+        <li><b>Сделано:</b> <span class="mono">findHistoricalData(breakdown, metricHints)</span> ищет time-series массивы в breakdown → <span class="mono">chartType:'line'</span> с подписью «Прогресс во времени». Fallback — бар с подписью «Агрегаты периода». <span class="mono">bPick(section, field)</span> для funnel-данных.</li>
+        <li><b>5 новых компонентов:</b> <span class="mono">AdminRatingsSummaryView</span>, <span class="mono">AdminChatSummaryView</span>, <span class="mono">AdminSystemHealthSummaryView</span>, <span class="mono">AdminAuditSummaryView</span>, <span class="mono">AdminModerationSummaryView</span>. Проводка в Communications, Metrics и Moderation Pages.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">30.06.2026 · ~13:30</div>
+      <h4>Admin Users trend-дровер: бар-чарт вместо линейного <span class="badge b-low">ui bug</span></h4>
+      <ul>
+        <li><b>Причина:</b> (1) fallback ветка <span class="mono">openChart</span> всегда ставила <span class="mono">chartType:'bar'</span>. (2) Regex <code>/^(date|week|month|day|period|time)$/</code> не матчил составные ключи (<span class="mono">week_start, period_label, date_from</span>).</li>
+        <li><b>Исправление:</b> fallback → <span class="mono">'line'</span>; regex → <code>/(^|_)(date|week|month|day|period|time)($|_)/i</code>.</li>
+        <li><b>Где:</b> 3 файла AdminDriversSummaryView/AdminCargoManagersSummaryView/AdminDriverManagersSummaryView.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">30.06.2026 · ~14:00</div>
+      <h4>Admin Users: хардкоженные английские строки в трёх summary views <span class="badge b-med">i18n bug</span></h4>
+      <ul>
+        <li><b>Причина:</b> ~50 строковых литералов без <span class="mono">t()</span>; отсутствовали 3 namespace'а (<span class="mono">chartDrawer, labels, alerts</span>) в 15 локалях; нейминг-коллизия переменной <span class="mono">drawer</span> с <span class="mono">useState</span>-переменной (Babel parse error).</li>
+        <li><b>Исправление:</b> добавлены <span class="mono">admin.pages.analytics.{chartDrawer,labels,alerts}</span> в все 15 локалей; переменная переименована в <span class="mono">drawerT</span>; ~50 строк заменены на <span class="mono">lbl2()</span>/<span class="mono">alertT()</span>/<span class="mono">drawerT()</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">30.06.2026 · ~14:30</div>
+      <h4>Admin Communications: Ratings и Chat показывали «Нет данных» <span class="badge b-med">data bug</span></h4>
+      <ul>
+        <li><b>Причина:</b> View читали несуществующие поля: <span class="mono">avg_rating</span> (нет в spec) вместо <span class="mono">avg_driver_stars/avg_cm_stars</span>; <span class="mono">messages_today</span> вместо <span class="mono">today</span> и т.д.</li>
+        <li><b>Исправление:</b> обе вьюхи переписаны под реальный OpenAPI: Ratings → <span class="mono">avg_driver_stars/low_rating_pct/stars_distribution</span>; Chat → <span class="mono">today/week/total_window/median_first_reply_minutes</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">30.06.2026 · ~15:00</div>
+      <h4>Admin Metrics: SystemHealth и Audit показывали «Нет данных» <span class="badge b-high">data bug</span></h4>
+      <ul>
+        <li><b>Причина:</b> SystemHealth читал <span class="mono">uptime_pct/error_rate_pct/api_response_ms</span> (не существуют); Audit читал <span class="mono">total_actions/unique_admins</span> (не существуют). API реально возвращает push/OTP-метрики и phone/password-change метрики.</li>
+        <li><b>Исправление:</b> обе вьюхи полностью переписаны. SystemHealth: push delivery stats + OTP performance. Audit: phone/password changes, master token uses, top lists.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~15:30</div>
+      <h4>Admin Activity cards: прогресс-бары → плоские строки с TrendBadge <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Было:</b> DAU/WAU/MAU в трёх Summary views рендерились как прогресс-бары «% от total» — визуально шумно, несравнимо между периодами, нет трендов.</li>
+        <li><b>Сделано:</b> <span class="mono">divide-y</span>-список строк: label | bold value | TrendBadge. Добавлены <code>dau_growth_pct/wau_growth_pct/mau_growth_pct/inactive_30d_growth_pct</code>. Inverse-метрики (inactive_30d, logins_failed) → <span class="mono">inverse={true}</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~16:00</div>
+      <h4>Admin Command Center: i18n заголовков лидербордов и breakdown <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Было:</b> заголовки «Top Drivers By Gmv», «By Trips» и breakdown-категории (<span class="mono">cargo_active/searching_all</span>) — всегда английские (<span class="mono">prettifyKey()</span>).</li>
+        <li><b>Сделано:</b> параметр <span class="mono">t: TFunction</span> добавлен в <span class="mono">topToBoards()</span>; добавлены namespace'ы <span class="mono">topSections/breakdownSections/breakdownCategories</span> в все 15 локалей.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~16:30</div>
+      <h4>Admin Moderation Log: фильтры колонок + локализация статусов <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Было:</b> ни одного in-column фильтра; пустые ячейки → <code>—</code>; <span class="mono">from_status/to_status</span> через <span class="mono">prettifyKey()</span> (английский).</li>
+        <li><b>Сделано:</b> <span class="mono">distinctColumnFilter</span> на все колонки; <span class="mono">t('admin.common.noValue')</span> вместо <code>—</code>; <span class="mono">statusLabel</span> через i18n. Колонки обёрнуты в <span class="mono">useMemo</span>. Sorter на все колонки.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~17:00</div>
+      <h4>Admin Moderation: фильтры колонок + переработка FilterBar <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Было:</b> <span class="mono">weight/volume/created_at/updated_at</span> — без фильтров; пустые ячейки → <span class="mono">'-'</span>; FilterBar — плоский <span class="mono">flex-wrap</span> без лейблов.</li>
+        <li><b>Сделано:</b> <span class="mono">distinctColumnFilter</span> на date/measurement колонки. <span class="mono">fmtDate</span> перемещён внутрь компонента. <span class="mono">ModerationFilterBar</span> → 4-col CSS grid с лейбл-группами и строкой «N активных + Сбросить».</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~17:30</div>
+      <h4>Все 16 таблиц получили AntD-пагинацию <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Было:</b> все таблицы с <span class="mono">pagination={false}</span> — весь датасет на одной «странице», нет контролов размера.</li>
+        <li><b>Сделано:</b> <span class="mono">pagination=&#123; pageSize:10, pageSizeOptions:[10,20,50,100], showSizeChanger:true, hideOnSinglePage:true &#125;</span> на всех 16 таблицах. Фильтрация AntD корректно работает по всему in-memory набору.</li>
+        <li><b>Где:</b> Drivers, CargoTypes, Cargo, Dispatchers, Admins, Trips, Offers, Companies, Moderation (2 таблицы), ManagerModerationPanel, DriverModerationPanel, CommandCenter (2 таблицы), GeoInsightsPanel, ModerationLog, AdminAnalyticsView.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">30.06.2026 · ~18:00</div>
+      <h4>Command Center: фильтр по диапазону дат <span class="badge b-new">фича</span></h4>
+      <ul>
+        <li><b>Было:</b> все 4 запроса всегда возвращали данные за умолчательный 30-дневный период, без возможности выбрать диапазон.</li>
+        <li><b>Сделано:</b> <span class="mono">DatePicker.RangePicker</span> в шапке; <span class="mono">date_from/date_to</span> ISO-параметры во все 4 запроса. Заголовок «Новых (30 дней)» → «Новых (период)» при активном фильтре. Даты после сегодня — disabled.</li>
+        <li><b>Ключи i18n:</b> <span class="mono">dateFilter/dateFrom/dateTo/newColPeriod</span> в 15 локалях.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">4</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span> (только pre-existing unused-var)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span></li>
+        <li><span class="ok">exit 0</span> <span class="mono">pnpm build</span> (tsc + vite)</li>
+        <li>8 новых компонентов-файлов: <span class="mono">TrendBadge</span>, <span class="mono">AdminCargoManagersSummaryView</span>, <span class="mono">AdminDriverManagersSummaryView</span>, <span class="mono">AdminRatingsSummaryView</span>, <span class="mono">AdminChatSummaryView</span>, <span class="mono">AdminSystemHealthSummaryView</span>, <span class="mono">AdminAuditSummaryView</span>, <span class="mono">AdminModerationSummaryView</span></li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Охват изменений</div>
+      <ul class="clean">
+        <li>Затронуто ~30 файлов в рабочем дереве (M + A)</li>
+        <li>15 локалей обновлены: uz/oz/ru/en/tr/zh/kk/tg/ky/tk/lv/lt/et/pl/de</li>
+        <li>Новые i18n namespace'ы: <span class="mono">admin.pages.analytics.chartDrawer/labels/alerts</span>, <span class="mono">commandCenter.topSections/breakdownSections/breakdownCategories</span>, <span class="mono">commandCenter.dateFilter/newColPeriod</span></li>
+        <li>OpenAPI spec — источник истины для поправленных field names</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Не верифицировано end-to-end (для QA)</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Communications (Ratings/Chat)</b> — поля исправлены, но dev/staging не имеет данных → тест нужен в production или при наполненных событиях.</li>
+      <li><b>Исторические тренды</b> — findHistoricalData ищет breakdown-массивы; нужно подтвердить, что бэкенд реально их отдаёт (сейчас fallback на bar).</li>
+      <li><b>Новые специализированные виды (5 компонентов)</b> — работоспособность подтверждена по коду + OpenAPI, live click-через QA под авторизацией не выполнялся.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">5</span> Скриншоты <small>страницы с изменениями · live staging, 30.06.2026</small></h2>
+  <p class="lead">Сделаны через Playwright из запущенного dev-сервера под реальной авторизацией (admin/Creator). Показывают актуальное состояние после всех правок дня.</p>
+
+  <h3>Command Center — фильтр по диапазону дат</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/cc-command-center.png" alt="Command Center" loading="lazy" />
+      <div class="ss-cap"><b>Command Center</b><span class="tag-change">DatePicker.RangePicker + date_from/date_to на 4 запросах · i18n 15 локалей</span></div>
+    </div>
+  </div>
+
+  <h3>Users — TrendBadge + специализированные Summary Views</h3>
+  <div class="ss-grid cols3">
+    <div class="ss-item">
+      <img src="img/users-drivers.png" alt="Users – Drivers" loading="lazy" />
+      <div class="ss-cap"><b>Users / Drivers</b><span class="tag-change">плоские строки + TrendBadge + divide-y</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/users-cargo-managers.png" alt="Users – Cargo Managers" loading="lazy" />
+      <div class="ss-cap"><b>Users / Cargo Managers</b><span class="tag-change">AdminCargoManagersSummaryView</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/users-driver-managers.png" alt="Users – Driver Managers" loading="lazy" />
+      <div class="ss-cap"><b>Users / Driver Managers</b><span class="tag-change">AdminDriverManagersSummaryView</span></div>
+    </div>
+  </div>
+
+  <h3>Communications — исправлены имена полей API</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/comms-ratings.png" alt="Communications – Ratings" loading="lazy" />
+      <div class="ss-cap"><b>Communications / Ratings</b><span class="tag-change">avg_driver_stars · cross_ratings · star_distribution</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/comms-chat.png" alt="Communications – Chat" loading="lazy" />
+      <div class="ss-cap"><b>Communications / Chat</b><span class="tag-change">today · week · month · active_conversations</span></div>
+    </div>
+  </div>
+
+  <h3>Metrics — исправлены имена полей API</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/metrics-health.png" alt="Metrics – System Health" loading="lazy" />
+      <div class="ss-cap"><b>Metrics / System Health</b><span class="tag-change">push_sent · push_delivery_rate · otp_failure_rate</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/metrics-audit.png" alt="Metrics – Audit" loading="lazy" />
+      <div class="ss-cap"><b>Metrics / Audit</b><span class="tag-change">phone_changes · password_changes · profile_updates</span></div>
+    </div>
+  </div>
+
+  <h3>Moderation &amp; Moderation Log — distinctColumnFilter + пагинация</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/moderation-log.png" alt="Moderation Log" loading="lazy" />
+      <div class="ss-cap"><b>Moderation Log</b><span class="tag-change">distinctColumnFilter на всех столбцах · пагинация 10/стр</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/moderation.png" alt="Moderation" loading="lazy" />
+      <div class="ss-cap"><b>Moderation</b><span class="tag-change">4-колоночный CSS grid FilterBar · вес/объём/дата</span></div>
+    </div>
+  </div>
+
+  <h3>Cargo &amp; Drivers — исправлены имена колонок</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/cargo.png" alt="Cargo" loading="lazy" />
+      <div class="ss-cap"><b>Cargo</b><span class="tag-change">snake_case field names → реальные данные вместо «No data»</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/drivers.png" alt="Drivers" loading="lazy" />
+      <div class="ss-cap"><b>Drivers</b><span class="tag-change">пагинация 10/стр · pageSize options</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">6</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (14 записей 30.06)</td><td class="mono">bug.md (строки 1–400, записи 30.06.2026)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/30.06.26/report-30.06.26.xlsx</td></tr>
+    <tr><td>Новые analytics-компоненты (8 штук)</td><td class="mono">src/components/shared/admin/Admin*SummaryView.tsx · TrendBadge.tsx</td></tr>
+    <tr><td>Специализированные виды Users</td><td class="mono">src/components/shared/admin/AdminCargoManagersSummaryView.tsx · AdminDriverManagersSummaryView.tsx</td></tr>
+    <tr><td>Модифицированные страницы Admin</td><td class="mono">src/pages/admin/command-center/ · communications/ · metrics/ · moderation/ · moderation-log/ · cargo/ · drivers/</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/29.06.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">7</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. QA-клик Communications и Metrics</b> — перейти в production или заполнить staging ratings/chat событиями, чтобы верифицировать исправленные views под реальными данными.</li>
+    <li><b>2. Подтвердить time-series в breakdown</b> — выяснить у бэкенда, есть ли уже исторические массивы в <span class="mono">payload.breakdown</span> для WAU/DAU (или когда появятся) — только тогда линейный тренд-дровер заработает в полную силу.</li>
+    <li><b>3. Закоммитить и пуш</b> — всё дерево изменений в uncommitted состоянии (staged/modified); провести QA-проход и сделать коммит.</li>
+    <li><b>4. Бэкенд для модерации</b> — фильтр очереди модерации (из вчера) и журнал модерации по-прежнему ждут backend endpoints/параметров; фронт готов.</li>
+    <li><b>5. Виртуализация больших таблиц</b> — при росте данных рассмотреть AntD <span class="mono">virtual</span> или серверную пагинацию; сейчас load-all in-memory.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Продуктивный день сфокусированной работы по Admin Panel: 14 задач, 5 фиксов неверных данных (ключевые страницы теперь показывают реальные данные), 9 улучшений/фич (8 новых компонентов, полная i18n, пагинация, тренды). Контрактов API не нарушено. ESLint и типы зелёные. Открытые зависимости — ручной QA под авторизацией и проверка наличия time-series в breakdown.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 30.06.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 30.06.2026).
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

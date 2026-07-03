@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 02.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:860px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:920px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;2 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">Насыщенный день по <b>пяти областям</b>: чат (пузырёк звонка), аудиозвонки (устойчивость к обрыву), админ-консоль (модерация менеджеров), груз (деактивация/возврат в поиск) и QA-инфраструктура. Три дефекта закрыты «в глубину», две функции добавлены с паритетом к существующим потоками. Каждое изменение прошло <span class="mono">code-review → тесты → verify</span>; на закрывающем ревью найдены и устранены <b>2 регрессии</b> в фиксе звонков. <span class="mono">tsc -b</span> — 0 ошибок, ESLint — 0 предупреждений на затронутых файлах.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Окружение:</b> staging</span>
+      <span><b>Объём:</b> <span class="tag">3 дефекта</span> <span class="tag">2 функции</span> <span class="tag">+2 регрессии из review</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">02.07.2026 — работа по <b>Sarbon Frontend</b> сразу в диспетчерском приложении и админ-консоли. <b>Чат:</b> пузырёк сообщения-звонка теперь показывает длительность, ставит входящий/исходящий на правильную сторону (по <span class="mono">payload.direction</span>, а не по <span class="mono">sender_id</span>) и красит иконку по статусу (зелёный «завершён», красный «отменён/отклонён»). <b>Аудиозвонки:</b> при локальном обрыве звонка модалка больше не пропадает, а остаётся открытой с рабочей кнопкой «Завершить» — пользователь больше не «залипает занят». <b>Админ:</b> вкладка «Менеджеры» в модерации получила кнопки «Принять»/«Отклонить» (паритет с грузом и водителями). <b>Груз:</b> на детальной странице груза добавлен контрол «деактивировать / вернуть в поиск» с обязательной причиной. <b>QA:</b> прогон чат-пузырька (0 находок) и переоформление Allure-отчёта под «Sarbon Frontend».</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">5</div><div class="l">областей изменений</div></div>
+    <div class="stat blue"><div class="v">3</div><div class="l">дефекта закрыто</div></div>
+    <div class="stat blue"><div class="v">2</div><div class="l">функции добавлено</div></div>
+    <div class="stat good"><div class="v">48/48</div><div class="l">unit-тестов в затронутых наборах</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b · 0 warnings ESLint</div></div>
+    <div class="stat good"><div class="v">11</div><div class="l">реальных скриншотов</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">✓ Главное за день</div>
+    Наиболее содержательный фикс — <b>устойчивость аудиозвонка к обрыву</b>. Раньше при локальном сбое WebRTC (обрыв соединения/ICE, таймаут переподключения, ошибка старта) модалка звонка мгновенно закрывалась, тогда как звонок на сервере оставался <span class="mono">ACTIVE</span> — пользователь «залипал занят», не имея кнопки «Завершить». Теперь сессия звонка сохраняется, модалка остаётся с рабочей кнопкой «Завершить», а фоновый опрос состояния корректно закрывает её по терминальному ответу сервера. На <b>закрывающем code-review</b> найдены и сразу устранены две регрессии этого же фикса (см. раздел 4).
+  </div>
+  <div class="callout warn">
+    <div class="h">⚠ Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Аудиозвонок «залипание занят»</b> — сценарий воспроизводится только на реально оборвавшемся WebRTC-звонке под диспетчерской авторизацией; скриншот «Ошибка звонка» получен рендером <i>реального</i> компонента модалки. Рекомендуется живой клик под авторизацией с настоящим оборвавшимся звонком.</li>
+      <li><b>Модерация менеджеров, эндпоинт accept/reject</b> — путь <span class="mono">/v1/admin/dispatchers/:id/moderation/accept|reject</span> построен по ожидаемому контракту (не задокументирован в OpenAPI); нужен живой раунд-трип под админ-авторизацией и подтверждение точного пути на бэкенде.</li>
+      <li><b>Деактивация груза</b> — контрол за <span class="mono">ProtectedRoute</span>; логика причин/статусов покрыта unit-тестами, живой клик по staging рекомендуется.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="fixes">
+  <h2><span class="n">1</span> Все изменения дня <small>3 дефекта · 2 функции</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Чат — пузырёк звонка</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Пузырёк сообщения-звонка не показывал длительность; входящий/исходящий всегда рендерились на «моей» стороне (реальные данные: <span class="mono">sender_id</span> одинаков для обоих направлений), иконка не отражала статус.</td>
+      <td>Длительность («N мин. NN сек.») из <span class="mono">payload.duration_seconds</span>; сторона — по <span class="mono">payload.direction</span> (payload-first, тело как fallback); статус-цвета: зелёный <span class="mono">PhoneCall</span> для «завершён», красный <span class="mono">PhoneOff</span> для «отменён/отклонён».</td>
+      <td><span class="mono">chatCallEvents.ts</span>, <span class="mono">MessageBubble.tsx</span>, <span class="mono">ChatThreadPanel.tsx</span>, <span class="mono">chatTypes.ts</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Аудиозвонки — устойчивость к обрыву</b> <span class="badge b-high">bug</span><br><span class="badge b-med">в рабочем дереве</span></td>
+      <td>При локальном сбое звонка <span class="mono">cleanupCall('error')</span> очищал всю сессию, и модалка закрывалась — при этом серверный звонок мог быть ещё <span class="mono">ACTIVE</span>. Пользователь «занят» без кнопки «Завершить».</td>
+      <td><span class="mono">preserveSession</span> сохраняет идентичность звонка на ошибках; модалка остаётся (<span class="mono">isCallActive</span> для <span class="mono">error &amp;&amp; callId</span>) с рабочим «Завершить»; опрос в состоянии error не «оживляет» медиа, терминальный ответ сервера полностью очищает. Добавлен статус «Ошибка звонка» (ключ <span class="mono">callError</span>, розовый индикатор).</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">ChatThreadPanel.tsx</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — модерация менеджеров</b> <span class="badge b-new">feature</span><br><span class="badge b-med">в рабочем дереве</span></td>
+      <td>Вкладка «Менеджеры» (CM/DM) в модерации была <b>только для чтения</b> — без действий, с явным «read-only» алертом, тогда как грузы и водители (KYC) уже имели accept/reject.</td>
+      <td>Добавлены «Принять» (пустой POST) и «Отклонить» (модалка с обязательной причиной), как у водителей. Действия гейтятся предикатом <span class="mono">canModerateDispatcher</span> (нельзя повторно модерировать решённые строки). Read-only алерт убран.</td>
+      <td><span class="mono">ManagerModerationPanel.tsx</span>, <span class="mono">dispatcherModeration.ts</span> (+тест), <span class="mono">endpoints.ts</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Груз — деактивация / возврат в поиск</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>У груза в поиске не было способа временно скрыть его из выдачи (и вернуть обратно) с указанием причины.</td>
+      <td>Контрол «деактивировать / активировать» на детальной странице груза: груз в поиске можно скрыть, деактивированный — вернуть в поиск. Обязательная причина из справочника (или свободный текст для «Другое», лимит 500 символов); системные причины отфильтрованы.</td>
+      <td><span class="mono">CargoDeactivationControl.tsx</span>, <span class="mono">cargoDeactivation.ts</span> (+тест), <span class="mono">cargoStatus.ts</span>, <span class="mono">MyCargoDetailPage.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>QA — прогон и Allure-отчёт</b> <span class="badge b-info">infra</span></td>
+      <td>Прогон чат-пузырька был прерван на этапе сборки Allure-отчёта; сам отчёт был брендирован как «Admin Console».</td>
+      <td>Достроен Allure-отчёт из прогона (4 теста, все passed, 0 реальных ошибок консоли); переоформлен под «Sarbon Frontend», добавлены 2 паттерна безобидного шума консоли (kebab-SVG, uncontrolled-input) для диспетчерских страниц.</td>
+      <td><span class="mono">qa/allure-from-run-filtered.mjs</span>, <span class="mono">qa/reports/…chat-call-bubble.md</span></td>
+    </tr>
+  </table></div>
+
+  <h3>Суть фикса звонков — до / после</h3>
+  <pre class="diff"><span class="cmt">// src/components/shared/GlobalAudioCallModal.tsx</span>
+<span class="del">- const isCallActive = status !== 'idle' &amp;&amp; status !== 'ended' &amp;&amp; status !== 'error'   // error → модалка закрывалась</span>
+<span class="add">+ const isCallActive = status === 'dialing' || status === 'incoming' || status === 'connecting'</span>
+<span class="add">+   || status === 'connected' || (status === 'error' &amp;&amp; Boolean(callId))   // остаётся, пока жива сессия → есть «Завершить»</span>
+
+<span class="cmt">// на всех локальных ошибках:</span>
+<span class="del">- cleanupCall('error')                              // очищало callId → «залипание занят»</span>
+<span class="add">+ cleanupCall('error', { preserveSession: true })   // сессия сохранена, модалку можно завершить</span></pre>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Детальный таймлайн дня <small>хронологически</small></h2>
+  <p class="lead">Записи внесены 02.07.2026 в <span class="mono">bug.md</span> (корень репозитория). Деактивация груза — функция, отдельной bug-записи не имеет (закоммичена в <span class="mono">6fe53d78</span>).</p>
+
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">02.07.2026 · 15:48</div>
+      <h4>Чат: пузырёк звонка не показывал длительность <span class="badge b-med">bug</span></h4>
+      <ul>
+        <li><b>Было:</b> сообщение <span class="mono">type: "call"</span> рендерило только статус, без длительности, хотя бэкенд отдаёт <span class="mono">duration_seconds</span>.</li>
+        <li><b>Стало:</b> «N мин. NN сек.» рядом со статусом; иконка направления + время; новый ключ <span class="mono">durationLabel</span> во все 15 локалей.</li>
+        <li><b>Проверки:</b> +11 unit-тестов, <span class="mono">tsc -b</span>/<span class="mono">vite build</span> exit 0, verify рендером реального <span class="mono">MessageBubble</span>.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">02.07.2026 · 16:33</div>
+      <h4>Чат: сторона пузырька и статус-цвета <span class="badge b-high">bug</span></h4>
+      <ul>
+        <li><b>Корень (по реальным данным API):</b> у входящего и исходящего звонка <span class="mono">sender_id</span> одинаков — старая логика ставила всё на «мою» сторону. Надёжный сигнал — <span class="mono">payload.direction</span>/<span class="mono">payload.status</span>, ранее не читавшийся.</li>
+        <li><b>Стало:</b> сторона по <span class="mono">payload.direction</span> (payload-first); зелёный <span class="mono">PhoneCall</span> для «завершён», красный <span class="mono">PhoneOff</span> для «отменён/отклонён». Убран дублирующий override в <span class="mono">ChatThreadPanel</span> — единый источник в <span class="mono">MessageBubble</span>.</li>
+        <li><b>Проверки:</b> +14 unit-тестов (всего 25 в наборе), verify по 4 реальным body/payload-формам.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">02.07.2026 · днём</div>
+      <h4>Груз: деактивация / возврат в поиск <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Груз в статусе поиска можно деактивировать (скрыть из выдачи), деактивированный — вернуть в поиск.</li>
+        <li>Обязательная причина из справочника; для «Другое» — свободный текст (лимит 500 символов); системные причины (напр. <span class="mono">CARGO_SELF_COMPLETED</span>) отфильтрованы из ручного выбора.</li>
+        <li><b>Проверки:</b> 20 unit-тестов (<span class="mono">cargoDeactivation.test.ts</span>), закоммичено в <span class="mono">6fe53d78</span>.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">02.07.2026 · 17:25</div>
+      <h4>Аудиозвонок: обрыв закрывал модалку при ещё активном звонке <span class="badge b-high">bug</span></h4>
+      <ul>
+        <li><b>Симптом:</b> при локальном сбое WebRTC модалка исчезала, а серверный звонок оставался <span class="mono">ACTIVE</span> — «залипание занят» без кнопки «Завершить».</li>
+        <li><b>Исправление:</b> <span class="mono">cleanupCall(status, { preserveSession })</span> — на ошибках сессия сохраняется; <span class="mono">isCallActive</span> держит модалку при <span class="mono">error &amp;&amp; callId</span>; опрос не «оживляет» медиа в error, терминальный ответ сервера полностью очищает; статус «Ошибка звонка» + розовый индикатор.</li>
+        <li><b>Code-review (закрывающий):</b> найдены и устранены 2 регрессии — (1) терминальный <span class="mono">FAILED</span> в уже-<span class="mono">error</span> оставлял статус «залипшим» (immer no-op) → добавлен <span class="mono">callId</span> в зависимости эффекта decay; (2) <span class="mono">syncCallsAfterReconnect</span> «оживлял» медиа при reconnect — добавлен guard <span class="mono">error</span>.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">02.07.2026 · 17:38</div>
+      <h4>Админ: модерация менеджеров — accept/reject <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li><b>Было:</b> вкладка «Менеджеры» (CM/DM) — только для чтения, без действий.</li>
+        <li><b>Стало:</b> «Принять» (пустой POST) + «Отклонить» (модалка с обязательной причиной), гейтинг решённых строк через <span class="mono">canModerateDispatcher</span>; паритет с водителями (KYC).</li>
+        <li><b>Проверки:</b> unit-тесты предиката, <span class="mono">tsc -b</span>/<span class="mono">vite build</span> exit 0. Эндпоинт — по ожидаемому контракту (нужно подтверждение бэкенда).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span> (после всех правок и отката временного кода)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах</li>
+        <li><span class="ok">48/48</span> unit-тестов в затронутых наборах (chatCallEvents 25 · cargoDeactivation 20 · dispatcherModeration 3)</li>
+        <li><b>code-review</b> фикса звонков — 2 регрессии найдены и устранены, 4 находки задокументированы</li>
+        <li><b>verify</b> — реальные скриншоты чат-пузырька (staging) + рендер реального компонента модалки «Ошибка звонка» + живой прогон админ-модерации</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Область изменений</div>
+      <ul class="clean">
+        <li>Чат-пузырёк — закоммичено (<span class="mono">6fe53d78</span>); деактивация груза — закоммичено там же</li>
+        <li>Фикс звонков и модерация менеджеров — в рабочем дереве (ожидают коммита после QA)</li>
+        <li>Локализация: <span class="mono">callError</span> добавлен во все 15 локалей (проф. перевод)</li>
+        <li>Все три дефекта задокументированы в <span class="mono">bug.md</span> (записи 02.07.2026)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Известные ограничения прогонов</div>
+    <ul class="clean" style="margin-top:4px">
+      <li>Полный прогон <span class="mono">vitest</span> при одновременно запущенном dev-сервере/Playwright упирался в аварию воркера (ENOMEM-паттерн) — затронутые наборы прогнаны отдельно и зелёные (48/48). Полный «чистый» прогон рекомендуется на свободной машине.</li>
+      <li>Эндпоинт accept/reject менеджеров — ожидаемый контракт, не подтверждён живым раунд-трипом.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>реальные · 02.07.2026</small></h2>
+  <p class="lead">Скриншоты чата сделаны в <b>живом приложении на staging</b> под диспетчерской авторизацией (реальные сообщения-звонки из бэкенда). Скриншоты админ-модерации — <b>живой прогон</b> под админ-авторизацией. Модалка «Ошибка звонка» — рендер <b>реального компонента</b> <span class="mono">GlobalAudioCallModal</span> в состоянии error (временный сид, откачен после съёмки), т.к. живой обрыв WebRTC не воспроизводится по требованию.</p>
+
+  <h3>Чат — пузырёк звонка: направление, длительность, статус-цвета</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/chat-call-bubbles-desktop.png" alt="Chat call bubbles desktop" loading="lazy" />
+      <div class="ss-cap"><b>Смешанные звонки · desktop</b><span class="tag-change">входящие слева / исходящие справа при одинаковом sender_id; длительность и статус-иконки</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/chat-call-bubbles-mobile.png" alt="Chat call bubbles mobile" loading="lazy" />
+      <div class="ss-cap"><b>Смешанные звонки · mobile 390px</b><span class="tag-change">то же поведение на узком экране, без переполнения</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/chat-call-cancelled-desktop.png" alt="Cancelled call desktop" loading="lazy" />
+      <div class="ss-cap"><b>Отменённый исходящий · desktop</b><span class="tag-change">красный PhoneOff для «отменён»</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/chat-call-cancelled-mobile.png" alt="Cancelled call mobile" loading="lazy" />
+      <div class="ss-cap"><b>Отменённый исходящий · mobile</b><span class="tag-change">красная иконка статуса на мобильном</span></div>
+    </div>
+    <div class="ss-item full">
+      <img src="img/chat-conversation-list-desktop.png" alt="Conversation list desktop" loading="lazy" />
+      <div class="ss-cap"><b>Список диалогов · desktop</b><span class="tag-change">превью «You: Call cancelled / ended» для звонков-последних-сообщений</span></div>
+    </div>
+  </div>
+
+  <h3>Аудиозвонок — состояние «Ошибка звонка» (модалка остаётся с кнопкой «Завершить»)</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/call-error-modal-desktop.png" alt="Call error modal desktop" loading="lazy" />
+      <div class="ss-cap"><b>Модалка «Ошибка звонка» · desktop</b><span class="tag-change">розовый индикатор + «Call error»; кнопка «Завершить» активна</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/call-error-modal-mobile.png" alt="Call error modal mobile" loading="lazy" />
+      <div class="ss-cap"><b>Модалка «Ошибка звонка» · mobile</b><span class="tag-change">то же на 390px — пользователь может завершить звонок</span></div>
+    </div>
+  </div>
+
+  <h3>Админ — модерация менеджеров: кнопки «Принять» / «Отклонить»</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/admin-moderation-managers-table-desktop.png" alt="Managers moderation table" loading="lazy" />
+      <div class="ss-cap"><b>Вкладка «Менеджеры» · таблица</b><span class="tag-change">колонка «Actions»: Accept/Reject; гейтинг — Approved→Accept disabled, Rejected→Reject disabled</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/admin-moderation-reject-modal.png" alt="Reject modal" loading="lazy" />
+      <div class="ss-cap"><b>Модалка «Reject moderation»</b><span class="tag-change">обязательное поле «Reason»; субъект — Paul Allen</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/admin-moderation-managers-mobile.png" alt="Managers moderation mobile" loading="lazy" />
+      <div class="ss-cap"><b>Вкладка «Менеджеры» · mobile</b><span class="tag-change">панель менеджеров на узком экране</span></div>
+    </div>
+    <div class="ss-item full">
+      <img src="img/admin-moderation-managers-desktop.png" alt="Moderation center overview" loading="lazy" />
+      <div class="ss-cap"><b>Центр модерации · обзор</b><span class="tag-change">KPI-плитки + активная вкладка «Managers» с колонкой «Actions»</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (записи 02.07)</td><td class="mono">bug.md (15:48, 16:33, 17:25, 17:38)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/02.07.26/report-02.07.26.xlsx</td></tr>
+    <tr><td>Чат: логика пузырька звонка</td><td class="mono">src/pages/chat/utils/chatCallEvents.ts · components/MessageBubble.tsx · ChatThreadPanel.tsx</td></tr>
+    <tr><td>Звонки: модалка + сохранение сессии</td><td class="mono">src/components/shared/GlobalAudioCallModal.tsx</td></tr>
+    <tr><td>Груз: контрол деактивации</td><td class="mono">src/pages/cargos/my-cargo-detail/components/CargoDeactivationControl.tsx · src/utils/cargoDeactivation.ts</td></tr>
+    <tr><td>Админ: модерация менеджеров</td><td class="mono">src/pages/admin/moderation/components/ManagerModerationPanel.tsx · dispatcherModeration.ts</td></tr>
+    <tr><td>QA-отчёт чат-пузырька + Allure</td><td class="mono">qa/reports/qa-report-2026-07-02-chat-call-bubble.md · qa/allure-from-run-filtered.mjs · allure-report/</td></tr>
+    <tr><td>Скриншоты (11 шт.)</td><td class="mono">daily-report/02.07.26/img/</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/01.07.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. QA-клик фикса звонков</b> — на реально оборвавшемся WebRTC-звонке убедиться, что модалка остаётся, «Завершить» закрывает серверный звонок, и после этого можно начать новый.</li>
+    <li><b>2. Подтвердить эндпоинт модерации менеджеров</b> — путь <span class="mono">/v1/admin/dispatchers/:id/moderation/accept|reject</span> задан по ожидаемому контракту; сверить с бэкендом перед релизом.</li>
+    <li><b>3. Открытые пункты из code-review звонков</b> — при обрыве «на дозвоне» (RINGING) кнопка «Завершить» шлёт <span class="mono">CALLS_END</span> вместо <span class="mono">CALLS_CANCEL</span> (возможен 4xx, если бэкенд строг); кнопка «Mute» в error — косметический no-op. Требуют решения бэкенда/дизайна.</li>
+    <li><b>4. Коммит рабочего дерева</b> — фикс звонков + модерация менеджеров + локали ещё не закоммичены; после QA-прохода сделать коммит.</li>
+    <li><b>5. Чистый полный прогон тестов</b> — на свободной машине (без dev-сервера/Playwright) для устранения ENOMEM-аварии воркера.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Продуктивный день по пяти областям: 3 дефекта закрыты (чат-длительность, чат-направление/цвета, устойчивость звонка), 2 функции добавлены (модерация менеджеров, деактивация груза), QA-инфраструктура достроена. Типы и ESLint зелёные, затронутые наборы тестов 48/48, 11 реальных скриншотов как доказательство. Открытые зависимости — подтверждение эндпоинта модерации и живой QA-клик фикса звонков под авторизацией.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 02.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 02.07.2026).
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

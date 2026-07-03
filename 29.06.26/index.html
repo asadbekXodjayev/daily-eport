@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 29.06.2026 · Sarbon Frontend + CargoLink</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:820px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:900px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;29 июня 2026 — Sarbon Frontend + CargoLink</h1>
+    <div class="sub">Насыщенный день по <b>двум продуктам</b>. На <b>Sarbon Frontend</b> — 10 задач: 5 исправлений (включая критическую потерю данных при редактировании груза) и 5 доработок/фич (Excel-сортировка и фильтры во всех таблицах админки, графики Command Center, иконки своих водителей на GPS-карте, 3 тикета SARB). Параллельно — задача на <b>CargoLink</b> (исправление ввода OTP-кода). Юнит-тесты зелёные (520/520), ESLint — 0 предупреждений.</div>
+    <div class="meta-row">
+      <span><b>Проект 1:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Проект 2:</b> cargolink-app (Next.js)</span>
+      <span><b>Окружение QA:</b> staging</span>
+      <span><b>Sarbon:</b> <span class="tag">10 задач</span> · <b>CargoLink:</b> <span class="tag">1 задача</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">29.06.2026 — работа велась по <b>двум продуктам одновременно</b>. Основной объём — <b>Sarbon Frontend</b>: закрыто <b>5 дефектов</b> (в т.ч. одна <b>тихая потеря данных</b> — фото при редактировании груза не уходило на бэкенд) и сдано <b>5 доработок/фич</b> (две крупные — Excel-сортировка/фильтрация во всех таблицах админки и графики Command Center). Дополнительно выполнен тикет на <b>CargoLink</b> (CargoLink-app, Next.js) — исправлен ввод OTP-кода. Воротные проверки на Sarbon зелёные: <b>520/520</b> юнит-тестов, <span class="mono">eslint</span> 0 предупреждений, <span class="mono">tsc -b</span> 0 ошибок.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">10</div><div class="l">задач на Sarbon (5 фиксов + 5 доработок)</div></div>
+    <div class="stat blue"><div class="v">1</div><div class="l">задача на CargoLink (OTP)</div></div>
+    <div class="stat good"><div class="v">520</div><div class="l">юнит-тестов зелёных (Sarbon)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">проблем ESLint · 0 ошибок типов</div></div>
+    <div class="stat blue"><div class="v">9</div><div class="l">новых файлов юнит-тестов за день</div></div>
+    <div class="stat warn"><div class="v">1</div><div class="l">критический фикс (потеря данных)</div></div>
+  </div>
+  <div class="callout">
+    <div class="h ok">✓ Главное за день</div>
+    Две большие фичи админки (<b>Excel-сортировка/фильтры во всех 11 таблицах</b> и <b>графики Command Center</b>) и спасён критический сценарий — <b>фото при редактировании груза</b> больше не теряется молча. Все правки прошли многоагентный адверсариальный ревью; найденные при ревью регрессии (в т.ч. потенциальное затирание фото при сбое загрузки и зацикливание пагинации модерации) исправлены до сдачи.
+  </div>
+  <div class="callout warn">
+    <div class="h">⚠ Что требует ручной проверки QA (честно)</div>
+    <ul class="clean" style="margin-top:4px">
+      <li>Две задачи из тикета SARB-18:05 (<b>фильтр очереди модерации грузов</b> и <b>единый журнал модерации</b>) сделаны как <b>полный фронт под ожидаемые контракты бэкенда</b>, который ещё в разработке — параметры фильтра пока игнорируются, эндпоинт журнала вернёт 404, пока задачи бэкенда не выйдут (обрабатывается без падений).</li>
+      <li>Реалтайм/авторизационные сценарии (офферы, фото груза, детальная карточка водителя) проверены по коду + ревью, но <b>не верифицированы end-to-end</b> под живой авторизацией — нужен ручной клик-тест QA.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ДОРАБОТКИ / ФИЧИ -->
+<section id="features">
+  <h2><span class="n">1</span> Доработки и новые фичи <small>Sarbon · что добавлено</small></h2>
+  <div class="card"><table>
+    <tr><th>Что сделано</th><th>Назначение / результат</th><th>Где (ключевые файлы)</th></tr>
+    <tr><td><b>Excel-сортировка и фильтры во всех таблицах админки</b> <span class="badge b-new">фича</span></td><td>Сортировка по колонкам + Excel-фильтр (поисковый чек-бокс) теперь на <b>каждой</b> из 11 таблиц админки. Данные грузятся целиком на клиент, поэтому сорт/фильтр охватывают весь набор, как в Command Center.</td><td><span class="mono">src/hooks/useAdminFetchAll.ts</span> (новый) + 11 страниц админки</td></tr>
+    <tr><td><b>Графики Command Center</b> <span class="badge b-new">фича</span></td><td>Визуализация (Recharts): полоса «Платформа в цифрах» (2 пончика + бар), бар модерации, переключатель «таблица/график» для разделов. Лидерборды используют <b>разные</b> типы графиков с защитой от «нечестных» долей на неаддитивных метриках (рейтинг/%).</td><td><span class="mono">command-center/components/charts/*</span> (новые)</td></tr>
+    <tr><td><b>GPS: свои водители на карте</b> <span class="badge b-new">улучшение</span></td><td>Driver Manager теперь различает своих водителей от чужих: цвет машинки (зелёный/синий) = владение, online/offline = статичный PNG vs анимированный GIF. Свои всегда видны поверх кластера.</td><td><span class="mono">src/utils/gpsDriverMapVisual.ts</span>, <span class="mono">gpsDriverIconSpec.ts</span></td></tr>
+    <tr><td><b>Детальная карточка водителя (админка)</b> <span class="badge b-new">улучшение</span></td><td>Добавлены недостающие поля (online/work_state/registration_status/тип прицепа), починена приведение типов (1/"true" ⇒ online), локализованы все enum'ы, добавлены состояние ошибки + повтор; ответ детали мёржится с строкой списка.</td><td><span class="mono">AdminDriversPage.tsx</span>, <span class="mono">adminHelpers.ts</span></td></tr>
+    <tr><td><b>Фильтр очереди модерации + журнал модерации</b> <span class="badge b-info">бэкенд в разработке</span></td><td>Полный фронт под ожидаемые контракты: панель фильтров очереди и новая страница единого журнала модерации (пагинация, фильтры, deep-links). Включаются автоматически, как только выйдут задачи бэкенда.</td><td><span class="mono">moderation/components/*</span>, <span class="mono">moderation-log/*</span> (новые)</td></tr>
+  </table></div>
+</section>
+
+<!-- ИСПРАВЛЕННЫЕ БАГИ -->
+<section id="fixes">
+  <h2><span class="n">2</span> Sarbon — детальный таймлайн дня <small>10 задач · точное «где / когда / почему / как»</small></h2>
+  <p class="lead">Все записи внесены 29.06.2026 в <span class="mono">bug.md</span> (корень репозитория). <span class="mono">tsc -b</span> — чисто, <span class="mono">eslint --max-warnings 0</span> — без предупреждений.</p>
+
+  <div class="timeline">
+
+    <div class="ev feat">
+      <div class="t">29.06.2026 · 10:48</div>
+      <h4>GPS (DM): свои водители не отличались от чужих + статус online/offline не виден на карте <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Что:</b> на GPS-карте Driver Manager не мог отличить своих водителей в массе чужих машин; online/offline был виден только в попапе.</li>
+        <li><b>Сделано:</b> источник владения — ростер подключённых водителей (<span class="mono">useGpsMyDriverIds</span>, только для DM); новый чистый <span class="mono">resolveDriverMarkerVisual</span> (иконка свой/чужой + halo + zIndex). Свои → <span class="mono">my_car_in_map.png</span>, чужие → <span class="mono">car_in_map.png</span>; online/offline кодируется формой+цветом halo (колор-блайнд-безопасно). Свои рендерятся поверх кластера.</li>
+        <li><b>Где:</b> <span class="mono">gpsDriverMapVisual.ts</span>, <span class="mono">YandexMapMarkers.tsx</span>, <span class="mono">useGpsCatalogData.ts</span>, <span class="mono">useGpsMarkersData.ts</span>, <span class="mono">GpsTrackingPage.tsx</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">29.06.2026 · 11:15</div>
+      <h4>GPS (DM): офлайн-водители получают отдельные GIF-иконки «офлайн-фура» <span class="badge b-new">улучшение</span></h4>
+      <ul>
+        <li><b>Что:</b> стейкхолдер добавил <span class="mono">offline_green_truck.gif</span> / <span class="mono">offline_blue_truck.gif</span> и попросил, чтобы офлайн-водитель переключался на GIF (зелёный = свой, синий = чужой).</li>
+        <li><b>Сделано:</b> иконка теперь 4-вариантная (свой/чужой × online/offline); halo упрощён до одного янтарного свечения только для онлайн-своих; офлайн-кольцо удалено (GIF сам читается как офлайн).</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">29.06.2026 · 11:23</div>
+      <h4>GPS: GIF-маркер «офлайн-фура» сплющивался (неверное соотношение сторон)</h4>
+      <ul>
+        <li><b>Причина:</b> все иконки делили один бокс <span class="mono">[56,42]</span> (1.33); GIF'ы портретные 173×230 (0.75) → сплющивались.</li>
+        <li><b>Исправление:</b> новый <span class="mono">driverIconRenderSpec</span> задаёт каждой иконке родное соотношение (машины <span class="mono">[56,42]</span>, GIF <span class="mono">[42,56]</span>), якорь — низ-центр.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">29.06.2026 · 11:25</div>
+      <h4>Создание груза: выбор города ничего не находил при кросс-алфавитном поиске (напр. RU/Краснодар)</h4>
+      <ul>
+        <li><b>Причина:</b> <span class="mono">CitySelect</span> использует серверный поиск, но затем <b>повторно фильтровал</b> результаты клиентом через <span class="mono">smartSort</span>, который отбрасывал записи со счётом &lt;1. Кириллический запрос против латинского лейбла → −1 → отброшено. Ломало любой кросс-алфавитный/транслит-поиск.</li>
+        <li><b>Исправление:</b> добавлен <span class="mono">smartSortKeepAll</span> — переупорядочивает по релевантности, но <b>никогда не отбрасывает</b>. <span class="mono">CountrySelect</span> оставлен на <span class="mono">smartSort</span> (там фильтрация локального списка корректна).</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">29.06.2026 · 11:55</div>
+      <h4>Создание груза: выбор города показывал несколько одинаковых на вид городов</h4>
+      <ul>
+        <li><b>Причина:</b> <span class="mono">/v1/reference/cities</span> возвращает много <b>разных</b> населённых пунктов с одинаковым именем (у каждого свой <span class="mono">code</span>/координаты). Лейбл был только <span class="mono">city.name</span> → визуально неразличимы. Это <b>не</b> дубликаты — схлопывание по имени рисковало бы отправкой груза не туда.</li>
+        <li><b>Исправление:</b> новый <span class="mono">buildCitySelectOptions</span>: дедуп только точных повторов по <span class="mono">code</span>, выводит регион (<span class="mono">region_name</span>) вторичным признаком, а для редких совпадений имя+регион добавляет уникальный суффикс. Двухстрочная опция (имя + регион), контрол остаётся именем. Добавлен a11y-безопасный токен цвета подписи.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">29.06.2026 · 12:05</div>
+      <h4>Редактирование груза: только что загруженное фото не уходило в payload — <b>тихая потеря данных</b> <span class="badge b-high">критично</span></h4>
+      <ul>
+        <li><b>Причина:</b> <span class="mono">buildCargoUpdatePayload</span> собирает payload по <b>белому списку</b> и никогда не копировал в него <span class="mono">photos</span> (в CREATE — копировал). Фото грузилось, попадало в форму, но отбрасывалось на этапе payload → к грузу не привязывалось. Старый тест даже <b>кодировал</b> этот баг.</li>
+        <li><b>Исправление:</b> payload теперь шлёт <span class="mono">photos</span>, но <b>только</b> когда набор фото гарантированно загружен (<span class="mono">includePhotos</span> по успешному GET — защёлка-ref). Это закрыло и опасный сценарий: при сбое <span class="mono">GET /cargo/{id}/photos</span> наивный «всегда слать фото» затёр бы все серверные изображения → теперь при сбое фото опускается, бэкенд сохраняет существующие.</li>
+        <li><b>Каверзно:</b> найдено и закрыто адверсариальным ревью (2 агента) — регрессия затирания при сбое загрузки + латентный близнец в <span class="mono">CargoForm</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">29.06.2026 · 14:10</div>
+      <h4>Таблица офферов (/offers): водитель и менеджер показывали «Нет данных»; в колонке статуса рейса был тип оффера</h4>
+      <ul>
+        <li><b>Причина:</b> (1) таблица обогащала строки через <b>расходящийся</b> анмаппер <span class="mono">toRichOffer</span>, который сворачивал только <span class="mono">driver</span> (терял <span class="mono">driver_manager</span>) и мог ключевать по неверному id; карточка детали использовала другой, корректный <span class="mono">normalizeCargoOfferItem</span>. (2) колонка «Статус рейса» рисовала тип встречного оффера, скрывая реальный статус.</li>
+        <li><b>Исправление:</b> таблица переведена на <span class="mono">normalizeCargoOfferItem</span> (+ сворачивание <span class="mono">driver_manager</span>); конфликтная колонка разбита на «Тип предложения» и «Статус предложения» (сырой статус), «Статус рейса» — только рейс. Детальный дровер и мобильная карточка приведены к той же модели (консистентность между десктоп/мобайл).</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">29.06.2026 · 15:20</div>
+      <h4>Админка: Excel-сортировка + фильтрация на каждой таблице <span class="badge b-new">фича</span></h4>
+      <ul>
+        <li><b>Запрос:</b> перенести сортировку и Excel-фильтры (как в Command Center) на <b>все</b> таблицы админки.</li>
+        <li><b>Сделано:</b> новый общий хук <span class="mono">useAdminFetchAll</span> постранично грузит весь набор (admin-конверт), завершение — по размеру первой страницы (безопасно без <span class="mono">total</span>), поддержка <span class="mono">page/page_size</span> и <span class="mono">limit/offset</span>. 11 поверхностей: водители, грузы, типы грузов, диспетчеры, рейсы, офферы (2 таблицы), админы, модерация, компании + гео-инсайты и общий <span class="mono">AdminAnalyticsView</span>.</li>
+        <li><b>Баг при ревью:</b> модерацию сперва перевели на <span class="mono">page/page_size</span>, но <span class="mono">/v1/admin/cargo/moderation</span> чтит только <span class="mono">limit/offset</span> → fetch-all зациклился (~4000 дублей). Исправлено режимом <span class="mono">paging:'offset'</span>.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">29.06.2026 · 16:40</div>
+      <h4>Command Center: графики визуализации + переключатель «график/таблица» <span class="badge b-new">фича</span></h4>
+      <ul>
+        <li><b>Сделано:</b> папка <span class="mono">components/charts/</span> — light-only тема, чистые мапперы данных, компоненты <span class="mono">AdminDonut</span>/<span class="mono">AdminBar</span>/<span class="mono">AdminLollipop</span>/<span class="mono">AdminRadialBar</span>. Полоса «Платформа в цифрах», бар модерации, переключатель «таблица по умолчанию / график» на разделы.</li>
+        <li><b>Главное — «честность» графиков:</b> лидерборды используют <b>разные</b> типы графиков с двойным гейтом аддитивности — неаддитивная метрика (рейтинг/%/среднее) <b>никогда</b> не попадёт в пончик-долю по построению; графики долей несут подпись «доля среди топ-5», не «итог платформы».</li>
+        <li><b>Ревью:</b> судейская панель (3 предложения → 3 судьи) выбрала детерминированную ротацию типов; адверсариальный ревью (recharts/честность/a11y) нашёл 1 low (утечка сырого i18n-ключа в aria) — исправлено.</li>
+      </ul>
+    </div>
+
+    <div class="ev feat">
+      <div class="t">29.06.2026 · 18:05</div>
+      <h4>Пакет из 3 тикетов SARB + усиление «гейта честности» графиков</h4>
+      <ul>
+        <li><b>(A) Усиление гейта честности (follow-up к 16:40):</b> <span class="mono">pickLeaderboardMetricKey</span> выбирал метрику по приоритету, не зная борда → борд <span class="mono">by_rating</span> с колонкой <span class="mono">trips_count</span> мог стать пончиком на неаддитивном борде. Теперь выбор метрики и гейт учитывают <b>ключ борда</b>.</li>
+        <li><b>(B) Детальная карточка водителя [actionable]:</b> добавлены недостающие поля, починена приведение типов (новый <span class="mono">normalizeBoolean</span>: 1/"true" ⇒ online; null ⇒ «Нет данных», не ложный Offline), локализованы все enum'ы, добавлены ошибка+повтор; деталь мёржится со строкой списка.</li>
+        <li><b>(C) Фильтр очереди модерации грузов [бэкенд в разработке]:</b> <span class="mono">ModerationFilterBar</span> + чистый <span class="mono">buildModerationFilterParams</span>; пустые параметры ⇒ полная FIFO-очередь. Пока бэкенд не чтит параметры — graceful no-op.</li>
+        <li><b>(D) Единый журнал модерации [бэкенд в разработке]:</b> новая страница <span class="mono">AdminModerationLogPage</span> под ожидаемый <span class="mono">GET /v1/admin/moderation/log</span> (пагинация, фильтры, deep-links, новые сверху).</li>
+        <li><b>Тесты-инфра:</b> добавлены <span class="mono">isLangType</span>/<span class="mono">DEFAULT_LANG</span> в общий мок <span class="mono">@/i18n</span> (любой тест с <span class="mono">buildAdminPath</span> падал). Итог: 520/520 тестов, lint 0, tsc 0.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CARGOLINK -->
+<section id="cargolink">
+  <h2><span class="n">3</span> CargoLink (второй продукт) <small>cargolink-app · Next.js</small></h2>
+  <p class="lead">Параллельно с Sarbon выполнен тикет по приложению <b>CargoLink</b> (отдельный репозиторий <span class="mono">cargolink-app</span>, Next.js).</p>
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">29.06.2026 · 17:16 · коммит <span class="mono">b89e8be</span></div>
+      <h4>Авторизация: цифру в ячейке OTP нельзя было заменить или стереть кликом <span class="badge b-med">KARV-TASK-FRONT-OTP</span></h4>
+      <ul>
+        <li><b>Причина:</b> ячейка 6-значного OTP — <span class="mono">maxLength=1</span>; клик по уже заполненной ячейке оставлял каретку перед цифрой — её нельзя было ни перепечатать (полная ячейка отклоняет ввод), ни стереть Backspace (слева пусто).</li>
+        <li><b>Исправление:</b> выделять цифру при focus/click во всех трёх группах OTP (телефонный OTP авторизации, email-OTP аккаунта, OTP смены email в профиле) — клик заменяет, Backspace стирает.</li>
+        <li><b>Тесты:</b> Vitest-регрессия (выделение в happy-dom) + реальный Playwright e2e в Chromium (замена + стирание).</li>
+        <li><b>Где:</b> <span class="mono">src/app/auth/page.tsx</span>, <span class="mono">src/app/profile/page.tsx</span>, <span class="mono">e2e/auth.spec.ts</span>, <span class="mono">src/app/auth/page.test.tsx</span> (4 файла · +62/−3).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">4</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки (Sarbon)</div>
+      <ul class="clean">
+        <li><span class="ok">520 / 520</span> юнит-тестов (<span class="mono">vitest run</span>)</li>
+        <li><span class="ok">0</span> проблем <span class="mono">eslint --max-warnings 0</span></li>
+        <li><span class="ok">0</span> ошибок типов <span class="mono">tsc -b</span></li>
+        <li>9 новых тест-файлов: <span class="mono">smartSortKeepAll</span>, <span class="mono">citySelectOptions</span>, <span class="mono">driverIconRenderSpec</span>, <span class="mono">resolveDriverMarkerVisual</span>, <span class="mono">commandCenterChartData</span>, <span class="mono">leaderboardChartMapping</span>, <span class="mono">moderationFilters</span>, <span class="mono">moderationLogUtils</span> + расширен <span class="mono">adminHelpers</span></li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Ревью (многоагентное)</div>
+      <ul class="clean">
+        <li>Каждая крупная правка прошла адверсариальный ревью-workflow (3–17 агентов).</li>
+        <li>Пойманы и исправлены: затирание фото при сбое загрузки (HIGH), зацикливание пагинации модерации (~4000 дублей), утечка сырого i18n-ключа в aria графика.</li>
+        <li>Графики Command Center спроектированы через судейскую панель (3 предложения → 3 судьи).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Не верифицировано end-to-end (для QA)</div>
+    Авторизационные/реалтайм-сценарии (фото груза, офферы, детальная карточка водителя) проверены по коду и ревью, но требуют живого клик-теста QA под авторизацией. Две задачи (фильтр очереди модерации, журнал модерации) загорятся полностью только после выхода соответствующих задач бэкенда.
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений Sarbon (10 записей 29.06)</td><td class="mono">bug.md (10:48 · 11:15 · 11:23 · 11:25 · 11:55 · 12:05 · 14:10 · 15:20 · 16:40 · 18:05)</td></tr>
+    <tr><td>Краткая сводка для PM (этот день)</td><td class="mono">daily-report/29.06.26/report-29.06.26.xlsx</td></tr>
+    <tr><td>Хук «загрузить все строки»</td><td class="mono">src/hooks/useAdminFetchAll.ts</td></tr>
+    <tr><td>Графики Command Center</td><td class="mono">src/pages/admin/command-center/components/charts/</td></tr>
+    <tr><td>Опции выбора города</td><td class="mono">src/utils/citySelectOptions.ts</td></tr>
+    <tr><td>Иконки/визуал водителей на GPS</td><td class="mono">src/utils/gpsDriverMapVisual.ts · gpsDriverIconSpec.ts</td></tr>
+    <tr><td>Журнал/фильтр модерации (под бэкенд)</td><td class="mono">src/pages/admin/moderation-log/ · moderation/components/</td></tr>
+    <tr><td>CargoLink — фикс OTP (коммит)</td><td class="mono">cargolink-app @ b89e8be</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/27.06.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Бэкенд для модерации</b> — две задачи (фильтр очереди грузов + единый журнал) ждут эндпоинтов/параметров бэкенда; фронт готов и загорится автоматически. Подтвердить контракты.</li>
+    <li><b>2. Ручной клик-тест QA</b> — фото при редактировании груза (DevTools payload), офферы <span class="mono">/offers?direction=outgoing</span> (водитель/менеджер), детальная карточка водителя (поля/enum'ы).</li>
+    <li><b>3. Семантика фото на бэкенде</b> — фронт шлёт полный набор id (replace-семантика). Подтвердить, что бэкенд не трактует <span class="mono">photos</span> как additive (иначе дубли).</li>
+    <li><b>4. Производительность больших таблиц</b> — load-all без виртуализации может подтормаживать на очень больших наборах; при необходимости включить AntD <span class="mono">virtual</span>/клиентскую пагинацию.</li>
+    <li><b>5. Перед пушем Sarbon</b> — большой объём в рабочем дереве (админка) ещё не закоммичен; провести QA-проход до отправки в общую ветку.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Продуктивный день по двум продуктам: 10 задач на Sarbon (5 фиксов + 5 доработок, в т.ч. спасён критический сценарий потери фото) и 1 задача на CargoLink. Контрактов API не нарушено; тесты, линт и типы зелёные. Открытые зависимости — на стороне бэкенда модерации и ручного QA.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 29.06.2026 · Проекты <b>sarbon-frontend</b> (staging) + <b>cargolink-app</b>.<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности Sarbon — в <span class="mono">bug.md</span> (записи 29.06.2026); CargoLink — коммит <span class="mono">b89e8be</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

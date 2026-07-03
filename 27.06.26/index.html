@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 27.06.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:780px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:880px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .sys{border-left:4px solid var(--high);background:#fff7f0}
+  .sys.s1{border-color:#7c3aed;background:#f7f3ff}
+  .sys.s2{border-color:var(--crit);background:#fef2f2}
+  .sys.s3{border-color:var(--blue);background:#f1f5ff}
+  .sys.s4{border-color:var(--med);background:#fffbeb}
+  .sys.s5{border-color:var(--green);background:#f0fdf6}
+  .sys{border-radius:10px;padding:12px 16px;margin:11px 0}
+  .sys h4{margin:0 0 5px;font-size:15.5px}
+  .sys .imp{font-size:12.5px;color:var(--muted);font-weight:600}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(20,30,60,.06);display:flex;flex-direction:column}
+  .shot a{display:block;line-height:0;overflow:hidden}
+  .shot img{width:100%;height:188px;object-fit:cover;object-position:top center;display:block;transition:transform .35s ease}
+  .shot:hover img{transform:scale(1.04)}
+  .shot figcaption{padding:9px 12px;font-size:12.3px;color:var(--muted);border-top:1px solid var(--line);line-height:1.42}
+  .shot figcaption b{color:var(--ink);display:block;font-size:13px;margin-bottom:1px}
+  .gallery.mob img{height:300px}
+  .shot.single{max-width:440px}
+  .hint-img{font-size:12.5px;color:var(--muted);margin:4px 0 0}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.gallery,.gallery.mob{grid-template-columns:repeat(2,1fr)}header.top h1{font-size:26px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для QA и стейкхолдеров</div>
+    <h1>Sarbon Frontend — итоги за&nbsp;27 июня 2026</h1>
+    <div class="sub">День стабилизации и полировки: <b>9 исправлений</b> (звонки — имя/фото/соединение, редактирование груза, карта маршрута в списке, единая Excel-сетка таблиц админки) и впервые <b>полностью зелёный репозиторий</b> — 443/443 юнит-теста и 0 предупреждений ESLint по всему проекту.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Окружение QA:</b> staging (api.sarbon.me/staging)</span>
+      <span><b>Коммиты дня:</b> <span class="tag">8e8472d → 01b5937</span></span>
+      <span><b>Объём изменений за день:</b> 76 файлов · +4 766 / −824 строк</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">27.06.2026 — день <b>исправления багов и полировки</b> после большой сборки админ-консоли. Закрыто <b>9 дефектов</b> в двух частях приложения: диспетчерская (звонки — имя/фото/соединение, редактирование груза, карта маршрута в строке списка) и админка (внешний вид и локализация таблиц). Главное достижение по качеству — <b>впервые за проект весь репозиторий зелёный</b>: 443/443 юнит-теста, <span class="mono">eslint</span> 0 проблем, <span class="mono">tsc -b</span> 0 ошибок. Добавлены новые переиспользуемые блоки админки и единый стиль «чёрной Excel-сетки» для всех таблиц, проверенный в реальном браузере.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">9</div><div class="l">багов исправлено за день</div></div>
+    <div class="stat good"><div class="v">443</div><div class="l">юнит-тестов зелёных (443/443)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">проблем ESLint (весь репозиторий)</div></div>
+    <div class="stat blue"><div class="v">525</div><div class="l">ключей локализации (35 × 15 локалей)</div></div>
+    <div class="stat blue"><div class="v">64</div><div class="l">файла изменено за день</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">критических дефектов · 0 потери данных</div></div>
+  </div>
+  <div class="callout">
+    <div class="h ok">✓ Главный итог по качеству</div>
+    Впервые приведены к зелёному <b>все три воротных проверки одновременно</b>: <b>443/443</b> юнит-теста (<span class="mono">vitest run</span>), <b>0</b> предупреждений <span class="mono">eslint --max-warnings 0</span> по <b>всему</b> репозиторию (а не только по затронутым файлам), <b>0</b> ошибок типов <span class="mono">tsc -b</span>. Восемь дефектов закрыто, ни одной потери данных и ни одного нарушения контрактов API.
+  </div>
+</section>
+
+<!-- НОВЫЕ КОМПОНЕНТЫ -->
+<section id="features">
+  <h2><span class="n">1</span> Новые компоненты и доработки <small>что добавлено сегодня</small></h2>
+  <p class="lead">Все изменения находятся в рабочем дереве. Новые переиспользуемые блоки и общая инфраструктура таблиц/локализации:</p>
+
+  <div class="card"><table>
+    <tr><th>Что добавлено</th><th>Назначение</th><th>Где (файлы)</th></tr>
+    <tr><td><b>Единая Excel-сетка таблиц</b> <span class="badge b-new">новое</span></td><td>Общий CSS чёткой чёрной сетки (рамка 8px + внутренние линии) для всех таблиц админки — как в Command Center.</td><td><span class="mono">src/components/shared/admin/adminGridTable.css</span></td></tr>
+    <tr><td><b>Excel-фильтры колонок</b> <span class="badge b-new">новое</span></td><td><span class="mono">distinctColumnFilter</span> — поисковый чек-бокс-автофильтр в стиле Excel; <span class="mono">pruneFilteredValue</span> — сброс устаревших значений фильтра после обновления данных.</td><td><span class="mono">src/components/shared/admin/tableFilters.tsx</span></td></tr>
+    <tr><td><b>KPI-плитка</b> <span class="badge b-new">новое</span></td><td>Карточка ключевого показателя для админ-дашбордов.</td><td><span class="mono">src/components/shared/admin/AdminKpiTile.tsx</span></td></tr>
+    <tr><td><b>Интерактивная мини-карта маршрута</b> <span class="badge b-new">новое</span></td><td>Нативная Yandex-карта в строке списка грузов: рисует линию маршрута, кнопки +/− зума (в правом верхнем углу), без перехвата прокрутки списка.</td><td><span class="mono">src/pages/cargos/all-cargos/components/CargoRouteMiniMap.tsx</span></td></tr>
+    <tr><td><b>Словарь заголовков таблиц</b> <span class="badge b-new">35 × 15</span></td><td>Namespace <span class="mono">admin.columns</span> — 35 общих ключей бэкенда (<span class="mono">from_city</span>, <span class="mono">cargo_count</span>, <span class="mono">gmv</span>, <span class="mono">status</span>…) во всех 15 локалях для динамических колонок.</td><td><span class="mono">public/locales/*.json</span> (15)</td></tr>
+    <tr><td><b>Тест гео-аналитики</b> <span class="badge b-new">новое</span></td><td>Юнит-тест защитного парсинга ответа <span class="mono">/v1/admin/analytics/geography</span>.</td><td><span class="mono">src/__tests__/geoData.test.ts</span></td></tr>
+    <tr><td>Макет редизайна <span class="badge b-info">справочно</span></td><td>Статический HTML-макет админки (не входит в сборку — точкой входа остаётся <span class="mono">index.html</span>).</td><td><span class="mono">admin.html</span></td></tr>
+  </table></div>
+  <p class="lead">Также затронуты: рендереры данных и аналитики (<span class="mono">AdminDataRenderer.tsx</span>, <span class="mono">AdminAnalyticsView.tsx</span> — подключены к единой сетке и локализации заголовков), реалтайм-звонки (<span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">GlobalChatRealtimeBridge.tsx</span>, <span class="mono">useDispatcherSseSubscriptions.ts</span>, <span class="mono">chatHelpers.ts</span>, <span class="mono">useCallStore.ts</span>) и все 8 админ-таблиц (снятие <span class="mono">fixed:'right'</span> с колонки действий).</p>
+</section>
+
+<!-- ИСПРАВЛЕННЫЕ БАГИ -->
+<section id="fixes">
+  <h2><span class="n">2</span> Исправленные баги <small>9 за день · точное «где / когда / почему / как»</small></h2>
+  <p class="lead">Все исправления внесены 27.06.2026 и занесены в <span class="mono">bug.md</span> (корень репозитория). Сборка типов <span class="mono">tsc -b</span> — чистая, линтер <span class="mono">eslint --max-warnings 0</span> — без предупреждений.</p>
+
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 11:59</div>
+      <h4>Редактирование груза: валюто-слепой guard «аванс + по&nbsp;прибытии&nbsp;&gt;&nbsp;всего» ложно блокировал мульти-валютные сплиты</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">src/pages/cargos/my-cargo-detail/components/MyCargoEditForm.tsx</span>.</li>
+        <li><b>Причина:</b> проверка складывала «голые» <span class="mono">amount</span> строк оплаты, <b>игнорируя <span class="mono">currency</span></b> каждой строки, и сравнивала с <span class="mono">total_amount</span>. Корректный сплит (напр. всего 1000 USD, аванс 500 RUB) завышал сумму и ложно срабатывал. Проверки не было в потоке создания — потоки расходились.</li>
+        <li><b>Исправление:</b> убраны вычисление <span class="mono">total/advance/remaining</span> и ветка-предупреждение (валюто-корректное сравнение требует курсов FX, которых на фронте нет; бэкенд такие сплиты принимает). Построчная валидация полноты строки сохранена. Поток правки выровнен с потоком создания.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 13:40</div>
+      <h4>Таблицы админки: null рисовался как голый «—»/«-» вместо локализованного «нет данных»</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">AdminTripsPage</span>, <span class="mono">AdminDriversPage</span>, <span class="mono">AdminDispatchersPage</span>, <span class="mono">AdminCargoPage</span>, <span class="mono">AdminAdminsPage</span>, <span class="mono">AdminCargoTypesPage</span> (6 страниц).</li>
+        <li><b>Причина:</b> непоследовательный рендер null — часть колонок возвращала захардкоженный «—»/«-», тогда как соседние уже отдавали <span class="mono">t('admin.common.noValue')</span>.</li>
+        <li><b>Исправление:</b> все захардкоженные прочерки заменены на <span class="mono">t('admin.common.noValue')</span> (рейтинг рейсов, телефон/имя водителей и диспетчеров, имя в карточке груза, логин/имя админов, код/имя типов груза).</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · ≈14:30</div>
+      <h4>Колонка действий: sticky <span class="mono">fixed:'right'</span> создавала лишний z-index</h4>
+      <ul>
+        <li><b>Где:</b> колонка действий во всех 8 админ-таблицах (<span class="mono">AdminTrips/Offers/Cargo/Dispatchers/Moderation/Admins/Drivers/CargoTypes</span>).</li>
+        <li><b>Причина:</b> <span class="mono">fixed:'right'</span> рендерил ячейку как <span class="mono">position:sticky</span> с повышенным <span class="mono">z-index</span>, конфликтовавшим с окружением.</li>
+        <li><b>Исправление:</b> убран <span class="mono">fixed:'right'</span> — колонка прокручивается обычной (таблицы сохраняют <span class="mono">scroll={{ x:'max-content' }}</span>).</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 15:15</div>
+      <h4>QA-проход: починены 4 давних падения юнит-тестов + весь репозиторий приведён к зелёному lint</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">src/utils/buildCargoUpsertPayload.ts</span>, <span class="mono">src/__tests__/cargoShareUrl.test.ts</span>, <span class="mono">src/__tests__/useDriversData.test.tsx</span>, <span class="mono">eslint.config.js</span>, <span class="mono">AuthLayout.tsx</span>/<span class="mono">HomeLayout.tsx</span>.</li>
+        <li><b>Причина:</b> (1) <b>реальная регрессия</b> — коммит a38a2a3 удалил маппинг <span class="mono">total_payment_method</span> → скалярный <span class="mono">prepayment_type</span> (с защитой-сентинелом COMBO); (2)–(3) два <b>устаревших теста</b> (домен шаринга стал non-<span class="mono">www</span>; включение исходящих офферов для вкладки <span class="mono">catalog</span>); (4) <span class="mono">eslint .</span> сканировал сгенерированный <span class="mono">allure-report/</span> → 814 ошибок.</li>
+        <li><b>Исправление:</b> восстановлен пропавший блок маппинга; обновлены два теста под актуальное поведение; <span class="mono">allure-report</span>/<span class="mono">allure-results</span> добавлены в <span class="mono">globalIgnores</span>; авто-фикс 2 предупреждений порядка Tailwind-классов. <b class="ok">Итог: 443/443 теста · eslint 0 · tsc -b 0.</b></li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 16:11</div>
+      <h4>Таблицы админки: мутные границы (десктоп+моб.) + англоязычные динамические заголовки</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">adminGridTable.css</span>, <span class="mono">AdminDataRenderer.tsx</span>, <span class="mono">AdminAnalyticsView.tsx</span>, <span class="mono">GeoInsightsPanel.tsx</span>, <span class="mono">AdminModerationPage.tsx</span>, <span class="mono">public/locales/*.json</span> (15).</li>
+        <li><b>Причина (подтверждена живым DOM-зондом Playwright, не догадкой):</b> общий <span class="mono">&lt;Table&gt;</span> ставил <span class="mono">border-collapse:separate</span> + <span class="mono">border-0</span> на ячейках → неровные линии только снизу/справа; <span class="mono">border-collapse</span> на <span class="mono">div.ant-table</span> не наследуется в <span class="mono">&lt;table&gt;</span>. Заголовки динамических таблиц шли через <span class="mono">prettifyKey</span> (англ.), минуя <span class="mono">t()</span>.</li>
+        <li><b>Исправление:</b> сетка нацелена на реальный <span class="mono">&lt;table&gt;</span> (<span class="mono">border-collapse:collapse</span>); рамка — настоящий бордер на <span class="mono">div.ant-table</span> (1px <span class="mono">#111827</span>, радиус 8px, <span class="mono">overflow:hidden</span>), ячейки — только внутренние линии; разделитель заголовка переведён на <span class="mono">box-shadow:inset</span> (инлайновый <span class="mono">!important</span> AntD больше не перебивает); нейтрализована measure-row, восстановлена зебра. Добавлен namespace <span class="mono">admin.columns</span> (35 ключей × 15 локалей) и проброшен в гео/модерацию/рендерер. Заодно 3 deprecation-варнинга AntD&nbsp;6.</li>
+        <li><b>Проверка:</b> <span class="ok">подтверждено в реальном браузере</span> — cargo, moderation, command-center, metrics-audit рисуют одинаковую чёткую чёрную сетку (см. раздел 3).</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 16:19</div>
+      <h4>Звонки: первый звонок между двумя пользователями показывал «Unknown» вместо имени</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">chatHelpers.ts</span>, <span class="mono">useCallStore.ts</span>, <span class="mono">useDispatcherSseSubscriptions.ts</span>, <span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">GlobalChatRealtimeBridge.tsx</span>, <span class="mono">chatHelpers.test.ts</span>.</li>
+        <li><b>Причина:</b> сервер отдаёт <span class="mono">caller_name</span>/<span class="mono">caller_phone</span> в инвайте, но фронт на каждом слое его <b>отбрасывал</b> и пере-выводил имя из данных прошлой беседы, которых до первого звонка нет.</li>
+        <li><b>Исправление:</b> идентичность звонящего проброшена из инвайта сквозь WS+SSE+стор+модалку (общие <span class="mono">CALL_PEER_NAME_KEYS</span>/<span class="mono">CALL_PEER_PHONE_KEYS</span>, чтобы списки ключей не разошлись); модалка раскрывается сразу при наличии имени <b>или</b> телефона (звонящий с одним телефоном больше не скрыт за 1800ms-фолбэком). Добавлен тест-гард на разбор имени/телефона из инвайта.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 16:40</div>
+      <h4>Звонки: аватар входящего звонка никогда не грузил фото (имя было, фото — нет)</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">src/components/shared/GlobalAudioCallModal.tsx</span> (<span class="mono">peerPhotoPath</span>).</li>
+        <li><b>Причина:</b> <span class="mono">peerPhotoPath</span> строился только когда <span class="mono">peerInfo?.hasPhoto === true</span> — т.е. <b>после</b> резолва беседы, которого на первом звонке нет.</li>
+        <li><b>Исправление:</b> <span class="mono">peerPhotoPath</span> строится из <span class="mono">CHAT_USER_PHOTO.replace(':id', callPeerId)</span> сразу, как только известен <span class="mono">callPeerId</span>; пропуск только когда пир <b>явно</b> без фото. 404 → без ретраев, падение → инициалы.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 16:40 → полировка</div>
+      <h4>Строка списка all-cargos: карта рисовала только пины и была «мёртвой» внешней ссылкой</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">CargoRouteRow.tsx</span> + новый <span class="mono">CargoRouteMiniMap.tsx</span>.</li>
+        <li><b>Причина:</b> строка рендерила embed «только пины» (<span class="mono">mode=map</span>) с <span class="mono">pointer-events-none</span> внутри <span class="mono">&lt;a target="_blank"&gt;</span> — любой клик проваливался во внешнюю вкладку, а свои контролы были недостижимы.</li>
+        <li><b>Исправление:</b> строка переведена на <b>интерактивную нативную мини-карту</b> (рисует линию маршрута; drag/scroll-zoom отключены, чтобы не перехватывать прокрутку списка; клик открывает детальный вид с полной картой). <b>Полировка (эта сессия):</b> кнопки <span class="mono">+/−</span> зума перенесены в <b>правый верхний угол</b> мини-карты.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">27.06.2026 · 18:05</div>
+      <h4>Звонки: принятый звонок навсегда висит на «Соединение…», не переходит в «соединён»</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">src/components/shared/GlobalAudioCallModal.tsx</span> — <span class="mono">setupPeerConnection</span> (~576–604) и очистка в <span class="mono">cleanupCall</span> (~320).</li>
+        <li><b>Причина:</b> переход в состояние «соединён» был завязан <b>только</b> на <span class="mono">RTCPeerConnection.connectionState</span> (<span class="mono">onconnectionstatechange</span>). На Safari/iOS (целевая платформа) этот сигнал исторически ненадёжен и часто <b>никогда</b> не отдаёт <span class="mono">'connected'</span>, хотя ICE-транспорт уже соединён и звук идёт. Кросс-браузерно-надёжный <span class="mono">iceConnectionState</span>/<span class="mono">oniceconnectionstatechange</span> не был подписан — UI зависал на «Соединение…» навсегда (а ICE <span class="mono">failed</span> там тоже не всплывал).</li>
+        <li><b>Исправление:</b> выделен общий помощник <span class="mono">promoteToConnected()</span> (гасит таймер реконнекта, один раз ставит статус <span class="mono">connected</span>, штампует <span class="mono">connectedAt</span>); добавлен <span class="mono">oniceconnectionstatechange</span> → <span class="mono">connected</span>/<span class="mono">completed</span> переводит в «соединён», <span class="mono">failed</span> рвёт звонок (+ сброс кэша ICE-серверов). <span class="mono">onconnectionstatechange</span> сохранил обработку <span class="mono">disconnected</span>/<span class="mono">failed</span>/<span class="mono">closed</span>. Какой сигнал придёт первым — тот и продвигает звонок; гард <span class="mono">statusRef !== 'connected'</span> делает двойной триггер идемпотентным; обработчик обнуляется в teardown.</li>
+        <li><b>Проверка:</b> <span class="mono">tsc -b</span> 0 · <span class="mono">eslint</span> 0. <b>Не верифицировано end-to-end</b> — нужен живой звонок двух пользователей (желательно один на Safari/iOS). Если зависание сохранится при ICE, не выходящем из <span class="mono">checking</span>/<span class="mono">failed</span> — это уже отсутствие TURN-релея на бэкенде (<span class="mono">/v1/calls/ice-servers</span>), а не этот путь фронта.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXCEL-СЕТКА -->
+<section id="grid">
+  <h2><span class="n">3</span> Единая Excel-сетка таблиц админки <small>центральная визуальная правка дня</small></h2>
+  <p class="lead">Центральная правка 16:11: все таблицы админки (CRUD-реестры, аналитика, детальные секции) приведены к одному виду — <b>чёткая чёрная Excel-сетка</b> с рамкой-радиусом 8px и ровными внутренними линиями, плюс <b>локализация заголовков</b> динамических колонок через <span class="mono">admin.columns</span>. Ниже — проверка в реальном браузере (dev-сервер + скриншот-харнес), а не низкое разрешение Allure.</p>
+  <div class="callout blue">
+    <div class="h">Почему это было не тривиально</div>
+    AntD&nbsp;6 объявляет <span class="mono">border-collapse</span> на самом элементе <span class="mono">&lt;table&gt;</span>, поэтому правка на <span class="mono">div.ant-table</span> не наследовалась; разделитель заголовка ставился <b>инлайновым <span class="mono">!important</span></b> через JS-эффект и перебивал любой стиль; а квадратный угол ячейки под скруглённой маской резал белую полосу. Финальная модель: рамка — настоящий бордер на <span class="mono">div</span> (скруглённый, без клип-насечки), ячейки — только внутренние линии, разделитель заголовка — <span class="mono">box-shadow:inset</span>. Каждая итерация проверялась DOM-зондом в работающем приложении.
+  </div>
+  <h3>Проверка в браузере <small style="font-weight:500;color:var(--muted);font-size:13px">— клик открывает в полном размере</small></h3>
+  <div class="gallery">
+    <figure class="shot"><a href="img/command-center.png" target="_blank"><img src="img/command-center.png" alt="Command Center — эталонная сетка"></a><figcaption><b>Command Center</b>Эталон чёткой чёрной Excel-сетки</figcaption></figure>
+    <figure class="shot"><a href="img/cargo.png" target="_blank"><img src="img/cargo.png" alt="Грузы — единая сетка"></a><figcaption><b>Грузы</b>Рамка 8px + ровные внутренние линии</figcaption></figure>
+    <figure class="shot"><a href="img/moderation.png" target="_blank"><img src="img/moderation.png" alt="Модерация — единая сетка"></a><figcaption><b>Модерация</b>Идентична cargo (DOM-зонд: <span class="mono">#111827</span>, collapse)</figcaption></figure>
+    <figure class="shot"><a href="img/metrics-audit.png" target="_blank"><img src="img/metrics-audit.png" alt="Метрики — аудит-таблицы"></a><figcaption><b>Метрики (аудит)</b>Аналитические таблицы на той же сетке</figcaption></figure>
+    <figure class="shot"><a href="img/geo.png" target="_blank"><img src="img/geo.png" alt="Гео — динамические колонки"></a><figcaption><b>Гео — инсайты</b>Динамические колонки локализованы</figcaption></figure>
+    <figure class="shot"><a href="img/cargo-mobile.png" target="_blank"><img src="img/cargo-mobile.png" alt="Грузы на мобильном"></a><figcaption><b>Грузы (мобильный)</b>Сетка сохраняется на 390px</figcaption></figure>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">4</span> QA-стабилизация <small>зелёный репозиторий + проверка в браузере</small></h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки (впервые все зелёные)</div>
+      <ul class="clean">
+        <li><span class="ok">443 / 443</span> юнит-теста (<span class="mono">vitest run</span>)</li>
+        <li><span class="ok">0</span> проблем <span class="mono">eslint --max-warnings 0</span> по <b>всему</b> репозиторию</li>
+        <li><span class="ok">0</span> ошибок типов <span class="mono">tsc -b</span></li>
+        <li>+1 новый тест-гард на идентичность звонящего; +1 тест парсинга гео</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Проверка в реальном браузере</div>
+      <ul class="clean">
+        <li>Скриншот-харнес (dev-сервер) по затронутым экранам: command-center, cargo, moderation, metrics-audit, geo — десктоп + мобильный.</li>
+        <li>DOM-зонд Playwright подтвердил единую сетку (<span class="mono">#111827</span>, <span class="mono">collapse</span>, рамка 8px) на всех таблицах.</li>
+        <li>Изменённые модули собираются под Vite (HTTP 200, без ошибок трансформации).</li>
+      </ul>
+    </div>
+  </div>
+  <p class="lead">Реалтайм-правки звонков (имя/фото первого звонка, переход в «соединён» на Safari/iOS) <b>не верифицированы end-to-end</b>: живой поток двух пользователей за диспетчерской авторизацией и chat-WS не запускается автономно — требуется ручное подтверждение. Все они прошли адверсариальный ревью (17- и 45-агентные прогоны), который поймал одну само-внесённую регрессию (телефон-only звонящий) — исправлена.</p>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (9 записей 27.06)</td><td class="mono">bug.md (11:59 · 13:40 · ≈14:30 · 15:15 · 16:11 · 16:19 · 16:40 ×2 · 18:05)</td></tr>
+    <tr><td>Скриншоты проверки сетки (этот отчёт)</td><td class="mono">daily-report/27.06.26/img/</td></tr>
+    <tr><td>Прогоны проверки в браузере</td><td class="mono">qa/runs/2026-06-27T11-52-29/ · …T11-46-15/</td></tr>
+    <tr><td>Единый стиль таблиц</td><td class="mono">src/components/shared/admin/adminGridTable.css</td></tr>
+    <tr><td>Excel-фильтры колонок</td><td class="mono">src/components/shared/admin/tableFilters.tsx</td></tr>
+    <tr><td>Словарь заголовков таблиц</td><td class="mono">public/locales/*.json → admin.columns (35 ключей)</td></tr>
+    <tr><td>Мини-карта маршрута в строке списка</td><td class="mono">src/pages/cargos/all-cargos/components/CargoRouteMiniMap.tsx</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/26.06.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Ручная проверка звонков</b> — провести живой тест между двумя диспетчерами: «первый звонок» (имя + фото входящего) и <b>переход в «соединён»</b> (особенно с одним пиром на Safari/iOS). Правки верны по коду и ревью, но не запускаемы автономно. Если соединение не наступает — снять <span class="mono">iceConnectionState</span> из консоли (застревание в <span class="mono">checking</span> = нет TURN-релея на бэкенде).</li>
+    <li><b>2. Адаптивность таблиц (из отчёта 26.06, S1)</b> — единая сетка теперь общая, но мобильная пригодность таблиц на 390px остаётся открытым вопросом приоритета №1.</li>
+    <li><b>3. Состояния ошибок (из отчёта 26.06, S2)</b> — убрать ложный зелёный бейдж Push «всё исправно» при сбое; добавить состояния ошибки/повтора на списки и дроверы.</li>
+    <li><b>4. Снос устаревших пропсов AntD 6</b> — продолжить начатое сегодня (закрыто 3 предупреждения); пройти оставшиеся одной правкой.</li>
+    <li><b>5. Перед пушем</b> — день зафиксирован в трёх коммитах (8e8472d → 01b5937, 76 файлов); провести ручную проверку звонков (п.1) до отправки стабилизации в общую ветку.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Проект стабилен: 9 дефектов закрыто, контрактов API не нарушено, критических дефектов нет, и весь репозиторий впервые зелёный по тестам, линту и типам. Открытые приоритеты сгруппированы выше.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 27.06.2026 · Проект <b>sarbon-frontend</b> · Окружение: staging · Коммиты дня 8e8472d → 01b5937.<br>
+    Документ предназначен для QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 27.06.2026).
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

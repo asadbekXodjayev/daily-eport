@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 26.06.2026 · Админ-панель Sarbon</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:760px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:880px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .sys{border-left:4px solid var(--high);background:#fff7f0}
+  .sys.s1{border-color:#7c3aed;background:#f7f3ff}
+  .sys.s2{border-color:var(--crit);background:#fef2f2}
+  .sys.s3{border-color:var(--blue);background:#f1f5ff}
+  .sys.s4{border-color:var(--med);background:#fffbeb}
+  .sys.s5{border-color:var(--green);background:#f0fdf6}
+  .sys{border-radius:10px;padding:12px 16px;margin:11px 0}
+  .sys h4{margin:0 0 5px;font-size:15.5px}
+  .sys .imp{font-size:12.5px;color:var(--muted);font-weight:600}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(20,30,60,.06);display:flex;flex-direction:column}
+  .shot a{display:block;line-height:0;overflow:hidden}
+  .shot img{width:100%;height:188px;object-fit:cover;object-position:top center;display:block;transition:transform .35s ease}
+  .shot:hover img{transform:scale(1.04)}
+  .shot figcaption{padding:9px 12px;font-size:12.3px;color:var(--muted);border-top:1px solid var(--line);line-height:1.42}
+  .shot figcaption b{color:var(--ink);display:block;font-size:13px;margin-bottom:1px}
+  .gallery.mob img{height:300px}
+  .shot.single{max-width:440px}
+  .hint-img{font-size:12.5px;color:var(--muted);margin:4px 0 0}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.gallery,.gallery.mob{grid-template-columns:repeat(2,1fr)}header.top h1{font-size:26px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для QA и стейкхолдеров</div>
+    <h1>Админ-панель Sarbon — итоги за&nbsp;26 июня 2026</h1>
+    <div class="sub">Сборка административной консоли (9 новых страниц + аналитический движок), три сессии исправления багов и полный QA-прогон всех 18 страниц админки с публикацией Allure-отчёта.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Окружение QA:</b> staging (api.sarbon.me/staging)</span>
+      <span><b>Базовый коммит:</b> <span class="tag">9c57c84</span></span>
+      <span><b>Объём изменений за день:</b> 36 файлов · +13 400 / −4 871 строк</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">За 26.06.2026 завершена сборка административной консоли Sarbon: добавлено <b>9 новых страниц</b> и общий <b>аналитический движок</b>, доработано и подключено к боевым эндпоинтам ещё <b>7 страниц</b>. Проведены <b>3 сессии исправления багов</b> (07 дефектов) и выполнен <b>полный QA-прогон</b> всех 18 страниц админки в двух разрешениях (десктоп + мобильный) — статический разбор кода, прогон в реальном браузере и визуальная проверка скриншотов. Сформирован интерактивный <b>Allure-отчёт</b>.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">9</div><div class="l">новых страниц админки</div></div>
+    <div class="stat blue"><div class="v">19</div><div class="l">экранов протестировано (18 + логин)</div></div>
+    <div class="stat good"><div class="v">314</div><div class="l">скриншотов (десктоп+моб.)</div></div>
+    <div class="stat good"><div class="v">6 522</div><div class="l">сетевых запросов · 0 сбойных</div></div>
+    <div class="stat warn"><div class="v">213</div><div class="l">найдено замечаний (0 критич.)</div></div>
+    <div class="stat good"><div class="v">07</div><div class="l">багов исправлено сегодня</div></div>
+  </div>
+  <div class="callout">
+    <div class="h ok">✓ Главный итог по стабильности</div>
+    Все 18 страниц админки открываются на десктопе и на мобильном. В прогоне реального браузера: <b>0 необработанных JS-ошибок</b>, <b>0 сбойных/прерванных запросов</b>, <b>0 некорректных JSON-ответов</b> на 6 522 запросах. Критических дефектов и потери данных — <b>нет</b>. Замечания носят системный, но не блокирующий характер (см. раздел 4).
+  </div>
+</section>
+
+<!-- НОВЫЕ ФУНКЦИИ -->
+<section id="features">
+  <h2><span class="n">1</span> Новые функции и страницы <small>что добавлено сегодня</small></h2>
+  <p class="lead">Все изменения находятся в рабочем дереве (ещё не закоммичены). Новые каталоги страниц и общие компоненты:</p>
+
+  <h3>Новые страницы админки <span class="badge b-new">9 новых</span></h3>
+  <div class="card"><table>
+    <tr><th>Страница</th><th>Маршрут</th><th>Назначение</th><th>Где (файлы)</th></tr>
+    <tr><td><b>Обзор платформы</b></td><td class="mono">/admin/overview</td><td>Сводные показатели платформы (8 тоталов + 9 периодных метрик) и экспорт в XLSX.</td><td><span class="mono">src/pages/admin/overview/</span>, <span class="mono">components/shared/admin/AdminPlatformOverview.tsx</span>, <span class="mono">utils/adminXlsxDownload.ts</span></td></tr>
+    <tr><td><b>Типы груза</b></td><td class="mono">/admin/cargo-types</td><td>CRUD справочника типов груза (создание / редактирование / удаление, мультиязычные наименования).</td><td><span class="mono">src/pages/admin/cargo-types/</span></td></tr>
+    <tr><td><b>Администраторы</b></td><td class="mono">/admin/admins</td><td>CRUD учётных записей админов: список с поиском и пагинацией, создание/редактирование/удаление, карточка-дровер, типы и статусы.</td><td><span class="mono">src/pages/admin/admins/</span></td></tr>
+    <tr><td><b>Грузы</b></td><td class="mono">/admin/cargo</td><td>Реестр грузов: таблица + фильтры + детальный дровер.</td><td><span class="mono">src/pages/admin/cargo/</span></td></tr>
+    <tr><td><b>Диспетчеры</b></td><td class="mono">/admin/dispatchers</td><td>Реестр диспетчеров: таблица + поиск + детальный дровер.</td><td><span class="mono">src/pages/admin/dispatchers/</span></td></tr>
+    <tr><td><b>Водители</b></td><td class="mono">/admin/drivers</td><td>Реестр водителей: таблица + поиск + детальный дровер.</td><td><span class="mono">src/pages/admin/drivers/</span></td></tr>
+    <tr><td><b>Офферы</b></td><td class="mono">/admin/offers</td><td>Реестр офферов: таблица + фильтры + детальный дровер.</td><td><span class="mono">src/pages/admin/offers/</span></td></tr>
+    <tr><td><b>Рейсы</b></td><td class="mono">/admin/trips</td><td>Реестр рейсов: таблица + фильтры + детальный дровер, редактирование и удаление.</td><td><span class="mono">src/pages/admin/trips/</span></td></tr>
+    <tr><td><b>Настройки</b></td><td class="mono">/admin/settings</td><td>Общие настройки (лимит грузов диспетчера) и переключатели модерации (cargo/companies/dispatchers/drivers).</td><td><span class="mono">src/pages/admin/settings/</span></td></tr>
+  </table></div>
+
+  <h3>Аналитический движок (общие компоненты) <span class="badge b-new">новое</span></h3>
+  <div class="card"><table>
+    <tr><th>Компонент</th><th>Что делает</th></tr>
+    <tr><td class="mono">AdminAnalyticsHub.tsx</td><td>Вкладочный (segmented) контейнер аналитики: на каждую вкладку — свой запрос к <span class="mono">/v1/admin/analytics/*</span> с кэшем и кнопкой «Обновить».</td></tr>
+    <tr><td class="mono">AdminAnalyticsView.tsx</td><td>Универсальный рендер ответа: <span class="mono">totals</span> → плитки KPI, <span class="mono">breakdown</span> → полосы/таблицы, <span class="mono">top</span> → таблицы-лидерборды.</td></tr>
+    <tr><td class="mono">AnalyticsMetricCard.tsx · analyticsMetricUtils.ts</td><td>Карточка метрики (hero-значение + список метрик) и форматирование значений.</td></tr>
+    <tr><td class="mono">adminHelpers.ts → buildDynamicColumns</td><td>Динамическая генерация колонок таблиц из данных API (с правилами скрытия служебных колонок).</td></tr>
+  </table></div>
+
+  <h3>Доработанные и подключённые к API страницы <span class="badge b-info">7 страниц</span></h3>
+  <div class="card"><table>
+    <tr><th>Страница</th><th>Маршрут</th><th>Что подключено</th></tr>
+    <tr><td>Дашборд</td><td class="mono">/admin/dashboard</td><td>Аналитический хаб — 10 вкладок (Обзор, Водители, Карго-менеджеры, Менеджеры водителей, Грузы, Офферы, Connect-офферы, Рейсы, Финансы, Стратегия).</td></tr>
+    <tr><td>Пользователи</td><td class="mono">/admin/users</td><td>Аналитика участников (3 вкладки).</td></tr>
+    <tr><td>Метрики</td><td class="mono">/admin/metrics</td><td>Аудит-таблицы (segmented-вкладки).</td></tr>
+    <tr><td>Воронки</td><td class="mono">/admin/funnels</td><td>3 таблицы воронок (конверсия / количество / этап).</td></tr>
+    <tr><td>Коммуникации</td><td class="mono">/admin/communications</td><td>Аналитика коммуникаций (segmented).</td></tr>
+    <tr><td>Гео</td><td class="mono">/admin/geo</td><td>Геоаналитика (таблицы).</td></tr>
+    <tr><td>Модерация</td><td class="mono">/admin/moderation</td><td>Очередь модерации + карточки аналитики; действия: принять / отклонить / отменить / история.</td></tr>
+  </table></div>
+  <p class="lead">Также затронуты: маршрутизация и гард-доступы (<span class="mono">src/router/RootRouter.tsx</span>, <span class="mono">paths.ts</span>, <span class="mono">router/admin/AdminRouteGuards.tsx</span>), навигация админ-лейаута (<span class="mono">layouts/admin-layout/AdminLayout.tsx</span>), эндпоинты и ключи запросов (<span class="mono">constants/endpoints.ts</span>, <span class="mono">queryKeys.ts</span>) и <b>локализация во всех 15 языках</b> (<span class="mono">public/locales/*.json</span>).</p>
+  <h3>Скриншоты новых и доработанных страниц <small style="font-weight:500;color:var(--muted);font-size:13px">— клик открывает в полном размере</small></h3>
+  <div class="gallery">
+    <figure class="shot"><a href="img/dashboard.png" target="_blank"><img src="img/dashboard.png" alt="Дашборд — аналитический хаб"></a><figcaption><b>Дашборд — аналитический хаб</b>10 вкладок аналитики · /admin/dashboard</figcaption></figure>
+    <figure class="shot"><a href="img/overview.png" target="_blank"><img src="img/overview.png" alt="Обзор платформы"></a><figcaption><b>Обзор платформы</b>Тоталы + период + экспорт XLSX</figcaption></figure>
+    <figure class="shot"><a href="img/admins.png" target="_blank"><img src="img/admins.png" alt="Администраторы — CRUD"></a><figcaption><b>Администраторы — CRUD</b>Карточка-дровер записи</figcaption></figure>
+    <figure class="shot"><a href="img/moderation.png" target="_blank"><img src="img/moderation.png" alt="Модерация"></a><figcaption><b>Модерация</b>Очередь + карточки аналитики</figcaption></figure>
+    <figure class="shot"><a href="img/funnels.png" target="_blank"><img src="img/funnels.png" alt="Воронки"></a><figcaption><b>Воронки</b>Конверсия по этапам</figcaption></figure>
+    <figure class="shot"><a href="img/settings.png" target="_blank"><img src="img/settings.png" alt="Настройки"></a><figcaption><b>Настройки</b>Лимиты диспетчера + модерация</figcaption></figure>
+  </div>
+</section>
+
+<!-- ИСПРАВЛЕННЫЕ БАГИ -->
+<section id="fixes">
+  <h2><span class="n">2</span> Исправленные баги <small>3 сессии · точное «где / когда / почему / как»</small></h2>
+  <p class="lead">Все исправления внесены 26.06.2026 и занесены в <span class="mono">bug.md</span> (корень репозитория). Сборка типов <span class="mono">tsc -b</span> — чистая, линтер <span class="mono">eslint --max-warnings 0</span> — без предупреждений.</p>
+
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">26.06.2026 · 15:21</div>
+      <h4>Узбекский-кириллица: сломанная интерполяция <span class="mono">{{переменная}}</span> + утечка UUID в лидербордах</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">public/locales/oz.json</span> (namespace <span class="mono">admin</span>), <span class="mono">public/locales/*.json</span> (15 файлов), <span class="mono">src/utils/adminHelpers.ts</span> (~119–138).</li>
+        <li><b>Причина:</b> при генерации <span class="mono">oz</span>-локали транслитератор переводил и содержимое плейсхолдеров (<span class="mono">{{login}}</span> → <span class="mono">{{логин}}</span>) — i18next подставляет по латинскому имени, поэтому текст ломался. Параллельно <span class="mono">buildDynamicColumns</span> выводил служебную колонку <span class="mono">id</span> (UUID) в лидербордах.</li>
+        <li><b>Исправление:</b> транслитератор переписан с сохранением <span class="mono">{{…}}</span>, namespace <span class="mono">oz.admin</span> перегенерирован из <span class="mono">uz</span>; добавлен <span class="mono">HIDDEN_DYNAMIC_COLUMN_KEYS = Set(['id'])</span> с фильтрацией. Добавлены 4 недостающих метки метрик.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">26.06.2026 · 15:53</div>
+      <h4>3 дефекта QA-прогона: доступ к маршруту, фокус скрытого меню, тупик пагинации</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">src/router/RootRouter.tsx</span> (~133–141), <span class="mono">src/layouts/admin-layout/AdminLayout.tsx</span> (~129, 201–203), <span class="mono">src/pages/admin/admins/AdminAdminsPage.tsx</span> (~72–80).</li>
+        <li><b>Причина / исправление (1) — авторизация:</b> маршрут <span class="mono">/admin/cargo-types</span> был без гарда — оператор мог открыть его по прямому URL. Обёрнут в <span class="mono">AdminCreatorRoute</span>, предикат навигации приведён к <span class="mono">type === 'creator'</span>.</li>
+        <li><b>(2) — доступность (WCAG 2.4.3):</b> скрытое мобильное меню оставалось в фокус-дереве. Добавлены <span class="mono">aria-hidden</span> + <span class="mono">inert</span> на <span class="mono">&lt;aside&gt;</span>.</li>
+        <li><b>(3) — пагинация:</b> удаление последней строки страницы оставляло пустой список без возврата. Добавлен зажим страницы в <span class="mono">onSuccess</span> удаления.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">26.06.2026 · 18:23</div>
+      <h4>Страница логина админа: вложенный <span class="mono">&lt;a&gt;</span> + SVG-атрибуты в kebab-case</h4>
+      <ul>
+        <li><b>Где:</b> <span class="mono">src/layouts/auth-layout/AuthLayout.tsx</span> (импорты ~1–2; <span class="mono">&lt;Logo&gt;</span> ~26; SVG-пути ~255–280).</li>
+        <li><b>Причина:</b> (1) <span class="mono">AuthLayout</span> оборачивал <span class="mono">&lt;Logo&gt;</span> в <span class="mono">&lt;Link&gt;</span>, а <span class="mono">Logo</span> сам рендерит <span class="mono">&lt;Link&gt;</span> → вложенный <span class="mono">&lt;a&gt;</span> в <span class="mono">&lt;a&gt;</span> (ошибка вложенности DOM). (2) 3 SVG-<span class="mono">&lt;path&gt;</span> использовали <span class="mono">stroke-width</span>/<span class="mono">stroke-dasharray</span> вместо camelCase.</li>
+        <li><b>Исправление:</b> убрана лишняя обёртка <span class="mono">&lt;Link&gt;</span> (ссылка и aria-label остаются в <span class="mono">Logo</span>); атрибуты переименованы в <span class="mono">strokeWidth</span>/<span class="mono">strokeDasharray</span>.</li>
+        <li><b>Проверка:</b> повторный прогон страницы логина — <span class="ok">0 ошибок консоли</span> (было 8). <span class="mono">tsc -b</span> — exit 0.</li>
+      </ul>
+    </div>
+  </div>
+  <h3>После исправления — страница логина</h3>
+  <figure class="shot single"><a href="img/login.png" target="_blank"><img src="img/login.png" alt="Страница логина админа" style="height:236px"></a><figcaption><b>/admin/login</b>После фикса 18:23: 0 ошибок консоли (было 8 — вложенный &lt;a&gt; + SVG-пропсы в kebab-case)</figcaption></figure>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> QA-тестирование <small>полный прогон админ-панели</small></h2>
+  <p class="lead">Тестировалась вся админ-консоль — <b>18 страниц + логин</b>, все секции, вкладки, модальные окна и дроверы, таблицы, фильтры, формы и пагинация. Прогон <b>неразрушающий</b>: реальные create / edit / delete / send не отправлялись (каждый шаг сценария проверялся по исходникам до запуска).</p>
+  <div class="grid2">
+    <div class="callout blue">
+      <div class="h">Методология (3 уровня)</div>
+      <ul class="clean">
+        <li><b>Статический разбор кода</b> — 19 параллельных агентов, по одному на страницу → 146 замечаний.</li>
+        <li><b>Прогон в реальном браузере</b> (Playwright) — все страницы × десктоп (1440) + мобильный (390), 359 сценарных действий, лог консоли/сети/JS-ошибок + 314 скриншотов.</li>
+        <li><b>Визуальная проверка</b> скриншотов — 19 агентов → 67 замечаний.</li>
+      </ul>
+    </div>
+    <div class="callout">
+      <div class="h ok">Результаты прогона (runtime)</div>
+      <ul class="clean">
+        <li><span class="ok">18/18</span> страниц открываются (десктоп + мобильный)</li>
+        <li><span class="ok">0</span> необработанных JS-исключений</li>
+        <li><span class="ok">0</span> сбойных запросов из 6 522</li>
+        <li><span class="ok">0</span> некорректных JSON-ответов</li>
+        <li>4 ответа 400 — это намеренный тестовый UUID (ожидаемо)</li>
+      </ul>
+    </div>
+  </div>
+  <p class="lead">Полный отчёт: <span class="mono">qa/reports/qa-report-2026-06-26-admin-full.md</span>. Также за день: <span class="mono">qa-report-2026-06-26-admin-api-wirings.md</span>, <span class="mono">qa-admin-dashboard-moderation-2026-06-26.md</span>, <span class="mono">qa-admin-tools-endpoints-2026-06-26.md</span>.</p>
+</section>
+
+<!-- НАЙДЕННЫЕ ЗАМЕЧАНИЯ -->
+<section id="findings">
+  <h2><span class="n">4</span> Найденные замечания <small>213 итого · 0 критических</small></h2>
+  <div class="card"><table>
+    <tr><th>Источник</th><th><span class="badge b-crit">Crit</span></th><th><span class="badge b-high">High</span></th><th><span class="badge b-med">Medium</span></th><th><span class="badge b-low">Low</span></th><th><span class="badge b-info">Info</span></th><th>Итого</th></tr>
+    <tr><td>Статический разбор</td><td>0</td><td>4</td><td>41</td><td>75</td><td>26</td><td><b>146</b></td></tr>
+    <tr><td>Визуальная проверка</td><td>0</td><td>6</td><td>17</td><td>29</td><td>15</td><td><b>67</b></td></tr>
+  </table></div>
+  <p class="lead">Два источника подтверждают друг друга: находки об «утечке id» и «сырых enum» подтверждены и в коде, и на скриншотах. После дедупликации 213 замечаний сводятся к <b>5 системным первопричинам</b> — исправление каждой закрывает сразу множество страниц.</p>
+
+  <div class="sys s1">
+    <h4>S1 · 📱 Таблицы админки не адаптивны — непригодны на мобильном <span class="badge b-high">High</span></h4>
+    Почти на каждой странице со списком таблица выходит за пределы экрана 390px: пропадают/обрезаются колонки и кнопки действий; на дашборде панель из 10 вкладок вызывает горизонтальную прокрутку.
+    <div class="imp">Затронуто ~10 страниц · cargo-types, dispatchers, drivers, trips, metrics, moderation, dashboard, admins, companies, offers, cargo.</div>
+  </div>
+  <div class="sys s2">
+    <h4>S2 · ⚠️ Сбой запроса → вводящее в заблуждение состояние, без повтора <span class="badge b-high">High ×4</span></h4>
+    При ошибке GET (4xx/5xx/offline) экран показывает «пусто» вместо ошибки. Самое опасное — <b>Push</b>: при недоступной диагностике показывается зелёный бейдж «Все системы исправны».
+    <div class="imp">~12 страниц · хуже всего push; также admins, cargo-types, moderation, companies, dispatchers, drivers, cargo, trips, settings, overview, offers.</div>
+  </div>
+  <div class="sys s3">
+    <h4>S3 · 🆔 Утечка внутренних ID/UUID в динамических таблицах <span class="badge b-med">Medium</span></h4>
+    <span class="mono">buildDynamicColumns</span> скрывает только ключ <span class="mono">id</span> — а <span class="mono">*_id</span>/<span class="mono">uuid</span> проходят. Подтверждено на скриншотах (Driver ID, Sender ID, User ID). Исправление — одно место в <span class="mono">adminHelpers.ts:119</span>.
+    <div class="imp">~6 страниц · dashboard, communications, geo, metrics, users.</div>
+  </div>
+  <div class="sys s4">
+    <h4>S4 · 🔤 Сырые enum / snake_case выводятся как есть <span class="badge b-med">Medium</span></h4>
+    Ячейки таблиц показывают сырые значения бэкенда (<span class="mono">created</span>, <span class="mono">moderation_passed</span>, <span class="mono">MODERATION_REJECTED</span>, <span class="mono">work_status</span>) без локализации. Нужен общий резолвер меток.
+    <div class="imp">~7 страниц · funnels, communications, dashboard, metrics, geo, users, moderation, drivers, cargo.</div>
+  </div>
+  <div class="sys s5">
+    <h4>S5 · 📝 Формы create/edit не сбрасываются при отмене — черновики, включая пароль <span class="badge b-med">Medium</span></h4>
+    При повторном открытии модалки видны прежние значения (в admins — включая введённый пароль в открытом виде). Нужен <span class="mono">resetFields()</span> в <span class="mono">onCancel</span>.
+    <div class="imp">admins, cargo-types, companies, push.</div>
+  </div>
+
+  <h3>Ключевые отдельные замечания (High / Medium)</h3>
+  <div class="card"><table>
+    <tr><th>Страница</th><th>Сев.</th><th>Замечание</th></tr>
+    <tr><td>push</td><td><span class="badge b-high">High</span></td><td>Сбой статуса → зелёный бейдж «Все системы исправны» (S2)</td></tr>
+    <tr><td>admins / cargo-types / moderation</td><td><span class="badge b-high">High</span></td><td>Сбой GET списка → «пусто» без повтора (S2)</td></tr>
+    <tr><td>dashboard</td><td><span class="badge b-high">High</span></td><td>Панель 10 вкладок вызывает горизонтальную прокрутку на мобильном; дальние вкладки недостижимы (S1)</td></tr>
+    <tr><td>moderation · cargo-types · dispatchers · drivers · trips · metrics</td><td><span class="badge b-high">High</span></td><td>Таблицы выходят за экран мобильного — колонки/кнопки пропадают или обрезаны (S1)</td></tr>
+    <tr><td>dashboard</td><td><span class="badge b-med">Medium</span></td><td>12 из 18 меток KPI «Обзор» отсутствуют в словаре → откат на англ. <span class="mono">prettifyKey</span></td></tr>
+    <tr><td>dashboard</td><td><span class="badge b-med">Medium</span></td><td>Проценты (<span class="mono">*_pct</span>) и валюта (<span class="mono">revenue_*</span>) выводятся как голые числа — без знака % / валюты</td></tr>
+    <tr><td>login</td><td><span class="badge b-med">Medium</span></td><td>При отсутствии типа от бэкенда <span class="mono">type</span> по умолчанию = <span class="mono">creator</span> (самый привилегированный) — «fail-open»</td></tr>
+    <tr><td>offers</td><td><span class="badge b-med">Medium</span></td><td>Время выводится через <span class="mono">formatDateTimeIsoClock</span> (UTC показано как локальное, без TZ)</td></tr>
+    <tr><td>funnels</td><td><span class="badge b-med">Medium</span></td><td>Бессмысленные значения конверсии (<span class="mono">first_login</span> = 1 433,33%) — данные воронки немонотонны, выводятся сырыми (вероятно, бэкенд)</td></tr>
+    <tr><td>settings</td><td><span class="badge b-med">Medium</span></td><td>Поле лимита принимает дробные числа, без валидации</td></tr>
+  </table></div>
+  <p class="lead">Полный список Low/Info (75+29 и 26+15) — в постраничных файлах <span class="mono">qa/_admin_specs/&lt;page&gt;.json</span> и <span class="mono">&lt;page&gt;.visual.json</span>. Отдельно: 74 предупреждения консоли — это <b>устаревшие пропсы AntD 6</b> (Drawer <span class="mono">width</span>, Space <span class="mono">direction</span>), они не ломают работу, но желательно убрать одной правкой.</p>
+  <h3>Иллюстрация S1 — адаптивность на мобильном (390px)</h3>
+  <p class="hint-img">Таблицы и панель вкладок выходят за пределы экрана телефона — колонки и кнопки действий пропадают или обрезаются.</p>
+  <div class="gallery mob">
+    <figure class="shot"><a href="img/dashboard-mobile.png" target="_blank"><img src="img/dashboard-mobile.png" alt="Дашборд на мобильном"></a><figcaption><b>Дашборд</b>Панель из 10 вкладок → горизонтальная прокрутка</figcaption></figure>
+    <figure class="shot"><a href="img/moderation-mobile.png" target="_blank"><img src="img/moderation-mobile.png" alt="Модерация на мобильном"></a><figcaption><b>Модерация</b>Таблица за пределами экрана, кнопки обрезаны</figcaption></figure>
+    <figure class="shot"><a href="img/trips-mobile.png" target="_blank"><img src="img/trips-mobile.png" alt="Рейсы на мобильном"></a><figcaption><b>Рейсы</b>Видны только Статус + Действия</figcaption></figure>
+  </div>
+</section>
+
+<!-- ALLURE -->
+<section id="allure">
+  <h2><span class="n">5</span> Allure-отчёт <small>интерактивная публикация результатов</small></h2>
+  <p class="lead">Прогон браузера сведён в локальный интерактивный <b>Allure-отчёт</b> «Sarbon Admin Console — Full QA»: 314 скриншотов (десктоп против мобильного) + логи консоли/сети/ошибок по каждой странице.</p>
+  <div class="callout">
+    <div class="h">Адрес отчёта</div>
+    <span class="mono">http://localhost:8800</span> — сервер запущен локально (Allure 2.43 на Java 17).
+  </div>
+  <div class="callout blue">
+    <div class="h">Что было поправлено в самом отчёте</div>
+    Стандартный мост помечал «провалом» любую страницу с ошибкой консоли, а AntD 6 пишет предупреждения об устаревании через <span class="mono">console.error</span> — из-за этого все <b>39/39 тестов были ложно красными</b>. Написан проектный мост <span class="mono">qa/allure-from-run-filtered.mjs</span>, который честно классифицирует: устаревания и ожидаемые тестовые 400 — не провал. Отчёт переименован под проект. Итог: <b>37 passed / 2 failed</b> (только страница логина). После исправления багов логина (18:23) и повторного прогона — <b class="ok">все страницы зелёные</b>.
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">6</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Полный QA-отчёт админки</td><td class="mono">qa/reports/qa-report-2026-06-26-admin-full.md</td></tr>
+    <tr><td>Постраничные находки (статика)</td><td class="mono">qa/_admin_specs/&lt;page&gt;.json</td></tr>
+    <tr><td>Постраничные находки (визуал)</td><td class="mono">qa/_admin_specs/&lt;page&gt;.visual.json</td></tr>
+    <tr><td>Скриншоты + логи прогона</td><td class="mono">qa/runs/2026-06-26T12-11-40/</td></tr>
+    <tr><td>Allure-отчёт (served)</td><td class="mono">allure-report/ → http://localhost:8800</td></tr>
+    <tr><td>Конфиг прогона (18 страниц)</td><td class="mono">qa/qa-run.json</td></tr>
+    <tr><td>Проектный мост Allure</td><td class="mono">qa/allure-from-run-filtered.mjs</td></tr>
+    <tr><td>Журнал исправлений</td><td class="mono">bug.md (записи 15:21 · 15:53 · 18:23)</td></tr>
+    <tr><td>Реестр покрытия тестами</td><td class="mono">qa/test-ledger.json (19 поверхностей)</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">7</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Адаптивность (S1)</b> — крупнейший пробел: таблицы и панель вкладок непригодны на мобильном. Решить, входит ли мобильная админка в объём; если да — это приоритет №1.</li>
+    <li><b>2. Состояния ошибок (S2)</b> — в первую очередь убрать ложный зелёный бейдж Push «всё исправно» при сбое (операционно опасно), затем добавить состояния ошибки + повтора на списки/дроверы.</li>
+    <li><b>3. Утечка ID (S3) и сырые enum (S4)</b> — две небольшие правки в <span class="mono">adminHelpers.ts</span> закрывают большинство случаев на всех динамических таблицах.</li>
+    <li><b>4. Черновики форм (S5)</b> и <b>fail-open <span class="mono">type</span></b> на логине — быстрые и важные правки.</li>
+    <li><b>5. Полировка</b> — единый снос устаревших пропсов AntD 6, дебаунс поиска, многоточие на мобильных, маппинг ошибок полей форм.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Админ-консоль функционально устойчива на десктопе: все страницы работают, контрактов API нарушено не было, критических дефектов нет. Замечания сгруппированы и приоритизированы выше. Исправления кода в рамках QA не вносились (кроме явно исправленных багов из раздела 2) — QA и правки ведутся отдельными проходами.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 26.06.2026 · Проект <b>sarbon-frontend</b> · Админ-панель · Окружение: staging · Базовый коммит 9c57c84.<br>
+    Документ предназначен для QA и стейкхолдеров. Технические подробности — в <span class="mono">qa/reports/qa-report-2026-06-26-admin-full.md</span> и <span class="mono">bug.md</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

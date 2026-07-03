@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 01.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:820px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:900px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;1 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День посвящён <b>двум точечным дефектам диспетчерского приложения</b>, найденным в QA. Оба закрыты «в глубину» — не косметической заплаткой: <b>исправлена логика выбора получателя оценки</b> (диспетчер→диспетчер) и <b>упрощён показатель «машины» в списке грузов</b>. Каждое изменение прошло полный контур <span class="mono">code-review → тесты → verify в реальном браузере</span>. ESLint — 0 предупреждений, <span class="mono">tsc -b</span> — 0 ошибок, тесты — 572/572.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Окружение:</b> staging</span>
+      <span><b>Задачи:</b> <span class="tag">2 дефекта (оба исправлены)</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">01.07.2026 — работа по <b>Sarbon Frontend</b>, фокус на диспетчерском приложении. Закрыто <b>2 дефекта</b>: (1) <b>SARB-DISP-No</b> — после завершённого рейса менеджеру груза ошибочно показывалось окно «Оценка менеджера водителя», хотя менеджер водителя в рейсе не участвовал; отправка оценки падала с <span class="mono">400 · trip_rating_ratee_mismatch</span>. (2) Показатель «машины» в списке «Все грузы» выводил пару «осталось/всего» (<span class="mono">3/6</span>, <span class="mono">3/3</span>) — по требованию оставлено только оставшееся количество (<span class="mono">3</span>). Воротные проверки зелёные: <span class="mono">tsc -b</span> — чисто, <span class="mono">eslint --max-warnings 0</span> — 0 предупреждений, <span class="mono">pnpm build</span> — exit 0, <span class="mono">vitest</span> — 572/572.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">2</div><div class="l">дефекта закрыто</div></div>
+    <div class="stat blue"><div class="v">5</div><div class="l">файлов затронуто</div></div>
+    <div class="stat blue"><div class="v">+4</div><div class="l">новых unit-теста</div></div>
+    <div class="stat good"><div class="v">572</div><div class="l">тестов проходит (0 упавших)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок типов · 0 warnings ESLint</div></div>
+    <div class="stat good"><div class="v">exit 0</div><div class="l">pnpm build (tsc + vite)</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">✓ Главное за день</div>
+    Ключевой фикс — <b>SARB-DISP-No</b>. Корень проблемы был в резолвере получателя оценки: для менеджера груза он «дотягивался» до <code>negotiation_dispatcher_id</code> — это ретранслирующий третий диспетчер, а не участник рейса. Когда владелец груза назначает водителя напрямую (без менеджера водителя), резолвер всё равно возвращал чей-то id → всплывало лишнее окно оценки и бэкенд отклонял отправку. Теперь резолвер для обеих ролей <b>самодостаточен</b>: возвращает только настоящего участника рейса или <code>null</code> (окно не показывается вовсе).
+  </div>
+  <div class="callout warn">
+    <div class="h">⚠ Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>SARB-DISP-No, «правильный» сценарий</b> — когда менеджер водителя <i>действительно</i> участвовал (принял оффер, у рейса выставлен <span class="mono">driver_manager_id</span>): окно «Оценка менеджера водителя» должно по-прежнему появляться и отправляться без ошибки. Требует клика под авторизацией на завершённом рейсе с менеджером водителя.</li>
+      <li><b>Список «Все грузы»</b> — визуально показатель «машины» подтверждён на рендере реального компонента (см. скриншоты); финальный пиксельный клик по live-странице под авторизацией с реальными данными рекомендуется в staging.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИСПРАВЛЕННЫЕ БАГИ -->
+<section id="fixes">
+  <h2><span class="n">1</span> Исправленные дефекты <small>2 бага</small></h2>
+  <div class="card"><table>
+    <tr><th>Дефект</th><th>Причина</th><th>Исправление</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>SARB-DISP-No: лишнее окно «Оценка менеджера водителя» + 400 ratee_mismatch</b> <span class="badge b-high">logic bug</span></td>
+      <td>Резолвер <code>getCounterpartyDispatcherIdForRating</code> для роли <code>CARGO_MANAGER</code> в качестве запасного варианта брал <code>negotiation_dispatcher_id</code> (ретранслятор, не участник) и далее «любого другого диспетчера». Плюс авто-подсказка на <code>TripsPage</code> открывала окно без проверки, что менеджер водителя вообще участвовал.</td>
+      <td>Ветки <code>CARGO_MANAGER</code>/<code>DRIVER_MANAGER</code> сделаны самодостаточными: только явные сигналы менеджера + <code>null</code>, без «сквозного» generic-блока. На <code>TripsPage</code> добавлен guard <code>cargoManagerHasDriverManagerToRate</code> (требует не-свой <code>trip.driver_manager_id</code>).</td>
+      <td><span class="mono">src/utils/offerCounterpartyDispatcher.ts</span>, <span class="mono">src/pages/trips/TripsPage.tsx</span>, <span class="mono">+ offerCounterpartyDispatcher.test.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>«Все грузы»: показатель «машины» выводил n/n вместо остатка</b> <span class="badge b-low">ui bug</span></td>
+      <td>Оба рендерера списка жёстко выводили <code>{vehicles_left ?? '?'}/{vehicles_amount ?? '?'}</code> — «3/6», «3/3». Избыточно: диспетчеру важно только сколько машин ещё нужно.</td>
+      <td>Выводится <code>vehicles_left ?? vehicles_amount ?? '?'</code> (только остаток). Оператор <code>??</code> сохраняет настоящий <code>0</code>. Полное «всего» осталось отдельным полем в детальном окне груза.</td>
+      <td><span class="mono">CargoRouteRow.tsx</span>, <span class="mono">allCargosTableColumns.tsx</span></td>
+    </tr>
+  </table></div>
+
+  <h3>Суть фикса «машины» — до / после</h3>
+  <pre class="diff"><span class="cmt">// src/pages/cargos/all-cargos/components/CargoRouteRow.tsx  (и allCargosTableColumns.tsx)</span>
+<span class="del">- {cargo.vehicles_left ?? '?'}/{cargo.vehicles_amount ?? '?'}   // → «3/6», «3/3»</span>
+<span class="add">+ {cargo.vehicles_left ?? cargo.vehicles_amount ?? '?'}         // → «3»  (0 остаётся «0»)</span></pre>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Детальный таймлайн дня <small>хронологически</small></h2>
+  <p class="lead">Записи внесены 01.07.2026 в <span class="mono">bug.md</span> (корень репозитория).</p>
+
+  <div class="timeline">
+
+    <div class="ev fix">
+      <div class="t">01.07.2026 · 17:08</div>
+      <h4>SARB-DISP-No: ошибочная оценка менеджера водителя <span class="badge b-high">logic bug</span></h4>
+      <ul>
+        <li><b>Симптом:</b> менеджер груза завершает рейс, оценивает водителя — и следом всплывает окно «Оценка менеджера водителя», хотя менеджера водителя в рейсе не было. Отправка → <span class="mono">POST /v1/dispatchers/dispatchers/{id}/rating</span> → <span class="mono">400</span> «получатель оценки не совпадает с этим завершённым рейсом».</li>
+        <li><b>Причина (2 связанных дефекта):</b> (1) резолвер получателя падал в <span class="mono">negotiation_dispatcher_id</span> (ретранслятор), затем в generic-блок «любой другой диспетчер»; (2) авто-подсказка на <span class="mono">TripsPage</span> открывала окно без проверки участия менеджера водителя.</li>
+        <li><b>Исправление:</b> обе ролевые ветки резолвера самодостаточны (только явные driver-/cargo-manager-сигналы, иначе <span class="mono">null</span>); guard <span class="mono">cargoManagerHasDriverManagerToRate</span> на <span class="mono">TripsPage</span>. В ходе code-review восстановлен <span class="mono">offer.counterparty_id</span> для DM→CM (единственный легитимный сигнал старого generic-блока), ретранслятор при этом исключён.</li>
+        <li><b>Проверки:</b> +4 unit-теста (всего 9 в наборе резолвера), <span class="mono">tsc -b</span>/<span class="mono">vite build</span> exit 0, 572/572 тестов, verify — рендер модулей через Vite.</li>
+      </ul>
+    </div>
+
+    <div class="ev fix">
+      <div class="t">01.07.2026 · 17:30</div>
+      <h4>«Все грузы»: показатель «машины» n/n → только остаток <span class="badge b-low">ui bug</span></h4>
+      <ul>
+        <li><b>Было:</b> бейдж «машины» показывал «осталось / всего» — <span class="mono">3/6</span>, <span class="mono">3/3</span>.</li>
+        <li><b>Стало:</b> только оставшееся количество — <span class="mono">3</span>. При нулевом остатке — <span class="mono">0</span> (используется <span class="mono">??</span>, а не <span class="mono">||</span>, поэтому 0 не подменяется на «всего»). Общее «всего» по-прежнему видно отдельным полем в детальном окне груза.</li>
+        <li><b>Область:</b> оба рендерера списка (карточка-строка + табличная колонка) — для единообразия.</li>
+        <li><b>Verify:</b> реальный компонент <span class="mono">CargoRouteRow</span> отрендерен в headless Chrome; DOM-значения ячейки по трём кейсам — <span class="mono">['3','0','6']</span> (см. скриншоты).</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки (закрывающая тройка на каждом изменении)</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span></li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span></li>
+        <li><span class="ok">exit 0</span> <span class="mono">pnpm build</span> (tsc + vite)</li>
+        <li><span class="ok">572/572</span> <span class="mono">vitest</span> (набор резолвера — 9 тестов)</li>
+        <li><b>code-review</b> на каждом изменении: у SARB-DISP-No найдена и устранена 1 регрессия (DM→CM <span class="mono">counterparty_id</span>); у «машин» — findings нет</li>
+        <li><b>verify</b> в реальном браузере: у «машин» — рендер реального компонента + проверка DOM/скриншотов по 3 кейсам</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Область изменений</div>
+      <ul class="clean">
+        <li>5 файлов в рабочем дереве (правки логики + UI + тесты)</li>
+        <li>Контракты API не менялись; строки локализации не добавлялись</li>
+        <li>Резолвер оценки: единственные потребители — <span class="mono">TripsPage</span> и <span class="mono">DispatcherTripCard</span> (оба — потоки оценки)</li>
+        <li>Оба изменения задокументированы в <span class="mono">bug.md</span> (записи 01.07.2026)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Не верифицировано end-to-end (для QA)</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>SARB-DISP-No, положительный сценарий</b> — оценка менеджера водителя, когда он реально участвовал (у рейса выставлен <span class="mono">driver_manager_id</span>): окно должно появляться и отправляться без ошибки. Нужен завершённый рейс с менеджером водителя под авторизацией.</li>
+      <li><b>«Все грузы» на live-странице</b> — список за <span class="mono">ProtectedRoute</span>; подтверждено на рендере реального компонента, финальный клик по staging рекомендуется.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>оба изменения · 01.07.2026</small></h2>
+  <p class="lead">Диспетчерские экраны защищены авторизацией (<span class="mono">ProtectedRoute</span>), поэтому скриншоты списка «Все грузы» сделаны рендером <b>реального компонента</b> <span class="mono">CargoRouteRow</span> в headless Chrome с настоящей i18n (ru) и Tailwind. Иллюстрация SARB-DISP-No отражает поведение окна оценки до и после фикса.</p>
+
+  <h3>SARB-DISP-No — окно «Оценка менеджера водителя»: до / после</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/rating-before-after.png" alt="Rating modal before/after" loading="lazy" />
+      <div class="ss-cap"><b>Оценка менеджера водителя</b><span class="tag-change">было: лишнее окно + 400 ratee_mismatch → стало: окно не показывается (резолвер → null)</span></div>
+    </div>
+  </div>
+
+  <h3>Показатель «машины» — до / после</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/vehicles-before-after.png" alt="Vehicles badge before/after" loading="lazy" />
+      <div class="ss-cap"><b>Бейдж «машины»</b><span class="tag-change">было «3/6» → стало «3»; при 0 остатке показывается «0»</span></div>
+    </div>
+  </div>
+
+  <h3>Реальная строка списка «Все грузы» после фикса — desktop и mobile</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/all-cargos-row.png" alt="All-cargos row desktop" loading="lazy" />
+      <div class="ss-cap"><b>CargoRouteRow · desktop (ru)</b><span class="tag-change">блок «МАШИНЫ» = «3» — только остаток</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/all-cargos-row-mobile.png" alt="All-cargos row mobile" loading="lazy" />
+      <div class="ss-cap"><b>CargoRouteRow · mobile 400px (ru)</b><span class="tag-change">«МАШИНЫ 3» — то же поведение на узком экране</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (2 записи 01.07)</td><td class="mono">bug.md (записи 01.07.2026 · 17:08 и 17:30)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/01.07.26/report-01.07.26.xlsx</td></tr>
+    <tr><td>Резолвер получателя оценки</td><td class="mono">src/utils/offerCounterpartyDispatcher.ts</td></tr>
+    <tr><td>Потоки оценки (авто-подсказка + guard)</td><td class="mono">src/pages/trips/TripsPage.tsx</td></tr>
+    <tr><td>Unit-тесты резолвера (9 кейсов)</td><td class="mono">src/__tests__/offerCounterpartyDispatcher.test.ts</td></tr>
+    <tr><td>Показатель «машины» (2 рендерера)</td><td class="mono">src/pages/cargos/all-cargos/components/CargoRouteRow.tsx · utils/allCargosTableColumns.tsx</td></tr>
+    <tr><td>Скриншоты</td><td class="mono">daily-report/01.07.26/img/</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/30.06.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. QA-клик SARB-DISP-No (положительный сценарий)</b> — на завершённом рейсе, где менеджер водителя реально участвовал, убедиться, что оценка менеджера водителя показывается и отправляется без 400.</li>
+    <li><b>2. Проверить наличие <span class="mono">trip.driver_manager_id</span> на рейсах с менеджером водителя</b> — guard авто-подсказки опирается на это поле; если бэкенд его не проставляет, подсказку в отдельной сессии стоит подстраховать данными оффера.</li>
+    <li><b>3. Закоммитить и запушить</b> — изменения в рабочем дереве (5 файлов + отчёт); после QA-прохода сделать коммит.</li>
+    <li><b>4. Единообразие с детальной карточкой</b> — в детальном окне груза «всего машин» и «осталось» показаны отдельными полями; текущее упрощение списка с этим согласовано.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Сфокусированный день на двух дефектах диспетчерского приложения. Оба закрыты с полным контуром качества (review → тесты → verify в браузере). Контрактов API не нарушено, типы и ESLint зелёные, 572/572 тестов. Открытая зависимость — ручной QA положительного сценария оценки менеджера водителя под авторизацией.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 01.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 01.07.2026).
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
