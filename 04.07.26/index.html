@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 04.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  .ss-cap .tag-before{display:inline-block;background:#fdeceb;color:#b3261e;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+  .placeholder{display:flex;align-items:center;justify-content:center;min-height:150px;background:repeating-linear-gradient(45deg,#f6f8fc,#f6f8fc 12px,#eef1f8 12px,#eef1f8 24px);color:var(--muted);font-size:13px;text-align:center;padding:22px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;4 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">Плотный день доводки реального времени и админ-адаптива. Главное: <b>критическая регрессия видеозвонка</b> — звонящий не видел веб-камеру собеседника — <b>найдена и исправлена</b>, а сам звонок переведён в <b>Telegram-стиль</b> (полноэкранный оверлей). <b>Видео-кружки</b> переписаны под Telegram (мгновенная запись, пауза, прогресс загрузки с отменой). Названия городов в маршрутах очищены от админ-описателей на <b>всех языках</b>. Проведён <b>полный адаптив админ-консоли</b> (4K → 360px: без горизонтального скролла, модалки не багуют). Плюс поиск водителя по телефону, скрытие пустых полей карточки водителя, мини-карта локации водителя, тренд-график dashboard. Всё в <b>5 коммитов</b>; <span class="mono">pnpm build</span> — 0 ошибок, <span class="mono">vitest 718/718</span>.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммиты:</b> <span class="mono">48c61aa5 · a5d6b315 · 37ceaf43 · 285fbfd6 · 9b17a6b8</span></span>
+      <span><b>Объём:</b> <span class="tag">6 функций / переработок</span> <span class="tag">8 дефектов</span> <span class="tag">~6 новых файлов</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">04.07.2026 — день доводки после больших функций 03.07. <b>Видеозвонок:</b> устранена регрессия коммита <span class="mono">5a9235ab</span>, из-за которой <b>звонящий не видел веб-камеру собеседника</b> (был удалён рабочий сигнал <span class="mono">track.onunmute</span>); добавлен <b>watchdog живости кадров</b> (камера-off больше не «замораживает» кадр), <b>восстановление модалки звонка после перезагрузки</b> страницы, и закрыты 3 регрессии из ревью (межвкладочный перехват звонка, само-ослепление watchdog, ошибочная маршрутизация «телефон vs имя»). Модалка звонка переведена в <b>полноэкранный Telegram-стиль</b>. <b>Видео-кружки:</b> мгновенный старт записи, прозрачный оверлей, реальная пауза, <b>кольцо прогресса загрузки с отменой</b>. <b>Груз:</b> метки городов маршрута теперь показывают <b>только город</b> (сняты «Провинция / област / Административный / муниципальный округ / район» на всех языках; приоритет — чистое имя из бэкенда), а строковый вид выровнен (карты одной высоты, колонки top-align, маршрут растянут). <b>Оффер:</b> поиск водителя/driver-manager <b>по номеру телефона</b>. <b>Карточка водителя:</b> отсутствующие поля скрываются (а не «Маълумот йўқ»), добавлена <b>мини-карта live-локации</b>. <b>Админ:</b> полный <b>адаптив консоли</b> (4K → 360px) + <b>тренд-график</b> dashboard.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">~11</div><div class="l">областей изменений</div></div>
+    <div class="stat blue"><div class="v">6</div><div class="l">функций / переработок</div></div>
+    <div class="stat blue"><div class="v">8</div><div class="l">дефектов закрыто</div></div>
+    <div class="stat blue"><div class="v">5</div><div class="l">коммитов за день</div></div>
+    <div class="stat good"><div class="v">718/718</div><div class="l">юнит-тестов зелёных (vitest)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b / pnpm build</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">✓ Главное за день</div>
+    Самое важное — <b>исправление критической регрессии видеозвонка</b>: <span class="mono">git show 5a9235ab</span> подтвердил, что в тот коммит был удалён рабочий сигнал видимости удалённого видео (<span class="mono">track.onunmute → setHasRemoteVideo(!track.muted)</span>) и заменён на ненадёжные DOM-события кадров, которые у <b>оферера</b> (звонящего) не срабатывали. Сигнал восстановлен, добавлена <b>идемпотентность оффера</b> (<span class="mono">offerInFlightRef</span>), а поверх — <b>watchdog живости кадров</b> (единый надёжный источник истины «есть удалённое видео», по которому и звонящий теперь видит собеседника, и камера-off корректно очищает сцену). Параллельно — Telegram-редизайн звонка и кружков, чистка городов и адаптив админки.
+  </div>
+  <div class="callout warn">
+    <div class="h">⚠ Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок</b> — сквозной P2P-сценарий (2 абонента A↔B, камера, вкл/выкл, перезагрузка страницы, слабая сеть) воспроизводится только на живом звонке под диспетчерской авторизацией; нужен живой раунд между двумя реальными абонентами. Для диагностики добавлен opt-in <span class="mono">callDebug</span> (<span class="mono">localStorage['sarbon:call-debug']='1'</span>).</li>
+      <li><b>Видео-кружки</b> — запись/пауза/загрузка гейтятся камерой/микрофоном и защищённым контекстом (HTTPS); нужен клик на реальном устройстве с камерой.</li>
+      <li><b>Адаптив админ-консоли</b> — <span class="mono">capture-admin-responsive.mjs</span> проверяет горизонтальный overflow=0 на 4K/laptop/tablet/360px, но живой authenticated GUI гейтится логином (запуск на dev-сервере против staging).</li>
+      <li><b>Карточка водителя</b> — «короткая карточка vs полный профиль» зависит от набора полей в ответе; нужен клик против реального ответа, где часть полей отсутствует, а часть — <span class="mono">null</span>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>6 функций/переработок · 8 дефектов · инфраструктура</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Видеозвонок — звонящий не видел веб-камеру собеседника</b> <span class="badge b-crit">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>A звонит B, B принимает — A видит только свою камеру в PiP, видео собеседника не появляется. B видит оба потока. Регрессия коммита <span class="mono">5a9235ab</span>.</td>
+      <td>Восстановлен track-mute сигнал в <span class="mono">pc.ontrack</span> (<span class="mono">onunmute/onmute/onended → setHasRemoteVideo(!track.muted)</span>); DOM-frame события теперь только подтверждают видимость. Добавлен <span class="mono">offerInFlightRef</span> — идемпотентность оффера (3 некоординированных триггера не гонят 2 оффера на один <span class="mono">RTCPeerConnection</span>).</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span> (ontrack, createAndSendOffer), <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Видеозвонок — Telegram-стиль полноэкранный оверлей</b> <span class="badge b-new">redesign</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Маленькая плавающая перетаскиваемая карточка с maximize-переключателем; ключи <span class="mono">declineCall/acceptCall/endCall</span> отсутствовали во всех локалях.</td>
+      <td><span class="mono">fixed inset-0</span> оверлей: <span class="mono">object-cover</span> видео edge-to-edge, self-view PiP снизу-справа, докнутые кнопки (<span class="mono">CallControlButton</span>), центрированный аватар для аудио. «Свернуть в угол» вместо maximize; <span class="mono">role=dialog</span>/<span class="mono">aria-modal</span>, фокус, Escape-сворачивание. +4 i18n-ключа ×15.</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Видеозвонок — камера-OFF замораживала кадр; reload терял модалку</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Собеседник выключил камеру — последний кадр «замерзал»; при перезагрузке страницы модалка не возвращалась, хотя звонок жив на сервере.</td>
+      <td>Watchdog живости кадров (<span class="mono">requestVideoFrameCallback</span> + 400мс интервал, порог ~1.2с, fallback по <span class="mono">currentTime</span>) очищает сцену за ~1.2с. Персист id активного звонка + восстановление на WS-open: <span class="mono">GET /calls/:id</span> → <span class="mono">hydrate</span>/<span class="mono">restoreMedia</span> если <span class="mono">ACTIVE/RINGING</span>.</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Ревью-фиксы звонка + поиска</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Мульти-ракурсное ревью вскрыло 3 реальные регрессии этого дня: межвкладочный перехват звонка, само-ослепление watchdog, ошибочная маршрутизация «телефон vs имя».</td>
+      <td>(1) <span class="mono">localStorage</span> → <span class="mono">sessionStorage</span> + scope по <span class="mono">userId</span> (<span class="mono">{userId,callId}</span>) — нет перехвата чужого звонка; (2) <span class="mono">hasRemoteVideoTrack</span> держит <span class="mono">&lt;video&gt;</span> смонтированным, watchdog не слепнет; (3) общий <span class="mono">isPhoneLikeQuery</span> (цифра И phone-shape) — «Logistic 24» снова находится.</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">isPhoneLikeQuery.ts</span> (+тест), <span class="mono">CargoDriverOfferPanel.tsx</span>, <span class="mono">SendOfferToDriverModal.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Чат — видео-кружки (Telegram-style rewrite)</b> <span class="badge b-new">redesign</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Запись «видеокружка» шла через белую Modal/Drawer-карточку с in-app объяснением доступа и ручной красной кнопкой; не было паузы и прогресса загрузки.</td>
+      <td>Клик по камере <b>сразу</b> стартует запись; прозрачный полноэкранный оверлей (<span class="mono">createPortal</span>): таймер с десятыми, «Отмена», пауза/резюме (реальный <span class="mono">MediaRecorder.pause()/resume()</span>), «Отправить»; оптимистичный пузырёк с <b>кольцом прогресса и крестиком отмены</b> загрузки.</td>
+      <td><span class="mono">useVideoNoteRecorder.ts</span>, <span class="mono">ChatVideoNoteRecorder.tsx</span> (rewrite), <span class="mono">ChatVideoNoteMessage.tsx</span>, <span class="mono">useVideoNoteUploadStore.ts</span> (new), <span class="mono">useChatMediaUploadMutation.ts</span>, <span class="mono">chatHelpers.ts</span>, <span class="mono">locales ×15</span></td>
+    </tr>
+    <tr>
+      <td><b>Груз — метка города содержала админ-описатели</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>from/to показывали «Провинция Хамгён-Намдо», «Кашкадаринска област», «Административный Эр-Рияд», «муниципальный округ Омский район», полный адрес или сокращение «Toshkent Vil.» (offers / my-cargos / all-cargos).</td>
+      <td>Расширены <span class="mono">GEO_ADMIN_WORDS</span> + <span class="mono">GEO_QUALIFIER_RE</span> (Safari-safe, без lookbehind); чистка орфанной пунктуации. <span class="mono">summarizeCargoRoute</span> отдаёт <span class="mono">originCity/destinationCity</span> = backend <span class="mono">from_city_name/to_city_name</span> (чистое локализованное имя), стриппинг — fallback; полный адрес — в тултипе.</td>
+      <td><span class="mono">addressDisplay.ts</span>, <span class="mono">cargoListDisplay.ts</span>, <span class="mono">myCargosListCells.tsx</span>, <span class="mono">allCargosListCells.tsx</span> (+тесты)</td>
+    </tr>
+    <tr>
+      <td><b>Груз — строковый вид (all-cargos): выравнивание сетки</b> <span class="badge b-med">change</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Мини-карты разной высоты по строкам; колонка «машины/статус/дата» дрейфовала; маршрут from/to плавал в центре; после укорочения городов — большой зазор до груза.</td>
+      <td>Карта <span class="mono">self-start</span> + фикс <span class="mono">h-52</span> (208px) обеих веток → одинаковые thumbnail'ы; meta <span class="mono">justify-start self-start</span> → top-align; route <span class="mono">self-stretch</span> → таймлайн растянут (откуда сверху / куда снизу); шаблон грида ретюнен (<span class="mono">2fr/1fr</span>).</td>
+      <td><span class="mono">CargoRouteRow.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Груз — «Отправить оффер»: поиск по телефону</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Селекты водителя и driver-manager искались только по имени; ввод телефона ничего не находил.</td>
+      <td>Общий <span class="mono">optionMatchesNameOrPhone</span> (имя ИЛИ телефон, как есть и digits-only) как <span class="mono">filterOption</span> на обоих селектах; <span class="mono">phone</span> на опциях; серверный запрос с цифрами уходит как <span class="mono">phone</span>-параметр.</td>
+      <td><span class="mono">CargoDriverOfferPanel.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Карточка водителя — «Маълумот йўқ» для не пришедших полей</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Detail-вьюхи водителя всегда рисовали полный шаблон и ставили «No data» для отсутствующих полей — неотличимо от явного <span class="mono">null</span> (тикет SARB-TASK-FRONT).</td>
+      <td>Новый <span class="mono">isDriverFieldPresent</span> (через <span class="mono">key in driver</span>); presence-гейтед ячейки рисуются только при наличии ключа; секции Documents/Vehicle/Activity + подблоки скрываются целиком; <span class="mono">null</span> всё ещё показывает «No data». Добавлена мини-карта live-локации.</td>
+      <td><span class="mono">driverFieldPresence.ts</span> (+тест), <span class="mono">DriverDetailsDrawer.tsx</span>, <span class="mono">DriverDetailsPage.tsx</span>, <span class="mono">DriverLocationCard/MiniMap.tsx</span> (new)</td>
+    </tr>
+    <tr>
+      <td><b>Админ — адаптив всей консоли (4K → 360px)</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Тело страницы горизонтально скроллило на узких экранах; модалки «багуют»; таблицы вытекали из карточек; Tailwind-override AntD был no-op (cssinjs unlayered). 9-slice аудит: 39 находок; 3-lens ревью: 5 подтверждённых.</td>
+      <td>Shared-first: новый <span class="mono">adminResponsive.css</span> через <span class="mono">ConfigProvider</span> modal/drawer → каждый оверлей капит высоту + внутр. скролл + <span class="mono">overflow-wrap:anywhere !important</span>; пагинация reflow; Segmented в <span class="mono">.admin-scroll-x</span>; <span class="mono">&lt;main&gt; overflow-x-hidden</span>. Плюс таргетные фиксы (<span class="mono">scroll={{x}}</span>, stat-grids, Push, ExcelViewer, GeoLayerControls).</td>
+      <td><span class="mono">adminResponsive.css</span> (new), <span class="mono">AdminChrome.tsx</span>, <span class="mono">AdminAnalyticsHub.tsx</span>, <span class="mono">AdminLayout.tsx</span>, command-center / push / metrics / geo / users-*</td>
+    </tr>
+    <tr>
+      <td><b>Админ — тренд-график dashboard + инструментарий звонка</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Командному центру не хватало тренд-графика <span class="mono">series</span>; двух-пирный звонок трудно диагностировать без инструментов.</td>
+      <td><span class="mono">adminDashboardSeries.ts</span> (defensive-парсер бакетов day/week/month) + <span class="mono">AdminLine.tsx</span> (recharts, линия на метрику). <span class="mono">callDebug.ts</span> — opt-in диагностика (<span class="mono">localStorage['sarbon:call-debug']==='1'</span>, no-op иначе, безопасно в проде).</td>
+      <td><span class="mono">adminDashboardSeries.ts</span> (+тест), <span class="mono">AdminLine.tsx</span>, <span class="mono">callDebug.ts</span> (+тест)</td>
+    </tr>
+  </table></div>
+
+  <h3>Суть фикса видеозвонка — восстановленный сигнал</h3>
+  <pre class="diff"><span class="cmt">// src/components/shared/GlobalAudioCallModal.tsx — pc.ontrack (видео-ветка)</span>
+<span class="del">- // 5a9235ab: видимость только по DOM-frame событиям <video> (ненадёжно у оферера/каллера)</span>
+<span class="del">- el.onloadedmetadata = handleRemoteVideoFrames; track.onunmute = () => { if (el.videoWidth > 0) ... }  // =0 при unmute → no-op</span>
+<span class="add">+ const syncRemoteVideo = () => setHasRemoteVideo(!track.muted)   // источник истины — mute-состояние трека</span>
+<span class="add">+ track.onunmute = syncRemoteVideo; track.onmute = syncRemoteVideo; track.onended = () => setHasRemoteVideo(false)</span>
+<span class="add">+ syncRemoteVideo()                                              // немедленно — каллер теперь видит callee</span>
+<span class="add">+ const offerInFlightRef = useRef(false)                         // идемпотентность: 3 триггера ≠ 2 оффера</span>
+
+<span class="cmt">// + watchdog живости кадров: requestVideoFrameCallback штампует каждый кадр; 400мс интервал</span>
+<span class="cmt">//   ставит hasRemoteVideo по «был ли свежий кадр за ~1.2с» → камера-off очищает сцену за ~1.2с</span></pre>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по коммитам</small></h2>
+  <p class="lead">Изменения дня собраны в 5 коммитов ветки <span class="mono">staging</span>. Технические записи по всем 11 дефектам/задачам — в <span class="mono">bug.md</span> (корень репозитория, записи 04.07 с 10:40 до 16:40).</p>
+
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">04.07.2026 · 10:49 · <span class="mono">48c61aa5</span></div>
+      <h4>Видео-кружки (Telegram-rewrite) + видеозвонок: каллер видит callee + редизайн <span class="badge b-crit">bug</span> <span class="badge b-new">redesign</span></h4>
+      <ul>
+        <li>Кружки: мгновенная запись, прозрачный оверлей (<span class="mono">createPortal</span>), реальная пауза, кольцо прогресса загрузки с отменой.</li>
+        <li>Звонок: восстановлен сигнал <span class="mono">track.onunmute</span> (регрессия <span class="mono">5a9235ab</span>) + <span class="mono">offerInFlightRef</span>; полноэкранный Telegram-редизайн; +4 i18n-ключа ×15.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">04.07.2026 · 13:34 · <span class="mono">a5d6b315</span></div>
+      <h4>Камера-off / reload-восстановление, ревью-фиксы, города, оффер-телефон, карточка водителя, dashboard-тренд <span class="badge b-high">bug</span> <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Звонок: watchdog кадров (камера-off), персист+восстановление после reload, 3 ревью-фикса (cross-tab / watchdog / phone-name).</li>
+        <li>Города: стриппинг админ-слов + приоритет backend <span class="mono">from_city_name</span>. Оффер: поиск по телефону.</li>
+        <li>Водитель: скрытие отсутствующих полей + мини-карта локации. Админ: тренд-график <span class="mono">series</span> (<span class="mono">AdminLine</span>).</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">04.07.2026 · 14:32 · <span class="mono">37ceaf43</span></div>
+      <h4>Финал чистки городов + ретюн сетки строкового вида <span class="badge b-high">bug</span> <span class="badge b-med">change</span></h4>
+      <ul>
+        <li>Города: добавлены «провинция/провинции», «област/обл.», <span class="mono">administrativ*</span> и др. формы (тикет-скриншот).</li>
+        <li>Строковый вид: карты одной высоты (<span class="mono">self-start</span>), meta top-align, маршрут <span class="mono">self-stretch</span>, ретюн грида.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">04.07.2026 · 16:20 · <span class="mono">285fbfd6</span></div>
+      <h4>Адаптив админ-консоли (4K → 360px) + call-debug + geo-уточнения <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Новый <span class="mono">adminResponsive.css</span> через <span class="mono">ConfigProvider</span>: без горизонтального скролла, модалки капят высоту, пагинация reflow, Segmented scroll-x.</li>
+        <li>Каскадные <span class="mono">!important</span>-фиксы (Tailwind vs AntD cssinjs) подтверждены в <span class="mono">dist/*.css</span>; opt-in <span class="mono">callDebug</span>.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">04.07.2026 · 17:16 · <span class="mono">9b17a6b8</span></div>
+      <h4>Полировка адаптива + звонка + city/country-select <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Доводка <span class="mono">adminResponsive.css</span> и модалки звонка (61 строка), <span class="mono">webrtcTuning</span> (+тюнинг), <span class="mono">CitySelect</span>/опции.</li>
+        <li>Удалён временный <span class="mono">CHAT_MESSENGER_TZ.md</span> (рабочая заметка ТЗ).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">pnpm build</span> (<span class="mono">tsc -b</span> + vite — CI-ворота)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах (pre-commit)</li>
+        <li><span class="ok">718 / 718</span> юнит-тестов <span class="mono">vitest</span> зелёных</li>
+        <li>Новые/расширенные тесты: <span class="mono">driverFieldPresence</span>, <span class="mono">isPhoneLikeQuery</span>, <span class="mono">adminDashboardSeries</span>, <span class="mono">callDebug</span>, <span class="mono">cargoGeo</span>, <span class="mono">addressDisplay</span>, <span class="mono">cargoRouteSummary</span>, <span class="mono">chatVideoNoteRecorder</span>, <span class="mono">webrtcTuning</span>, <span class="mono">citySelectOptions</span></li>
+        <li>Каскад <span class="mono">!important</span> адаптива подтверждён в скомпилированном <span class="mono">dist/assets/*.css</span></li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Статус изменений</div>
+      <ul class="clean">
+        <li>Все изменения дня <b>закоммичены</b> (5 коммитов ветки <span class="mono">staging</span>)</li>
+        <li>Рабочее дерево на момент отчёта чистое</li>
+        <li>CI (<span class="mono">deploy-staging.yml</span>) прогоняет только <span class="mono">pnpm build</span> — типы зелёные</li>
+        <li>Стриппинг городов покрыт тестами (<span class="mono">17/17</span>), включая guard «Облучье»</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Живая проверка (runtime) — что осталось</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок</b> — сквозной раунд 2 абонентов A↔B (камера вкл/выкл, reload, слабая сеть); в текущей среде отчёта авторизованный GUI и камера недоступны. Диагностика — через opt-in <span class="mono">callDebug</span>.</li>
+      <li><b>Видео-кружки</b> — запись/пауза/загрузка гейтятся камерой/мик. и HTTPS; клик на реальном устройстве.</li>
+      <li><b>Адаптив админ-консоли</b> — <span class="mono">capture-admin-responsive.mjs</span> (4K/laptop/tablet/360px, ассерт overflow=0) на dev-сервере против staging.</li>
+      <li><b>Строковый вид / карточка водителя</b> — <span class="mono">capture-all-cargos-row.mjs</span>; «короткая карточка vs полный профиль» против реального ответа.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>04.07.2026</small></h2>
+  <p class="lead">Ниже — реальные тикет-скриншоты «до» (присланы с задачами) и точные воспроизведения «после». Воспроизведения «после» рендерятся из фактического поведения кода: строки метки города — <b>дословно из юнит-тестов</b> <span class="mono">addressDisplay.test.ts</span> (17/17), а верстка строкового вида — по классам <span class="mono">CargoRouteRow.tsx</span> (headless Chrome). Функции с камерой/двумя абонентами и authenticated-GUI (видеозвонок, кружки, живая админ-консоль) гейтятся средой — для них в папке готовы <span class="mono">capture-*.mjs</span> (Playwright), запускаемые на локальном dev-сервере против staging.</p>
+
+  <h3>Груз — метка города маршрута (админ-описатели убраны)</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/before-route-admin-descriptors.png" alt="Route labels with admin descriptors (before)" loading="lazy" />
+      <div class="ss-cap"><b>Табличный вид · до</b><span class="tag-before">тикет-скриншот</span> красным выделены «Провинция», «област», «Административный» — их нужно убрать</div>
+    </div>
+    <div class="ss-item full">
+      <img src="img/after-route-city-name.png" alt="Route labels showing clean city name (after)" loading="lazy" />
+      <div class="ss-cap"><b>После · только город</b><span class="tag-change">дословно из addressDisplay.test.ts (17/17)</span> «Провинция Хамгён-Намдо» → «Хамгён-Намдо», «Административный Эр-Рияд» → «Эр-Рияд»; guard «Облучье» сохранён</div>
+    </div>
+  </div>
+
+  <h3>Груз — строковый вид (all-cargos): выравнивание сетки</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/before-all-cargos-row.png" alt="All-cargos row view misaligned (before)" loading="lazy" />
+      <div class="ss-cap"><b>Строковый вид · до</b><span class="tag-before">тикет-скриншот</span> карты разной высоты, колонка «машины/статус/дата» дрейфует (красные стрелки), маршрут плавает; в названиях — админ-слова</div>
+    </div>
+    <div class="ss-item full">
+      <img src="img/after-all-cargos-row.png" alt="All-cargos row view aligned (after)" loading="lazy" />
+      <div class="ss-cap"><b>После · выровненная сетка</b><span class="tag-change">верстка по классам CargoRouteRow.tsx</span> карты одной высоты (top-align), meta top-align по строкам, маршрут растянут (откуда сверху / куда снизу), города чистые</div>
+    </div>
+  </div>
+
+  <h3>Видеозвонок / видео-кружки / живая админ-консоль</h3>
+  <div class="ss-grid cols3">
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>видеозвонок требует P2P-сессии 2 абонентов под авторизацией (opt-in callDebug для трассировки)</div>
+      <div class="ss-cap"><b>Видеозвонок (Telegram-стиль)</b><span class="tag-change">QA-клик на живом звонке A↔B</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>запись кружка гейтится камерой/мик. и HTTPS-контекстом</div>
+      <div class="ss-cap"><b>Видео-кружки (пауза/прогресс)</b><span class="tag-change">QA-клик на устройстве с камерой</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Готов <span class="mono" style="background:none;border:none;color:#334">capture-admin-responsive.mjs</span><br>4K / laptop / tablet / 360px · ассерт overflow=0</div>
+      <div class="ss-cap"><b>Адаптив админ-консоли</b><span class="tag-change">Playwright, админ-авторизация (staging)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (11 записей 04.07)</td><td class="mono">bug.md (10:40 · 10:47 · 11:02 · 11:05 · 11:12 · 11:52 · 12:07 · 12:12 · 13:45 · 14:18 · 14:21 · 16:40)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/04.07.26/report-04.07.26.xlsx</td></tr>
+    <tr><td>Видеозвонок: фикс + Telegram-редизайн + watchdog</td><td class="mono">src/components/shared/GlobalAudioCallModal.tsx</td></tr>
+    <tr><td>Видео-кружки: запись/пауза/прогресс</td><td class="mono">src/hooks/useVideoNoteRecorder.ts · src/pages/chat/components/ChatVideoNote{Recorder,Message}.tsx · src/stores/useVideoNoteUploadStore.ts</td></tr>
+    <tr><td>Метка города маршрута (стриппинг + backend city)</td><td class="mono">src/utils/addressDisplay.ts · src/utils/cargoListDisplay.ts</td></tr>
+    <tr><td>Строковый вид: выравнивание сетки</td><td class="mono">src/pages/cargos/all-cargos/components/CargoRouteRow.tsx</td></tr>
+    <tr><td>Оффер: поиск по телефону</td><td class="mono">src/pages/cargos/components/CargoDriverOfferPanel.tsx · src/utils/isPhoneLikeQuery.ts</td></tr>
+    <tr><td>Карточка водителя: presence + мини-карта</td><td class="mono">src/utils/driverFieldPresence.ts · src/pages/drivers/components/DriverLocation{Card,MiniMap}.tsx</td></tr>
+    <tr><td>Адаптив админ-консоли</td><td class="mono">src/components/shared/admin/adminResponsive.css · src/layouts/admin-layout/AdminLayout.tsx</td></tr>
+    <tr><td>Тренд-график dashboard + call-debug</td><td class="mono">src/utils/adminDashboardSeries.ts · .../charts/AdminLine.tsx · src/utils/callDebug.ts</td></tr>
+    <tr><td>Скриншоты (до/после) + capture-скрипты</td><td class="mono">daily-report/04.07.26/img/ · daily-report/04.07.26/capture-*.mjs</td></tr>
+    <tr><td>Отчёт предыдущего дня</td><td class="mono">daily-report/03.07.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Живой раунд видеозвонка</b> — 2 абонента A↔B: подтвердить, что звонящий видит веб-камеру собеседника, камера-off очищает сцену, а перезагрузка страницы возвращает модалку. При проблемах — включить <span class="mono">callDebug</span> в devtools.</li>
+    <li><b>2. Видео-кружки на устройстве с камерой</b> — запись → пауза/резюме → отправка → кольцо прогрузки/отмена; проверить переключение камеры на лету.</li>
+    <li><b>3. Адаптив админ-консоли</b> — запустить <span class="mono">capture-admin-responsive.mjs</span> (4K/laptop/tablet/360px) против staging и приложить PNG в <span class="mono">img/</span>; убедиться, что <span class="mono">overflow=0</span> на всех страницах.</li>
+    <li><b>4. Названия городов</b> — прогнать оффер/my-cargos/all-cargos на реальных данных; там, где нет <span class="mono">from_city_name</span>, метка падает на стриппинг (адъективная форма «Омский» не станет «Омск» без словаря городов — задел на будущее).</li>
+    <li><b>5. Карточка водителя</b> — проверить «короткую карточку vs полный профиль» против ответа, где часть полей отсутствует, а часть — <span class="mono">null</span> (последние всё ещё показывают «Маълумот йўқ»).</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Продуктивный день доводки: исправлена критическая регрессия видеозвонка (звонящий снова видит собеседника), звонок и видео-кружки переведены в Telegram-стиль, очищены названия городов на всех языках, выровнен строковый вид грузов, добавлены поиск водителя по телефону, скрытие пустых полей и мини-карта водителя, проведён полный адаптив админ-консоли (4K → 360px). Всё в 5 коммитов, типы зелёные, <span class="mono">vitest 718/718</span>, покрыто новыми тестами и локализовано. Открытые зависимости — живой QA-клик видео-функций (2 абонента / камера) и запуск capture-скриптов админ-адаптива на staging.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 04.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 04.07.2026) и в коммитах <span class="mono">48c61aa5 · a5d6b315 · 37ceaf43 · 285fbfd6 · 9b17a6b8</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
