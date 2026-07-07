@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 06.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  .ss-cap .tag-before{display:inline-block;background:#fdeceb;color:#b3261e;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+  .placeholder{display:flex;align-items:center;justify-content:center;min-height:150px;background:repeating-linear-gradient(45deg,#f6f8fc,#f6f8fc 12px,#eef1f8 12px,#eef1f8 24px);color:var(--muted);font-size:13px;text-align:center;padding:22px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;6 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День двух больших направлений: <b>реалтайм-видео</b> и <b>админ-консоль</b>. По видео — <b>портретные потоки телефонов больше не режутся</b> в веб-звонке и демонстрации экрана (<span class="mono">object-cover → object-contain</span>), своя камера у пользователя телефона снимается портретно, а видеокружки переведены в <b>Telegram-модель «удержание → блокировка → отпустить»</b> с рабочим переключением камеры <b>во время записи</b> и чистым кругом при открытии. По админке — <b>аналитика</b> (группировка метрик, валюта, донат-итоги), <b>переходы из плиток командного центра в отфильтрованные списки</b>, читаемые названия городов/стран в гео, клиентская пагинация + колоночный фильтр в общей таблице, а также <b>аудит покрытия полей</b>: 20 админ-страниц сверены с бэкендом, <b>87 ранее «терявшихся» полей выведены в UI</b>. Всё типобезопасно: <span class="mono">pnpm build</span> — 0 ошибок.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммиты:</b> <span class="mono">48bd964c · 90873bc5</span> (+ аудит полей)</span>
+      <span><b>Объём:</b> <span class="tag">3 направления</span> <span class="tag">5 дефектов</span> <span class="tag">87 полей выведено</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">06.07.2026 закрыл болезненную реалтайм-регрессию и продвинул админ-консоль. <b>Видеозвонок:</b> удалённый портретный поток телефона (9:16) в полноэкранном ландшафтном контейнере (16:9) растягивался и <b>обрезался сверху/снизу</b> — виден был только центр; то же для демонстрации экрана. Переключение <span class="mono">object-cover → object-contain</span> показывает кадр <b>целиком</b>, letterbox-полями звонка по бокам, и <b>никогда не режет</b> шаринг экрана (камера↔экран у пира меняются через <span class="mono">replaceTrack</span> без сигнала — различить их на приёме нельзя, поэтому единственно верное решение — не кадрировать). Плюс своя камера пользователя-телефона теперь снимается <b>портретно</b> (360×640), а self-view PiP подстраивается под реальный аспект. <b>Видеокружки:</b> Telegram-модель <b>press-and-hold</b> (удержание → свайп-вверх блокирует hands-free → отпускание отправляет), рабочее <b>переключение камеры во время записи</b> на телефонах (release-before-acquire — обходит <span class="mono">NotReadableError</span>) и чистый круг при открытии. <b>Админ-консоль:</b> аналитика (группировка метрик/валюта/донат), клик из плиток командного центра в отфильтрованные списки, читаемые названия в гео, клиентская пагинация + колоночный фильтр в общей таблице, фильтрация всего лога модерации, % одобрения в сводке, размер страницы 10 → 50, deep-link-фильтры. <b>Аудит полей:</b> все 20 админ-страниц сверены с бэкендом — <b>87 недостающих полей</b> добавлены (аддитивно/защитно) в 12 файлах.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">3</div><div class="l">крупных направления</div></div>
+    <div class="stat blue"><div class="v">5</div><div class="l">дефектов закрыто</div></div>
+    <div class="stat blue"><div class="v">87</div><div class="l">полей выведено в UI (аудит)</div></div>
+    <div class="stat blue"><div class="v">2</div><div class="l">коммита + аудит полей</div></div>
+    <div class="stat good"><div class="v">2/2</div><div class="l">callCameraConstraints (+ новые тесты)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b / pnpm build</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    Самое заметное — <b>портретное видео больше не обрезается</b>: когда веб-пользователь звонит пользователю телефона, портретный кадр (и демонстрация экрана телефона) показывались зумом на всю ширину с потерей верха/низа. Одна презентационная строка (<span class="mono">object-cover → object-contain</span>) чинит это для камеры <b>и</b> для шаринга экрана без риска регрессии (letterbox поверх штатного тёмного градиента звонка). Параллельно — портретная съёмка своей камеры на телефоне, Telegram-кружки с press-and-hold и переключением камеры на лету, и большой аудит покрытия админ-полей.
+  </div>
+  <div class="callout warn">
+    <div class="h">Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок (портрет / шаринг экрана)</b> — нужен живой звонок веб↔телефон с портретной камерой и демонстрацией экрана телефона; в среде отчёта connected-2-peer WebRTC + камера + TURN недоступны.</li>
+      <li><b>Своя камера портретно</b> — снимается на реальном мобильном браузере (4 точки <span class="mono">getUserMedia</span> через <span class="mono">isMobileRef</span>); нужен клик на телефоне.</li>
+      <li><b>Видеокружки (hold-to-record, переключение камеры)</b> — гейтятся камерой/микрофоном, защищённым контекстом (HTTPS) и одно-камерным конвейером телефона; нужен реальный Android/iOS.</li>
+      <li><b>Админ-консоль</b> — аналитика/таблицы/командный центр/гео за авторизацией; нужен клик-through на staging под админ-логином.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>видео · админ-консоль · аудит полей</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Видеозвонок — портретный поток / шаринг экрана обрезались</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Портретный (узкий) поток с телефона растягивался на всю ширину и зумился/кадрировался — видно было только центр. То же для демонстрации экрана телефона. Причина — <span class="mono">object-cover</span> в полноэкранном ландшафтном контейнере.</td>
+      <td><span class="mono">object-cover → object-contain</span> у удалённого <span class="mono">&lt;video&gt;</span>: кадр показывается целиком, по центру, тёмными letterbox-полями звонка по бокам. Единственное поведение приёмника, которое никогда не режет шаринг экрана (камера↔экран у пира приходят через <span class="mono">replaceTrack</span> без сигнала).</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span> (удалённый <span class="mono">&lt;video&gt;</span>, ~L2152-2160)</td>
+    </tr>
+    <tr>
+      <td><b>Видеозвонок — своя камера у пользователя телефона</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td><span class="mono">CAMERA_CONSTRAINTS</span> были жёстко 640×360 на всех 4 точках <span class="mono">getUserMedia</span>; на телефоне своя камера снималась ландшафтно, self-view PiP (16:9) обрезал портретное лицо, собеседник видел «боком».</td>
+      <td><span class="mono">CAMERA_CONSTRAINTS_PORTRAIT</span> (360×640) + <span class="mono">callCameraConstraints(portrait)</span>: на мобиле — портрет (все 4 точки через <span class="mono">isMobileRef</span>), на десктопе — ландшафт. Self-view PiP подстраивается под реальный аспект (<span class="mono">aspect-[9/16]</span> / уже коробка).</td>
+      <td><span class="mono">GlobalAudioCallModal.tsx</span>, <span class="mono">webrtcTuning.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Видеокружок — Telegram press-and-hold</b> <span class="badge b-new">redesign</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Запись стартовала автоматически при открытии — не было кнопки записи и жеста удержания.</td>
+      <td>Открытие → живое <b>превью</b> → <b>удержание</b> кнопки записывает → свайп-вверх &gt;64px <b>блокирует</b> hands-free → отпускание <b>отправляет</b>; быстрый тап блокирует (не шлёт &lt;1с клип); Enter/Space стартует locked-запись. Pointer capture + <span class="mono">touch-none</span>; кнопка записи держится смонтированной при переходе превью→запись.</td>
+      <td><span class="mono">ChatVideoNoteRecorder.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Видеокружок — переключение камеры во время записи (телефоны)</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Смена фронт/тыл во время записи молча срывалась: старый код запрашивал новую камеру, <b>не отпустив старую</b> — телефоны с одним камерным конвейером отклоняют второй параллельный <span class="mono">getUserMedia</span> (<span class="mono">NotReadableError</span>).</td>
+      <td><b>Release-before-acquire</b>: сначала освобождаем старую видео-дорожку, затем берём новую (<span class="mono">MediaRecorder</span> пишет стабильный <span class="mono">canvas.captureStream()</span> + постоянный микрофон — без разрыва); при неудаче — восстановление прежней камеры по <span class="mono">deviceId</span>. (iOS: raw-поток без canvas → флип во время записи скрыт.)</td>
+      <td><span class="mono">useVideoNoteRecorder.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Видеокружок — лишний контур круга при открытии</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Круг открывался с бледным кольцом (<span class="mono">ring-1 ring-white/15</span> + трек прогресс-кольца) — читалось как лишний контур ещё до старта записи.</td>
+      <td>Убран wrapper-ring; <span class="mono">ChatVideoNoteRing</span> рендерится <b>только</b> при <span class="mono">phase==='active'</span> — чистый круг при открытии, прогресс-кольцо только во время записи.</td>
+      <td><span class="mono">ChatVideoNoteRecorder.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — аналитика: группировка / валюта / донат-итоги</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Метрики аналитики шли плоским списком без группировки; денежные значения без валюты; пончиковые диаграммы без сводных итогов и <span class="mono">_pct</span>.</td>
+      <td>Группировка метрик (<span class="mono">metricGroupOf</span>), детект денежных метрик (<span class="mono">isMoneyMetricKey</span>) + локализация валюты, донат-итоги и companion-списки <span class="mono">_pct</span> у бара и пирога.</td>
+      <td><span class="mono">AdminAnalyticsView.tsx</span>, <span class="mono">analyticsMetricUtils.ts</span> (+тест <span class="mono">analyticsMetricGrouping</span>)</td>
+    </tr>
+    <tr>
+      <td><b>Админ — командный центр: клик из плиток в списки</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Плитки командного центра были статичными; графикам не хватало подписей/ориентации.</td>
+      <td>Переходы из плиток в <b>отфильтрованные</b> списки (deep-link), подписи/ориентация графиков (<span class="mono">AdminBar</span>, <span class="mono">commandCenterChartData</span>).</td>
+      <td><span class="mono">AdminCommandCenterPage.tsx</span>, <span class="mono">charts/AdminBar.tsx</span>, <span class="mono">commandCenterChartData.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — общая таблица: клиентская пагинация + колоночный фильтр</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Общая <span class="mono">Table</span> не имела синхронной клиентской пагинации в связке с колоночным фильтром; пустая пагинация на одной странице.</td>
+      <td>Клиентская пагинация синхронно с колоночным фильтром + <span class="mono">hideOnSinglePage</span>; размер страницы админ-списков 10 → 50; deep-link-фильтры на Диспетчерах/Поездках.</td>
+      <td><span class="mono">Table.tsx</span>, <span class="mono">AdminDispatchersPage.tsx</span>, <span class="mono">AdminTripsPage.tsx</span>, cargo/cargo-types/drivers/offers</td>
+    </tr>
+    <tr>
+      <td><b>Админ — гео: читаемые названия городов/стран/регионов</b> <span class="badge b-med">change</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Гео-панель показывала сырые коды/идентификаторы вместо читаемых названий.</td>
+      <td>Новый <span class="mono">useGeoNames</span> — резолв читаемых названий городов/стран/регионов; защитный парсинг payload гео.</td>
+      <td><span class="mono">geo/useGeoNames.ts</span> (new), <span class="mono">GeoInsightsPanel.tsx</span>, <span class="mono">geoData.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — лог/сводка модерации + приглашения</b> <span class="badge b-med">change</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Лог модерации фильтровал только видимую страницу; в сводке не рендерился % одобрения для паспорта (cm/dm разбивка съедалась); у менеджеров водителей — лишняя пагинация приглашений.</td>
+      <td>Фильтрация <b>всего</b> списка лога (<span class="mono">moderationLogUtils</span>), корректный % одобрения (сумма cm+dm), убрана лишняя пагинация в секциях приглашений.</td>
+      <td><span class="mono">AdminModerationLogPage.tsx</span>, <span class="mono">moderationLogUtils.ts</span> (+тест), <span class="mono">AdminModerationSummaryView.tsx</span>, Invitations/Pending секции</td>
+    </tr>
+    <tr>
+      <td><b>Админ — аудит покрытия полей (20 страниц)</b> <span class="badge b-new">feature</span><br><span class="badge b-info">аудит</span></td>
+      <td>UI молча отбрасывал часть полей бэкенда (OpenAPI + типы + <span class="mono">adminHelpers</span>): 37 «должны показываться» пробелов. Сводка модерации не рендерила «одобрено/отклонено сегодня» для паспорта.</td>
+      <td><b>87 полей выведено</b> (аддитивно/защитно — каждое рендерится только при наличии): карточки cargo/driver/dispatcher, «Пульс платформы» командного центра, KYC/сессии/рейтинг пользователей, паспорт cm/dm + топ-причины, гео-таблица активных водителей. 5 из 6 находок ревью исправлены (id-leak, <span class="mono">normalizeBoolean</span>, seed label из ключа карты, <span class="mono">_pct</span> у пирога).</td>
+      <td><span class="mono">admin/{cargo,drivers,dispatchers,command-center,moderation,geo}/**</span>, <span class="mono">AdminAnalyticsView.tsx</span>; отдельный отчёт <span class="mono">admin-field-audit-06.07.26.html</span></td>
+    </tr>
+  </table></div>
+
+  <h3>Суть фикса портретного видео — одна презентационная строка</h3>
+  <pre class="diff"><span class="cmt">// src/components/shared/GlobalAudioCallModal.tsx — удалённый &lt;video&gt; (~L2152-2160)</span>
+<span class="del">- 'absolute inset-0 h-full w-full bg-black object-cover ...'   // портрет зумится до ширины и режется сверху/снизу</span>
+<span class="add">+ 'absolute inset-0 h-full w-full object-contain transition-opacity duration-300'  // кадр целиком, letterbox</span>
+<span class="cmt">//   object-contain показывает полный кадр при любом аспекте: портретная камера и шаринг экрана</span>
+<span class="cmt">//   больше не кадрируются; тёмные поля — штатный градиент звонка (снят bg-black). JS/логика не тронуты.</span></pre>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по коммитам</small></h2>
+  <p class="lead">Изменения дня собраны в 2 коммита ветки <span class="mono">staging</span> плюс последующий аудит покрытия админ-полей. Технические записи — в <span class="mono">bug.md</span> (корень репозитория, записи 06.07 в 15:15, 16:25, 17:45).</p>
+
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">06.07.2026 · 15:32 · <span class="mono">48bd964c</span></div>
+      <h4>Портретное удалённое видео (letterbox) + большой пакет админ-аналитики/таблиц <span class="badge b-high">bug</span> <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Звонок: удалённое видео <span class="mono">object-contain</span> — портрет и демонстрация экрана больше не режутся.</li>
+        <li>Админ: аналитика (группировка/валюта/донат), клик из плиток командного центра в списки, гео-названия (<span class="mono">useGeoNames</span>), клиентская пагинация + колоночный фильтр в <span class="mono">Table</span>, фильтр лога модерации, % одобрения, размер страницы 10→50, deep-link-фильтры.</li>
+        <li>Тесты: <span class="mono">analyticsMetricGrouping</span>, <span class="mono">moderationLogFilter</span>. Локали ×15 (+31 ключ).</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">06.07.2026 · 16:24 · <span class="mono">90873bc5</span></div>
+      <h4>Портретная своя камера + видеокружки «как в Telegram» <span class="badge b-high">bug</span> <span class="badge b-new">redesign</span></h4>
+      <ul>
+        <li>Звонок: <span class="mono">CAMERA_CONSTRAINTS_PORTRAIT</span> (360×640) + <span class="mono">callCameraConstraints</span> на всех 4 точках <span class="mono">getUserMedia</span>; адаптивный self-view PiP.</li>
+        <li>Кружки: press-and-hold (удержание→блокировка→отпустить), переключение камеры во время записи (release-before-acquire), чистый круг при открытии.</li>
+        <li>Тест <span class="mono">callCameraConstraints</span> 2/2; 4-линзовое ревью — 2 HIGH-регрессии найдены и устранены (focus-on-disabled, dead-stream). Локали ×15 (+2 ключа).</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">06.07.2026 · 17:45 · аудит покрытия полей</div>
+      <h4>Все 20 админ-страниц сверены с бэкендом — 87 полей выведено <span class="badge b-new">feature</span> <span class="badge b-info">аудит</span></h4>
+      <ul>
+        <li>37 «должны показываться» пробелов → 87 конкретных полей добавлено в 12 файлах (аддитивно/защитно).</li>
+        <li>Реальный баг: сводка модерации не рендерила «одобрено/отклонено сегодня» для паспорта (cm/dm) — теперь суммирует.</li>
+        <li>Мульти-агентное ревью: 6 находок, 5 исправлено. Отдельный отчёт <span class="mono">admin-field-audit-06.07.26.html</span>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">pnpm build</span> (<span class="mono">tsc -b</span> + vite — CI-ворота)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах (pre-commit)</li>
+        <li><span class="ok">2 / 2</span> <span class="mono">callCameraConstraints</span> (портрет/ландшафт); добавлены <span class="mono">analyticsMetricGrouping</span>, <span class="mono">moderationLogFilter</span></li>
+        <li>Компилированный <span class="mono">dist/*.css</span> подтверждает <span class="mono">object-contain</span>, <span class="mono">aspect-ratio:9/16</span>, <span class="mono">.w-28</span></li>
+        <li>Локали <span class="ok">15/15</span> валидны, новые ключи присутствуют во всех языках</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Статус изменений</div>
+      <ul class="clean">
+        <li>Видео и админ-аналитика <b>закоммичены</b> (2 коммита ветки <span class="mono">staging</span>)</li>
+        <li>Аудит покрытия полей — аддитивные/защитные правки поверх (каждое поле рендерится только при наличии)</li>
+        <li>CI (<span class="mono">deploy-staging.yml</span>) прогоняет только <span class="mono">pnpm build</span> — типы зелёные</li>
+        <li>Мульти-агентное ревью прошло по видео (2 HIGH) и по аудиту полей (6 находок, 5 фикс)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Живая проверка (runtime) — что осталось</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок портрет / шаринг экрана</b> — звонок веб↔телефон с портретной камерой и демонстрацией экрана телефона; в среде отчёта connected-2-peer WebRTC + камера + TURN недоступны → скриншоты = точные статические репродукции реальных классов (headless Chrome).</li>
+      <li><b>Видеокружки</b> — запись/переключение камеры гейтятся камерой/микрофоном, HTTPS и одно-камерным конвейером телефона; клик на реальном Android/iOS.</li>
+      <li><b>Админ-консоль</b> — аналитика/таблицы/командный центр/гео за авторизацией; клик-through на staging под админ-логином.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>06.07.2026</small></h2>
+  <p class="lead">Ниже — <b>реальные пиксельные репродукции</b>, отрендеренные headless-Chrome (Playwright/Chromium) из <b>фактических классов</b> шипнутого кода: letterbox видео (<span class="mono">object-fit</span>), аспект self-view PiP (<span class="mono">aspect-[9/16]</span> vs <span class="mono">aspect-video</span>) и оверлей записи кружка — это чистый CSS, поэтому браузерный рендер идентичен живому приложению; синтетическая <b>портретная тест-карта</b> заменяет камеру телефона, чтобы поведение «обрезка vs letterbox» было видно напрямую. Живые сценарии (connected-2-peer звонок, камера + HTTPS, админ-логин) в этой среде гейтятся — для них готов <span class="mono">capture-video-fixes.mjs</span> (Playwright), запускаемый на dev-сервере против staging.</p>
+
+  <h3>Видеозвонок — удалённое видео / демонстрация экрана</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/video-remote-portrait.png" alt="Remote portrait video: object-cover crop vs object-contain letterbox" loading="lazy" />
+      <div class="ss-cap"><b>Было object-cover · стало object-contain</b><span class="tag-change">реальный рендер object-fit (Chromium)</span> слева портрет обрезан сверху/снизу (виден центр), справа — кадр целиком, тёмные поля звонка по бокам. Демонстрация экрана телефона тоже больше не режется.</div>
+    </div>
+  </div>
+
+  <h3>Видеозвонок — своя камера портретно (self-view PiP)</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/video-selfview-pip.png" alt="Self-view PiP: landscape crop vs portrait" loading="lazy" />
+      <div class="ss-cap"><b>PiP 16:9 → 9:16</b><span class="tag-change">реальные классы aspect-[9/16] / aspect-video</span> у пользователя-телефона своя камера снимается портретно (360×640); PiP подстраивается под реальный аспект — лицо целиком, а не «боком».</div>
+    </div>
+  </div>
+
+  <h3>Видеокружок — Telegram press-and-hold + переключение камеры</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/circle-hold-to-record.png" alt="Circle note hold-to-record: preview / recording+lock / locked" loading="lazy" />
+      <div class="ss-cap"><b>Удержание → блокировка → отпустить</b><span class="tag-change">реальный оверлей + SVG прогресс-кольцо</span> превью «Удерживайте» (чистый круг), запись со свайпом-вверх для блокировки, hands-free с паузой/отправкой. Кольцо — только во время записи.</div>
+    </div>
+    <div class="ss-item full">
+      <img src="img/circle-camera-switch.png" alt="Circle note mid-recording camera switch" loading="lazy" />
+      <div class="ss-cap"><b>Переключение камеры во время записи</b><span class="tag-change">release-before-acquire</span> кнопка флипа доступна во время записи; поток не прерывается (canvas + микрофон продолжают писать), при неудаче — восстановление по deviceId.</div>
+    </div>
+  </div>
+
+  <h3>Админ-консоль — за авторизацией (готовы capture-скрипты)</h3>
+  <div class="ss-grid cols3">
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>аналитика (группировка/валюта/донат) за админ-логином</div>
+      <div class="ss-cap"><b>Аналитика</b><span class="tag-change">Playwright, админ-авторизация (staging)</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>клик из плиток командного центра в отфильтрованные списки</div>
+      <div class="ss-cap"><b>Командный центр</b><span class="tag-change">Playwright, админ-авторизация (staging)</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Отдельный отчёт готов<br><span class="mono" style="background:none;border:none;color:#334">admin-field-audit-06.07.26.html</span></div>
+      <div class="ss-cap"><b>Аудит покрытия полей</b><span class="tag-change">87 полей · 20 страниц</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (записи 06.07)</td><td class="mono">bug.md (15:15 · 16:25 · 17:45)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/06.07.26/report-06.07.26.xlsx</td></tr>
+    <tr><td>Отдельный отчёт аудита админ-полей</td><td class="mono">daily-report/06.07.26/admin-field-audit-06.07.26.html</td></tr>
+    <tr><td>Видеозвонок: letterbox + портретная камера + PiP</td><td class="mono">src/components/shared/GlobalAudioCallModal.tsx · src/utils/webrtcTuning.ts</td></tr>
+    <tr><td>Видеокружки: press-and-hold + переключение камеры</td><td class="mono">src/pages/chat/components/ChatVideoNoteRecorder.tsx · src/hooks/useVideoNoteRecorder.ts</td></tr>
+    <tr><td>Админ-аналитика: группировка/валюта/донат</td><td class="mono">src/components/shared/admin/AdminAnalyticsView.tsx · analyticsMetricUtils.ts</td></tr>
+    <tr><td>Общая таблица: клиентская пагинация + фильтр</td><td class="mono">src/components/shared/table/Table.tsx</td></tr>
+    <tr><td>Командный центр / гео</td><td class="mono">src/pages/admin/command-center/* · src/pages/admin/geo/useGeoNames.ts</td></tr>
+    <tr><td>Скриншоты (репродукции) + capture-скрипт</td><td class="mono">daily-report/06.07.26/img/ · daily-report/06.07.26/capture-video-fixes.mjs</td></tr>
+    <tr><td>Отчёт предыдущего рабочего дня</td><td class="mono">daily-report/04.07.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Живой звонок веб↔телефон</b> — подтвердить, что портретная камера и демонстрация экрана телефона показываются целиком (letterbox), а своя камера на телефоне снимается портретно и PiP не режет лицо.</li>
+    <li><b>2. Видеокружки на устройстве с камерой</b> — удержание → свайп-вверх для блокировки → отпускание для отправки; переключение фронт/тыл <b>во время</b> записи на Android (canvas-путь) и проверка, что на iOS флип во время записи корректно скрыт.</li>
+    <li><b>3. Админ-аналитика/командный центр</b> — прогнать на staging под админ-логином: группировка метрик, валюта, донат-итоги; клик из плиток в отфильтрованные списки; читаемые названия в гео; приложить PNG в <span class="mono">img/</span>.</li>
+    <li><b>4. Аудит полей</b> — сверить добавленные поля с реальными ответами <span class="mono">/v1/admin/*</span> на staging (часть флагнута как OpenAPI-неподтверждаемая); убедиться, что «одобрено/отклонено сегодня» рендерится для паспорта (cm+dm).</li>
+    <li><b>5. Общая таблица</b> — проверить связку клиентской пагинации + колоночного фильтра и <span class="mono">hideOnSinglePage</span> на больших админ-списках (размер страницы 50).</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Продуктивный день по двум направлениям: устранена регрессия обрезки портретного видео и демонстрации экрана (кадр показывается целиком), своя камера на телефоне снимается портретно, видеокружки переведены в Telegram-модель press-and-hold с рабочим переключением камеры на лету, а админ-консоль получила аналитику (группировка/валюта/донат), навигацию из плиток в списки, гео-названия, клиентскую пагинацию с фильтром и аудит покрытия полей (87 полей на 20 страницах). Типы зелёные, <span class="mono">callCameraConstraints 2/2</span> + новые тесты, локализовано на 15 языках. Открытые зависимости — живой QA-клик видео на реальных устройствах и прогон админ-сценариев на staging.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 06.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 06.07.2026) и в коммитах <span class="mono">48bd964c · 90873bc5</span> (+ аудит покрытия админ-полей).
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
