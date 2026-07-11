@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 08.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;8 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День аналитики. Собрана <b>секция «Insights» реестра пользователей</b> в админке — единый экран показателей по <b>трём ролям</b> (водители · карго-менеджеры · менеджеры водителей): KPI-карточки, <b>умные баннеры-предупреждения</b> (застрявшая KYC-очередь, менеджеры без флота) и <b>тренд-график</b> с переключателем метрики (DAU-снапшот ↔ «Новые …»), гранулярностью <b>День / Неделя / Месяц</b> и диапазоном дат. Ключевая тонкость — <b>честное различие «точечной» метрики и временного ряда</b>: DAU показывается как снапшот («point-in-time — no historical trend», контролы приглушены), а «Новые водители / менеджеры» бакетируются на фронте в настоящий ряд по периодам.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Область:</b> <span class="tag">админ · Users registry</span> <span class="tag">Insights / Trend</span> <span class="tag">3 роли</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">08.07.2026 — фокус на <b>аналитике реестра пользователей</b> в админ-консоли. Экран <span class="mono">/admin/users</span> получил секцию <b>Insights</b> с тремя ролевыми вкладками (<b>Drivers · Cargo managers · Driver managers</b>), у каждой — свой набор <b>KPI-карточек</b> и, где уместно, <b>баннер-алерт</b>. Для водителей это «Online now / DAU», «Weekly active users», «New drivers this week», а также контроль качества KYC: «Identity checks pending» (с процентом одобрения) и «Identity checks stuck 7+ days» с баннером «KYC queue needs attention». Для карго-менеджеров — «Active cargos», «No offer in 24 hours». Для менеджеров водителей — «Average fleet size», «Managers with no drivers» с баннером «Fleet coverage gap detected». Под карточками — <b>секция «Trend»</b>: селектор <b>метрики</b>, сегмент <b>гранулярности</b> (День / Неделя / Месяц), <b>диапазон дат</b> и график. Главное инженерное решение дня — <b>не выдавать точечный показатель за временной ряд</b>: DAU честно помечается как снапшот (контролы приглушены, подпись «Point-in-time — no historical trend»), а метрики «Новые …» бакетируются на клиенте в настоящий ряд по дням/неделям/месяцам.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">3</div><div class="l">ролевые вкладки Insights</div></div>
+    <div class="stat blue"><div class="v">13</div><div class="l">KPI-карточек (по всем ролям)</div></div>
+    <div class="stat blue"><div class="v">2</div><div class="l">умных баннера-алерта</div></div>
+    <div class="stat blue"><div class="v">3</div><div class="l">гранулярности тренда</div></div>
+    <div class="stat good"><div class="v">9</div><div class="l">живых скриншотов (авториз.)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">JS-исключений в прогоне</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    Секция <b>Insights / Trend</b> реестра пользователей: единый аналитический экран по трём ролям с KPI-карточками, контекстными алертами (застрявшая KYC-очередь · менеджеры без флота) и трендом с переключением метрики и гранулярности. Аккуратно разведены <b>снапшот-метрика</b> (DAU — без ложного «тренда») и <b>реальный временной ряд</b> («Новые …», бакетирование на фронте).
+  </div>
+  <div class="callout warn">
+    <div class="h">Что требует внимания продукта / бэкенда</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>DAU без истории</b>: бэкенд отдаёт только текущее значение → на графике честный снапшот. Для настоящего тренда DAU нужен исторический эндпоинт (backend).</li>
+      <li><b>«No data» у части KPI</b> карго-менеджеров (Active cargos / No offer in 24h) — метрики зависят от данных, которых пока нет на staging; UI корректно показывает пустое состояние, но нужен контракт.</li>
+      <li><b>Тренд-график — линия</b>: на разрежённых днях (0–1 в сутки) читается хуже столбцов — кандидат на редизайн (реализован на следующий день, 09.07).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>админ · Insights реестра пользователей</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Роль / поверхность</th></tr>
+    <tr>
+      <td><b>Реестр пользователей — ролевые вкладки Insights</b> <span class="badge b-new">feature</span></td>
+      <td>Показатели по разным типам пользователей были разрознены; не было единого экрана «здоровья» аудитории.</td>
+      <td>Сегментированный переключатель <b>Drivers / Cargo managers / Driver managers</b> над общим макетом Insights: смена вкладки перезагружает набор KPI-карточек, алертов и источник тренда для выбранной роли.</td>
+      <td>Админ · <span class="mono">/admin/users</span></td>
+    </tr>
+    <tr>
+      <td><b>KPI-карточки водителей + KYC-контроль</b> <span class="badge b-new">feature</span></td>
+      <td>Не было наглядного контроля очереди проверки личности (KYC) и «протухших» заявок.</td>
+      <td>Карточки «Online now (DAU)», «Weekly active users», «New drivers this week» (Today / This month), «Identity checks pending» (с <b>approval rate</b>) и «Identity checks stuck 7+ days» (с возрастом старейшей). Красный баннер <b>«KYC queue needs attention»</b> при застрявших проверках.</td>
+      <td>Админ · вкладка Drivers</td>
+    </tr>
+    <tr>
+      <td><b>KPI карго-менеджеров + пустые состояния</b> <span class="badge b-new">feature</span></td>
+      <td>Нужен срез активности менеджеров грузов и «спящих» позиций.</td>
+      <td>Карточки «Online now / DAU» (с % от общего), «Daily active users», «New this week», «Active cargos», «No offer in 24 hours»; там, где метрики нет — корректное состояние <b>«No data»</b> вместо нуля/ошибки.</td>
+      <td>Админ · вкладка Cargo managers</td>
+    </tr>
+    <tr>
+      <td><b>KPI менеджеров водителей + алерт покрытия флота</b> <span class="badge b-new">feature</span></td>
+      <td>Не было видно менеджеров без закреплённых водителей (пробел покрытия).</td>
+      <td>Карточки «Online now / DAU», «Daily active users», «New this week», «Average fleet size» и «Managers with no drivers» (с долей от всех DM). Красный баннер <b>«Fleet coverage gap detected»</b> с числом менеджеров без флота.</td>
+      <td>Админ · вкладка Driver managers</td>
+    </tr>
+    <tr>
+      <td><b>Секция «Trend» — метрика × гранулярность × диапазон</b> <span class="badge b-new">feature</span></td>
+      <td>Показатели были только «на сейчас», без динамики во времени.</td>
+      <td>Блок Trend: селектор <b>метрики</b>, сегмент <b>День / Неделя / Месяц</b>, пикер <b>диапазона дат</b> и линейный график (recharts). Метрики «Новые …» бакетируются на фронте в ряд по периодам.</td>
+      <td>Админ · все три вкладки</td>
+    </tr>
+    <tr>
+      <td><b>Честный снапшот vs временной ряд</b> <span class="badge b-med">correctness</span></td>
+      <td>Точечную метрику (DAU) легко ошибочно нарисовать «трендом», хотя истории нет — это вводит в заблуждение.</td>
+      <td>Для снапшот-метрик контролы гранулярности/диапазона <b>приглушаются</b>, рядом — тег <b>«Point-in-time — no historical trend»</b>; график рисует ровную линию текущего значения, а не выдуманную динамику.</td>
+      <td>Админ · Trend</td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>сборка секции Insights</small></h2>
+  <p class="lead">День выстроен вокруг одной большой поверхности — аналитики реестра пользователей — от каркаса вкладок до тренда и аккуратных пустых/снапшот-состояний.</p>
+
+  <div class="timeline">
+    <div class="ev feat">
+      <div class="t">08.07.2026 · вкладки Insights</div>
+      <h4>Каркас ролевых вкладок реестра пользователей <span class="badge b-new">feature</span></h4>
+      <ul><li>Сегмент Drivers / Cargo managers / Driver managers над общим макетом Insights; переключение перезагружает KPI, алерты и источник тренда.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">08.07.2026 · KPI + алерты</div>
+      <h4>KPI-карточки по ролям и контекстные баннеры <span class="badge b-new">feature</span></h4>
+      <ul><li>KYC-контроль у водителей (pending / stuck 7+ / approval rate + баннер), «No data» у карго-менеджеров, «Fleet coverage gap» у менеджеров водителей.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">08.07.2026 · секция Trend</div>
+      <h4>Тренд: метрика × гранулярность × диапазон <span class="badge b-new">feature</span></h4>
+      <ul><li>Селектор метрики, сегмент День/Неделя/Месяц, диапазон дат, линейный график; бакетирование «Новых …» на фронте в ряд по периодам.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">08.07.2026 · снапшот-состояние</div>
+      <h4>Честное различие снапшота и временного ряда <span class="badge b-med">correctness</span></h4>
+      <ul><li>DAU-снапшот: приглушённые контролы + тег «Point-in-time — no historical trend» вместо выдуманной динамики.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Проверки и живой прогон <small>админ, авторизация</small></h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Как проверялось</div>
+      <ul class="clean">
+        <li>Живой прогон <b>Playwright/Chromium</b> против локального dev-бэкенда с <b>авторизацией под админом</b>.</li>
+        <li>Сняты все три вкладки, снапшот DAU и тренды «Новые …» во всех гранулярностях (<b>9 скриншотов</b>).</li>
+        <li><span class="ok">0</span> необработанных JS-исключений в прогоне; спиннеры аналитики дожидались завершения перед кадром.</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Покрытие экрана</div>
+      <ul class="clean">
+        <li><b>Drivers</b> — KPI + KYC-алерт + тренд (Day / Week / Month) + DAU-снапшот</li>
+        <li><b>Cargo managers</b> — KPI (+ «No data») + тренд «Новые за неделю»</li>
+        <li><b>Driver managers</b> — KPI + «Fleet coverage gap» + тренд «Новые за неделю»</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Примечание к отчёту</div>
+    Этот отчёт (<span class="mono">index.html</span> + Excel) собран из <b>реальных скриншотов, снятых 08.07</b>; на сам день был выполнен только шаг захвата — страница отчёта и Excel-сводка добавлены позже, поэтому содержимое описывает ровно то, что видно на 9 кадрах прогона.
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>08.07.2026 · живой Playwright, авторизация под админом</small></h2>
+  <p class="lead">Все скриншоты — <b>реальные</b>, сняты Playwright/Chromium против живого бэкенда с входом под администратором. Скрипты захвата — <span class="mono">capture-trend.cjs</span> и <span class="mono">recapture-managers.cjs</span> в папке отчёта.</p>
+
+  <h3>Водители — KPI, KYC-алерт и тренд</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/01-users-drivers-overview.png" alt="Users registry, Drivers tab: KPI cards, KYC alert, trend" loading="lazy" />
+      <div class="ss-cap"><b>Реестр пользователей · вкладка Drivers</b><span class="tag-change">живой Playwright · авторизация · en</span> карточки Online/DAU · Weekly active · New this week · Identity checks pending (approval 86.4%) · stuck 7+ days; баннер «KYC queue needs attention».</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/02-trend-new-drivers-day.png" alt="Trend: New drivers, daily granularity" loading="lazy" />
+      <div class="ss-cap"><b>Тренд «Новые водители» · День</b><span class="tag-change">реальный ряд, бакетирование на фронте</span> тултип по точке (25 Jun: 0); диапазон 24 июн → 08 июл.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/03-trend-new-drivers-week.png" alt="Trend: New drivers, weekly granularity" loading="lazy" />
+      <div class="ss-cap"><b>Тренд «Новые водители» · Неделя</b><span class="tag-change">та же метрика, гранулярность Week</span> перебакетирование ряда по неделям.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/04-trend-new-drivers-month.png" alt="Trend: New drivers, monthly granularity" loading="lazy" />
+      <div class="ss-cap"><b>Тренд «Новые водители» · Месяц</b><span class="tag-change">гранулярность Month</span> агрегирование ряда по месяцам.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/05-trend-dau-snapshot.png" alt="Trend: DAU snapshot, point-in-time" loading="lazy" />
+      <div class="ss-cap"><b>DAU — снапшот (не тренд)</b><span class="tag-change">Point-in-time — no historical trend</span> контролы гранулярности/диапазона приглушены; линия — текущее значение, без выдуманной динамики.</div>
+    </div>
+  </div>
+
+  <h3>Карго-менеджеры</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/06-cargo-managers-overview.png" alt="Users registry, Cargo managers tab" loading="lazy" />
+      <div class="ss-cap"><b>Вкладка Cargo managers</b><span class="tag-change">пустые состояния «No data»</span> Online/DAU · Daily active (41% of total) · New this week · Active cargos / No offer in 24h → «No data».</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/07-trend-new-cargo-managers.png" alt="Trend: New cargo managers this week" loading="lazy" />
+      <div class="ss-cap"><b>Тренд «Новые карго-менеджеры за неделю»</b><span class="tag-change">метрика New this week · День</span> реальный ряд по периодам для роли.</div>
+    </div>
+  </div>
+
+  <h3>Менеджеры водителей</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/08-driver-managers-overview.png" alt="Users registry, Driver managers tab, fleet coverage alert" loading="lazy" />
+      <div class="ss-cap"><b>Вкладка Driver managers</b><span class="tag-change">баннер «Fleet coverage gap detected»</span> Average fleet size 2.5 · Managers with no drivers 9 (60% of all DMs) → красный алерт покрытия флота.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/09-trend-new-driver-managers.png" alt="Trend: New driver managers this week" loading="lazy" />
+      <div class="ss-cap"><b>Тренд «Новые менеджеры водителей за неделю»</b><span class="tag-change">метрика New this week · День</span> ряд по периодам для роли.</div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Секция Insights реестра пользователей (админ)</td><td class="mono">src/pages/admin/users/* (Insights / Trend, ролевые вкладки, KPI-карточки, алерты)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/08.07.26/report-08.07.26.xlsx</td></tr>
+    <tr><td>Скриншоты (живые, авторизованные)</td><td class="mono">daily-report/08.07.26/img/ (01…09)</td></tr>
+    <tr><td>Скрипты захвата</td><td class="mono">daily-report/08.07.26/capture-trend.cjs · recapture-managers.cjs</td></tr>
+    <tr><td>Следующий рабочий день (тренд линия → столбцы)</td><td class="mono">daily-report/09.07.26/</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Исторический эндпоинт DAU</b> — чтобы снапшот-метрика получила настоящий тренд, а не ровную линию текущего значения.</li>
+    <li><b>2. Контракты «No data»-KPI</b> карго-менеджеров (Active cargos / No offer in 24h) — согласовать с бэкендом источник данных.</li>
+    <li><b>3. Редизайн тренд-графика</b> — линия плохо читается на разрежённых днях; перевести на столбцы с подписями значений <i>(выполнено 09.07: AdminLine → AdminTrendBars)</i>.</li>
+    <li><b>4. Разбор алертов</b> — «KYC queue needs attention» (1 проверка 15.1 дн.) и «Fleet coverage gap» (9 DM без флота) вести в операционные задачи.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    День аналитики: собрана секция <b>Insights / Trend</b> реестра пользователей в админке — три ролевые вкладки, 13 KPI-карточек, два контекстных алерта и тренд с переключением метрики и гранулярности; корректно разведены снапшот-метрика и временной ряд. Открытые зависимости — исторический DAU, контракты пустых KPI и редизайн графика (сделан на следующий день).
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован по материалам 08.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Скриншоты — живой Playwright с авторизацией под администратором; скрипты захвата — в папке отчёта.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
