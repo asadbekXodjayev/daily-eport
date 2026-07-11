@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 09.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;9 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День качества и полировки. Проведена <b>полная регрессия всего приложения</b> (3 линзы × 3 поверхности × 3 роли, реальный staging-бэкенд): <b>8 подтверждённых багов закрыто</b> и провалидировано воротами, ещё ~35 находок задокументировано, а проверка отсеяла <b>5 ложных срабатываний</b>. Параллельно — доработки формы создания груза: <b>живой перерасчёт веса упаковки</b> (кол-во × вес ед. → тонны, предупреждение о несоответствии), <b>оценка объёма по габаритам</b> (Д×Ш×В → м³) и <b>подсказки «?»</b> у полей; в чате — <b>распознавание типа звонка</b> (аудио / видео / экран); в админке аналитика перешла с линии на <b>столбчатый график</b>. Всё зелёно: <span class="mono">tsc -b</span> — 0 ошибок, <span class="mono">pnpm test 929/929</span> (94 файла).</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммиты:</b> <span class="mono">4a207bbf · c79fff0d · 470f44d7 · 50851daa</span></span>
+      <span><b>Объём:</b> <span class="tag">регрессия всего приложения</span> <span class="tag">8 багов закрыто</span> <span class="tag">3 доработки формы</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">09.07.2026 — фокус на <b>качестве</b>. Прогнали <b>полную трёх-линзовую регрессию</b>: (1) статический поиск багов по 9 подсистемам, (2) Playwright-харнесс с захватом консоли / сети / JS-ошибок и скриншотами (desktop 1440×900 + mobile 390×844), (3) визуальный разбор каждого скриншота. Покрыто 4 роли (public, cargo-manager, driver-manager, admin) — <b>0 необработанных JS-исключений</b>, все 3 логина работают, ролевое гейтирование подтверждено. Итог: <b>8 багов закрыто и провалидировано</b> (F-1…F-8), ~35 находок задокументировано с готовыми фиксами, <b>5 ложных срабатываний</b> отловлено проверкой (headline-сигнал качества). Параллельно — продуктовые доработки формы <b>создания груза</b>: живой перерасчёт веса из упаковки (кол-во × вес одной ед., с предупреждением «не совпадает» и кнопкой «Применить»), оценка объёма из габаритов (Д×Ш×В в метрах → м³), подсказки-тултипы «?» у ярлыков полей (доступные с клавиатуры). В <b>чате</b> — распознавание типа звонка (аудио / видео / экран, входящий/исходящий, пропущенный) из payload и текста события. В <b>админке</b> тренд-график «Новые водители / менеджеры» переведён с линии на <b>столбцы</b> с подписями значений. И тёмная тема для <b>профиля</b>.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">8</div><div class="l">багов закрыто (F-1…F-8)</div></div>
+    <div class="stat blue"><div class="v">4</div><div class="l">роли покрыто регрессией</div></div>
+    <div class="stat blue"><div class="v">526</div><div class="l">скриншотов QA-прогона</div></div>
+    <div class="stat good"><div class="v">929/929</div><div class="l">pnpm test (94 файла)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b / JS-исключений</div></div>
+    <div class="stat blue"><div class="v">5</div><div class="l">ложных срабатываний отсеяно</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    Полная <b>регрессия приложения</b> на реальном staging: <b>8 багов закрыто</b> и провалидировано воротами (<span class="mono">tsc -b</span> 0 · <span class="mono">eslint --max-warnings 0</span> · <span class="mono">pnpm test 929/929</span>), ~35 находок с готовыми фиксами задокументировано, а <b>верификация против кода отсеяла 5 ложных «багов»</b>, которые наивный проход «починил» бы зря. Плюс форма создания груза получила два живых калькулятора (вес из упаковки · объём из габаритов) и подсказки у полей.
+  </div>
+  <div class="callout warn">
+    <div class="h">Что требует внимания продукта / бэкенда</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>~35 задокументированных находок</b> (dispatcher §5 + admin §8 в <span class="mono">qa/reports/qa-report-2026-07-09.md</span>) — часть требует продуктового решения или корреляции с бэкендом.</li>
+      <li><b>Пробел в локалях</b>: часть ключей есть в базовом <span class="mono">uz</span>, но отсутствует в других языках → тихий фоллбэк на узбекский (низкий импакт, но нужен locale-sync проход).</li>
+      <li><b>Кросс-чек веса упаковки</b> — клиентская эвристика; предпочтёт авторитетный флаг бэкенда (<span class="mono">backendMismatch</span>), когда тот появится (backend #7).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>регрессия · форма груза · чат · админ</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Регрессия всего приложения (3 линзы × 4 роли)</b> <span class="badge b-new">QA</span><br><span class="badge b-ok">8 фиксов закоммичено</span></td>
+      <td>Перед пушем staging→main нужна была уверенность по всему приложению, а не только по свежим фичам.</td>
+      <td>Статический fan-out по 9 подсистемам (41 находка: 10 High / 22 Med / 9 Low) + Playwright-харнесс (консоль/сеть/JS-ошибки + 526 скриншотов) + визуальный разбор каждого кадра. <b>8 High/Med фиксов</b> (F-1…F-8), ~35 находок задокументировано, 5 ложных срабатываний отсеяно верификацией против кода.</td>
+      <td><span class="mono">qa/*</span> (конфиги, находки, отчёт <span class="mono">qa-report-2026-07-09.md</span>), <span class="mono">qa_browser.mjs</span></td>
+    </tr>
+    <tr>
+      <td><b>Создание груза — живой перерасчёт веса из упаковки</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Диспетчер вводил вес вручную; расхождение «кол-во упаковок × вес одной ед.» с полем «Вес» ничем не подсвечивалось.</td>
+      <td>Секция «Упаковка»: из <span class="mono">packaging_amount</span> × <span class="mono">packaging_unit_weight</span> (кг) выводится итог в кг/тоннах — «Расчётный вес: N кг (M т)»; при расхождении с «Вес» — <b>жёлтое «не совпадает»</b> + «Применить» (никогда не блокирует сохранение). Чистая, юнит-тестируемая функция.</td>
+      <td><span class="mono">utils/packagingWeight.ts</span> (new), <span class="mono">Step1CargoInfo.tsx</span>, <span class="mono">packagingWeight.test.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Создание груза — оценка объёма по габаритам</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Объём вводился вручную, хотя для многих грузов известны Д×Ш×В.</td>
+      <td>Секция «Габариты»: из длины × ширины × высоты (в метрах) считается объём габаритного параллелепипеда — «Расчётный объём: N м³» + «Применить». Намеренно неавторитетно (габарит ≥ реального объёма для нестандартных грузов) — только по явному «Применить», без автоперезаписи.</td>
+      <td><span class="mono">utils/dimensionsVolume.ts</span> (new), <span class="mono">Step1CargoInfo.tsx</span>, <span class="mono">dimensionsVolume.test.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Форма — доступные подсказки «?» у полей</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>У части полей (тип груза, тип упаковки) не хватало пояснений «что делать, если не нашли значение».</td>
+      <td>Переиспользуемый <span class="mono">FieldHelpTooltip</span>: маленькая фокусируемая иконка «?» рядом с ярлыком, тултип по наведению / фокусу / клику; контраст иконки выше порога WCAG 1.4.11, screen-reader получает текст через ярлык.</td>
+      <td><span class="mono">components/ui/FieldHelpTooltip.tsx</span> (new), <span class="mono">fieldHelpTooltip.test.tsx</span>, <span class="mono">constants/support.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Чат — распознавание типа звонка (аудио / видео / экран)</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Событие звонка в чате не различало тип (аудио/видео/демонстрация экрана) — все рендерились одинаково.</td>
+      <td><span class="mono">normalizeChatCallType</span> + best-effort разбор тела события («call.video.ended», «outgoing video call: missed»…); авторитетный источник — <span class="mono">payload.call_type</span>, текст — фоллбэк. Пузырь звонка показывает тип + направление + пропущен/завершён.</td>
+      <td><span class="mono">chat/utils/chatCallEvents.ts</span>, <span class="mono">MessageBubble.tsx</span>, <span class="mono">ConversationItem.tsx</span>, <span class="mono">chatCallEvents.test.ts</span>, <span class="mono">types/chatTypes.ts</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — тренд-график: линия → столбцы</b> <span class="badge b-new">redesign</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Тренд «Новые водители / менеджеры» рисовался линией — на разрежённых днях (0–1 в сутки) читался хуже столбцов.</td>
+      <td><span class="mono">AdminLine</span> → <span class="mono">AdminTrendBars</span>: recharts <span class="mono">LineChart</span> → <span class="mono">BarChart</span>, подписи значений (<span class="mono">LabelList</span>), сетка и ось Y. День/Неделя/Месяц и снапшот DAU — как раньше.</td>
+      <td><span class="mono">charts/AdminTrendBars.tsx</span> (rename), <span class="mono">AdminTrendSection.tsx</span>, <span class="mono">AdminCommandCenterPage.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Профиль — тёмная тема</b> <span class="badge b-med">polish</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Карточка профиля и «Личные данные» не адаптировались под тёмную тему (светлые поверхности/текст).</td>
+      <td>Добавлены <span class="mono">dark:</span>-классы для поверхностей, границ и текста карточки профиля и сайдбар-карточки.</td>
+      <td><span class="mono">profile/ProfilePage.tsx</span>, <span class="mono">profile/components/ProfileSidebarCard.tsx</span></td>
+    </tr>
+  </table></div>
+
+  <h3>8 закрытых багов (все провалидированы воротами)</h3>
+  <div class="card"><table>
+    <tr><th>ID</th><th>Сев.</th><th>Фикс</th></tr>
+    <tr><td class="mono">F-1</td><td><span class="badge b-high">High</span></td><td>Кнопка повторной отправки OTP не показывала/не соблюдала кулдаун — <span class="mono">countdownSeconds</span> проброшен в <span class="mono">&lt;OtpField&gt;</span> (<span class="mono">OtpPage.tsx</span>).</td></tr>
+    <tr><td class="mono">F-2</td><td><span class="badge b-high">High</span></td><td>Повтор OTP при 429 не запускал кулдаун — добавлен <span class="mono">startCooldown(retryAfterSeconds)</span> в <span class="mono">onError</span>.</td></tr>
+    <tr><td class="mono">F-3</td><td><span class="badge b-high">High</span></td><td>Accept в табличном виде офферов терял валюту → встречное предложение уходило в USD — прокинут <span class="mono">offer.currency</span> (<span class="mono">offersTableColumns.tsx</span>).</td></tr>
+    <tr><td class="mono">F-4</td><td><span class="badge b-high">High</span></td><td>AI-гейт <span class="mono">is_cargo</span>: <span class="mono">z.coerce.boolean()</span> превращал <span class="mono">"false"/"0"</span> в <span class="mono">true</span> — добавлен <span class="mono">coerceBoolean</span> (<span class="mono">cargoAiParseTypes.ts</span>) + тесты.</td></tr>
+    <tr><td class="mono">F-5</td><td><span class="badge b-high">High</span></td><td>Повторный тап Accept звонка утекал живой mic/camera-поток + <span class="mono">RTCPeerConnection</span> — <span class="mono">acceptInFlightRef</span>-гард (<span class="mono">GlobalAudioCallModal.tsx</span>).</td></tr>
+    <tr><td class="mono">F-6</td><td><span class="badge b-med">Med</span></td><td>Дубликаты React-ключей на дашборде — композитный <span class="mono">key</span> с индексом (<span class="mono">BreakdownPanel.tsx</span>).</td></tr>
+    <tr><td class="mono">F-7</td><td><span class="badge b-high">High</span></td><td><span class="mono">gpsTrackingPage.mapIframeTitle</span> отсутствовал в uz+oz (базовая+фоллбэк локаль) — ключ добавлен.</td></tr>
+    <tr><td class="mono">F-8</td><td><span class="badge b-low">Low</span></td><td>Невалидные SVG-пропы <span class="mono">fill-rule/clip-rule/clip-path</span> → camelCase (<span class="mono">Icons.tsx</span>).</td></tr>
+  </table></div>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>4 коммита ветки staging</small></h2>
+  <p class="lead">День собран в 4 коммита ветки <span class="mono">staging</span>. Полный QA-отчёт — <span class="mono">qa/reports/qa-report-2026-07-09.md</span>; технические записи фиксов — в <span class="mono">bug.md</span> (запись 2026-07-09 11:05).</p>
+
+  <div class="timeline">
+    <div class="ev feat">
+      <div class="t">09.07.2026 · 11:20 · <span class="mono">4a207bbf</span></div>
+      <h4>Доработки формы создания груза + подсказки полей <span class="badge b-new">feature</span></h4>
+      <ul><li>Живой перерасчёт веса из упаковки, оценка объёма по габаритам, тултипы «?» (<span class="mono">FieldHelpTooltip</span>); новые юнит-тесты <span class="mono">packagingWeight / dimensionsVolume / fieldHelpTooltip</span>.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">09.07.2026 · 14:42 · <span class="mono">c79fff0d</span></div>
+      <h4>Полная регрессия приложения → 8 багов закрыто <span class="badge b-new">QA</span> <span class="badge b-high">bug</span></h4>
+      <ul><li>3-линзовый прогон (4 роли, 526 скриншотов), F-1…F-8 закрыты и провалидированы; ~35 находок задокументировано, 5 ложных срабатываний отсеяно.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">09.07.2026 · 15:08 · <span class="mono">470f44d7</span></div>
+      <h4>Чат: тип звонка + админ-тренд на столбцы <span class="badge b-new">feature</span> <span class="badge b-new">redesign</span></h4>
+      <ul><li>Распознавание аудио/видео/экран в событиях звонка чата; <span class="mono">AdminLine → AdminTrendBars</span> (recharts <span class="mono">BarChart</span> с подписями).</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">09.07.2026 · 18:06 · <span class="mono">50851daa</span></div>
+      <h4>Полировка: тёмная тема профиля + мелкие фиксы <span class="badge b-med">polish</span></h4>
+      <ul><li>Тёмная тема карточки профиля и «Личные данные»; синхронизация локалей, доводка мапперов AI-парсинга.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки <small>трёх-линзовая регрессия</small></h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span> (CI-ворота)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах</li>
+        <li><span class="ok">929 / 929</span> <span class="mono">pnpm test</span> (94 файла) — включая новые сьюты <span class="mono">packagingWeight / dimensionsVolume / fieldHelpTooltip / chatCallEvents / cargoPaymentDisplay / cargoFormErrors</span></li>
+        <li><span class="ok">0</span> необработанных JS-исключений во всех 4 ролевых прогонах</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Покрытие регрессии</div>
+      <ul class="clean">
+        <li><b>Public</b> — 9 страниц · 54 скриншота · PASS (визуально чисто)</li>
+        <li><b>Cargo Manager</b> — 13 страниц · 133 скриншота · PASS + находки</li>
+        <li><b>Driver Manager</b> — 11 страниц · 76 скриншотов · PASS</li>
+        <li><b>Admin</b> — 21 страница · 263 скриншота · PASS</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Headline-сигнал качества — проверка отсеяла 5 «багов»</div>
+    Перед фиксом каждая High-находка <b>адверсариально перепроверялась против реального кода</b>. Пять правдоподобных «багов» оказались ложными (напр., edit-lock — намеренное продуктовое решение; двойной слэш в refresh — эмпирически безвреден). Наивный проход «починил» бы их зря.
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>09.07.2026 · живой Playwright, авторизация</small></h2>
+  <p class="lead">Все скриншоты — <b>реальные</b>, сняты Playwright/Chromium против живого staging-бэкенда с авторизацией (Cargo Manager <span class="mono">+998994878460</span>, Admin). Скрипты — в папке отчёта.</p>
+
+  <h3>Создание груза — живые калькуляторы + подсказки полей</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/01-cargo-create-form.png" alt="Cargo create form: help tooltips, packaging weight cross-check, dimensions volume" loading="lazy" />
+      <div class="ss-cap"><b>Упаковка → «Расчётный вес: 20 000 кг (20 т) · не совпадает · Применить» + Габариты → «Расчётный объём»</b><span class="tag-change">живой Playwright · авторизация · ru</span> иконки «?» у «Тип груза» / «Тип упаковки»; жёлтое «не совпадает», т.к. 20 т ≠ 22 т в поле «Вес».</div>
+    </div>
+  </div>
+
+  <h3>Админ-аналитика — тренд перешёл на столбцы</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/04-admin-trend-bars-day.png" alt="Admin trend bar chart, daily" loading="lazy" />
+      <div class="ss-cap"><b>Новые водители · по дням</b><span class="tag-change">линия → столбцы</span> подписи значений над каждым столбцом, тултип по наведению; было линией 08.07.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/05-admin-trend-bars-week.png" alt="Admin trend bar chart, weekly" loading="lazy" />
+      <div class="ss-cap"><b>Новые водители · по неделям</b><span class="tag-change">та же гранулярность День/Неделя/Месяц</span> реальные данные staging.</div>
+    </div>
+  </div>
+
+  <h3>Профиль (тёмная тема) · Мои грузы</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/02-profile-dark.png" alt="Profile page in dark theme" loading="lazy" />
+      <div class="ss-cap"><b>Профиль в тёмной теме</b><span class="tag-change">новые dark:-классы карточки</span> поверхности/границы/текст адаптированы под тёмную тему.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/03-my-cargos-list.png" alt="My cargos list with payment display" loading="lazy" />
+      <div class="ss-cap"><b>Мои грузы — список</b><span class="tag-change">отображение цены/оплаты</span> «$3 500 · Наличные», «Цена по запросу»; вес/объём/транспорт из справочников.</div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Полный QA-отчёт регрессии (09.07)</td><td class="mono">qa/reports/qa-report-2026-07-09.md · qa/*.json</td></tr>
+    <tr><td>Журнал исправлений (F-1…F-8)</td><td class="mono">bug.md (запись 2026-07-09 11:05)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/09.07.26/report-09.07.26.xlsx</td></tr>
+    <tr><td>Живой перерасчёт веса / объёма + подсказки</td><td class="mono">src/utils/{packagingWeight,dimensionsVolume}.ts · components/ui/FieldHelpTooltip.tsx · Step1CargoInfo.tsx</td></tr>
+    <tr><td>Тип звонка в чате</td><td class="mono">src/pages/chat/utils/chatCallEvents.ts · MessageBubble.tsx · ConversationItem.tsx</td></tr>
+    <tr><td>Админ-тренд (линия → столбцы)</td><td class="mono">src/pages/admin/command-center/charts/AdminTrendBars.tsx · AdminTrendSection.tsx</td></tr>
+    <tr><td>Скриншоты (живые, авторизованные) + capture-скрипты</td><td class="mono">daily-report/09.07.26/img/ · capture-09-dispatcher.cjs · capture-09-admin.cjs</td></tr>
+    <tr><td>Отчёт предыдущего рабочего дня</td><td class="mono">daily-report/08.07.26/</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Разобрать ~35 задокументированных находок</b> (dispatcher §5 + admin §8): часть требует продуктового решения, часть — корреляции с бэкендом.</li>
+    <li><b>2. Locale-sync проход</b> — устранить пробелы ключей, где непустой только <span class="mono">uz</span> (тихий фоллбэк на узбекский в других языках).</li>
+    <li><b>3. Кросс-чек веса упаковки</b> — подключить авторитетный флаг бэкенда (<span class="mono">backendMismatch</span> / <span class="mono">backendDiffTonnes</span>) вместо клиентской эвристики, когда backend #7 будет готов.</li>
+    <li><b>4. Тип звонка в чате</b> — подтвердить контракт <span class="mono">payload.call_type</span> на бэкенде (сейчас текстовый разбор — фоллбэк).</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    День качества: полная регрессия приложения на реальном staging, <b>8 багов закрыто</b> и провалидировано воротами (<span class="mono">tsc -b</span> 0 · <span class="mono">pnpm test 929/929</span>), 5 ложных срабатываний отсеяно проверкой против кода. Плюс форма создания груза получила живые калькуляторы веса/объёма и доступные подсказки, чат — распознавание типа звонка, админ-аналитика — столбчатый график, профиль — тёмную тему. Открытые зависимости — разбор задокументированных находок, locale-sync и бэкенд-контракты (вес упаковки, тип звонка).
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 09.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">qa/reports/qa-report-2026-07-09.md</span>, <span class="mono">bug.md</span> и коммитах <span class="mono">4a207bbf · c79fff0d · 470f44d7 · 50851daa</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

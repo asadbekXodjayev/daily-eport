@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 07.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  .ss-cap .tag-before{display:inline-block;background:#fdeceb;color:#b3261e;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+  .placeholder{display:flex;align-items:center;justify-content:center;min-height:150px;background:repeating-linear-gradient(45deg,#f6f8fc,#f6f8fc 12px,#eef1f8 12px,#eef1f8 24px);color:var(--muted);font-size:13px;text-align:center;padding:22px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;7 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">Большой день на нескольких фронтах. <b>Новая страница «AI-создание груза»</b>: вставляешь объявление из Telegram/WhatsApp — DeepSeek парсит и заполняет форму, поля подсвечиваются зелёным/жёлтым/красным по уверенности. <b>Авторизация переработана</b>: общий переключатель идентификатора (Telegram / Email) над способом входа (пароль / код), Email привязан к коду; исправлен баг «email + пароль» и косметика флага в телефоне. <b>Чат-рекордер переписан под Telegram</b>: один тумблер голос ⇄ видеокружок, запись по удержанию со свайпом-блокировкой, плавные таймеры и харднинг съёмки на телефонах. <b>Админ</b>: вернули паспортную модерацию отдельной вкладкой + фасет типа в логе (и починили дубликат водителя). И <b>локализация</b>: тип оффера «Simple» больше не по-английски. Всё зелёно: <span class="mono">pnpm build</span> — 0 ошибок, <span class="mono">vitest 822/822</span> + новые сьюты.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммиты:</b> <span class="mono">5e1683ba · d597b2ff · fa72742b · d04332f8</span> (+ раб. дерево)</span>
+      <span><b>Объём:</b> <span class="tag">1 новая страница</span> <span class="tag">переработка auth + чат</span> <span class="tag">3 дефекта</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">07.07.2026 — насыщенный день с новой крупной фичей и двумя переработками. <b>AI-создание груза</b> (<span class="mono">/cargo-ai-create</span>): вставка сырого фрахтового объявления (uz/ru вперемешку, эмодзи, сокращения) → DeepSeek (<span class="mono">deepseek-chat</span>) парсит → форма автозаполняется; совпавшие поля зелёные, низкоуверенные жёлтые, пустые обязательные красные; ревёрт к AI, повторное распознавание, черновик в localStorage (24ч), предупреждение о дубликате. Ключ держится за dev-прокси (вне бандла), вывод модели <b>zod-валидируется</b> как недоверенный. <b>Авторизация:</b> общий переключатель идентификатора (Telegram / Email) над тумблером способа (пароль / код), Email привязан к методу «код» — исправлен баг «email + пароль» (бэкенд принимает пароль только по телефону), плюс косметика угла флаг-кнопки в телефоне. <b>Чат-рекордер:</b> переписан под Telegram — один тумблер голос ⇄ видеокружок, запись по удержанию, свайп-вверх для блокировки, свайп-влево — отмена; плавные rAF-таймеры; харднинг флипа камеры / обрезки / «не пишет» на телефонах. <b>Админ:</b> паспортная (identity) модерация вернулась отдельной вкладкой + ортогональный фасет типа модерации в логе; попутно устранён баг дублирования одного водителя на сотни строк (пагинация KYC-очереди). <b>Локализация:</b> тип оффера <span class="mono">SIMPLE</span> получил ключи во всех 15 локалях (был английский «Simple»).</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">6</div><div class="l">направлений работы</div></div>
+    <div class="stat blue"><div class="v">1</div><div class="l">новая страница (AI-создание)</div></div>
+    <div class="stat blue"><div class="v">3</div><div class="l">дефекта закрыто</div></div>
+    <div class="stat blue"><div class="v">4</div><div class="l">коммита + раб. дерево</div></div>
+    <div class="stat good"><div class="v">822/822</div><div class="l">vitest (+ новые сьюты)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b / pnpm build</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    Флагман — <b>AI-создание груза</b>: диспетчер вставляет объявление из мессенджера, DeepSeek возвращает структуру, форма заполняется с цветовой индикацией уверенности (зелёный / жёлтый / красный), а исходный текст с <b>отредактированными</b> телефонами и ценами сохраняется в <span class="mono">comment</span>. Плюс переработка авторизации (единый идентификатор Telegram/Email + фикс «email + пароль») и переписанный под Telegram чат-рекордер (тумблер голос/видеокружок, запись по удержанию).
+  </div>
+  <div class="callout warn">
+    <div class="h">Что требует ручной проверки QA</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>AI-создание груза</b> — полный сквозной прогон заполнения/сабмита за диспетчерским логином (в среде отчёта плагинг DeepSeek проверен живьём: прокси → 401 без ключа → 200 с валидным <span class="mono">sk-…</span>). До прода — заменить прямой вызов на бэкенд-прокси.</li>
+      <li><b>Чат-рекордер</b> — камера/микрофон/HTTPS: флип камеры на Android (canvas-путь) и iOS (raw-путь), обрезка/«не пишет», жест удержания/блокировки — реальные устройства.</li>
+      <li><b>Паспортная модерация (менеджеры)</b> — контракт <span class="mono">PATCH /dispatchers/:id {passport_status}</span> выведен best-effort (нет документированного эндпоинта) — сверка на staging.</li>
+      <li><b>Email-OTP</b> — принимает ли staging канал <span class="mono">email</span> для OTP (спец. <span class="mono">/auth/phone</span> enum: telegram/whatsapp/imo) — подтвердить на бэкенде.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>AI · авторизация · чат · админ · i18n</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Груз — новая страница «AI-создание груза»</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Создание груза шло только через 4-шаговый мастер вручную; объявления приходят диспетчерам текстом в мессенджерах.</td>
+      <td>Отдельная страница <span class="mono">/cargo-ai-create</span>: вставка текста → DeepSeek парсит → автозаполнение формы; зелёный/жёлтый/красный по уверенности, ревёрт к AI, повторное распознавание, черновик в localStorage (24ч), предупреждение о дубликате; телефоны/цены редактируются в <span class="mono">comment</span>; вывод модели zod-валидируется; ключ за dev-прокси. Переиспользует шаги мастера через null-safe <span class="mono">useAiFieldStatus</span>.</td>
+      <td><span class="mono">cargo-ai-create/*</span>, <span class="mono">cargo-create/{context,hooks,utils}/*</span>, <span class="mono">api/ai/*</span>, 5 тест-файлов, <span class="mono">vite.config.ts</span> (прокси), локали ×15 (+39 ключей)</td>
+    </tr>
+    <tr>
+      <td><b>Авторизация — «email + пароль» и переработка идентификатора</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>После перехода на общий переключатель идентификатора выбор <b>Email + Пароль</b> слал <span class="mono">{email,password}</span> без телефона → бэкенд «Invalid request body» (пароль принимается только по телефону).</td>
+      <td>Email привязан к методу <b>«код»</b>: <span class="mono">identity = method==='password' ? 'phone' : selected</span> (синхронно, без фликера), email-опция <span class="mono">disabled</span> на пароле; <span class="mono">onError</span> берёт идентификатор из <span class="mono">variables.data</span> (нет гонки при переключении в полёте).</td>
+      <td><span class="mono">LoginPage.tsx</span>, <span class="mono">Auth{Identity,OtpChannel,OtpIdentity}*</span>, <span class="mono">authEmail/authLoginIdentity/authOtpChannel.ts</span> (+тесты)</td>
+    </tr>
+    <tr>
+      <td><b>Авторизация — угол флаг-кнопки в телефоне</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Квадратный нижний-левый угол кнопки выбора страны выступал за скруглённую 2px-рамку контейнера — рамка «резала» фон кнопки.</td>
+      <td>В <span class="mono">index.css</span>: убран <span class="mono">min-height:48px !important</span> (кнопка = высоте контента) + <span class="mono">overflow:hidden</span> (клипит только флаг/стрелку; дропдаун — сиблинг, не режется). Одна общая CSS-правка — фикс для всех <span class="mono">PhoneInput</span>.</td>
+      <td><span class="mono">src/index.css</span> (~L1267)</td>
+    </tr>
+    <tr>
+      <td><b>Чат — рекордер переписан под Telegram (голос ⇄ видеокружок)</b> <span class="badge b-new">redesign</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Две отдельные кнопки, голос = клик-старт инлайн-бар, видео = полноэкранная модалка; не было единой модели и жеста удержания.</td>
+      <td>Один тумблер голос⇄видео + единая нижняя панель записи (таймер / отмена / держимая кнопка + плавающие блок/пауза / отправка) и плавающее круг-превью; <span class="mono">useHoldToRecordGesture</span> (document-level, свайп-вверх — блок, влево — отмена); rAF-таймеры (плавные); харднинг флипа камеры (canvas-preview), обрезки (<span class="mono">timeslice</span> 1с), «не пишет» (<span class="mono">onerror</span> финализирует).</td>
+      <td><span class="mono">useVoiceRecorder.ts</span>, <span class="mono">useVideoNoteRecorder.ts</span>, <span class="mono">useHoldToRecordGesture.ts</span> (new), <span class="mono">ChatComposerPanel/ChatVideoNoteCirclePreview/ChatThreadPanel/ChatPage.tsx</span>, локали ×15</td>
+    </tr>
+    <tr>
+      <td><b>Админ — паспортная модерация отдельной вкладкой + фасет типа + фикс дубля</b> <span class="badge b-new">feature</span> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Вкладка модерации имела только груз/водители/менеджеры (все — <i>допуск</i>); паспортная (identity/KYC) модерация была потеряна. Один водитель рендерился сотнями строк.</td>
+      <td>Отдельная вкладка «Passport moderation» (Водители — реальные <span class="mono">/kyc/*</span>; Менеджеры — best-effort <span class="mono">PATCH /dispatchers/:id</span>) + ортогональный фасет «тип модерации» в логе (<span class="mono">moderationLogType</span>). Фикс дубля: KYC-очередь читает <b>limit/offset</b> → передан <span class="mono">paging:'offset'</span> (было <span class="mono">page</span> → бесконечный первый список).</td>
+      <td><span class="mono">PassportModerationPanel.tsx</span> (new), <span class="mono">passportModeration.ts</span> (new), <span class="mono">AdminModerationPage.tsx</span>, <span class="mono">moderationLogUtils.ts</span>, <span class="mono">AdminModerationLogPage.tsx</span>, локали ×15 (+тесты)</td>
+    </tr>
+    <tr>
+      <td><b>Офферы — тип оффера «Simple» по-английски на всех языках</b> <span class="badge b-med">bug</span><br><span class="badge b-info">раб. дерево</span></td>
+      <td>Тег типа оффера показывал «Simple» во всех языках. <span class="mono">offerTypeLabel</span> резолвит <span class="mono">offerType.${KEY}</span>, но группа <span class="mono">offerType</span> отсутствовала во <b>всех 15</b> локалях → падение на англ. <span class="mono">defaultValue</span> «Simple».</td>
+      <td>Добавлена группа <span class="mono">offerType</span> (<span class="mono">SIMPLE</span> — локализованное «обычное предложение», <span class="mono">COUNTER</span> — зеркалит <span class="mono">offersPanel.counterOffer</span>) во все 15 локалей. Кода не трогали — центральный хелпер уже ищет ключ. Админ-страница офферов не затронута (свой namespace).</td>
+      <td><span class="mono">public/locales/*.json</span> ×15 (+<span class="mono">offerType</span>, 4 строки)</td>
+    </tr>
+  </table></div>
+
+  <h3>Суть фикса «email + пароль» — синхронно вычисляемый идентификатор</h3>
+  <pre class="diff"><span class="cmt">// src/pages/auth/login/LoginPage.tsx — идентификатор без фликера и гонок</span>
+<span class="del">- // раньше: общий тумблер мог оставить Email выбранным на методе «пароль» → {email,password} → 400</span>
+<span class="add">+ const identity = loginMethod === 'password' ? 'phone' : selectedIdentity  // синхронно</span>
+<span class="add">+ // Segmented email-опция disabled при loginMethod==='password'; onSubmit шлёт computed identity</span>
+<span class="add">+ // onError-хендлеры читают variables.data (тело запроса), а не live-стейт формы — нет гонки</span></pre>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по записям bug.md</small></h2>
+  <p class="lead">Работа собрана в 4 коммита ветки <span class="mono">staging</span> плюс правки в рабочем дереве. Технические записи — в <span class="mono">bug.md</span> (корень, записи 07.07 с 10:13 до 16:55).</p>
+
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">07.07.2026 · 10:13</div>
+      <h4>Логин: угол флаг-кнопки телефона перекрывал скруглённую рамку <span class="badge b-med">bug</span></h4>
+      <ul><li>Убран <span class="mono">min-height !important</span> + добавлен <span class="mono">overflow:hidden</span> на кнопку страны; дропдаун (сиблинг) не режется. <b>Runtime-verified Playwright</b> (логин — публичная страница), light/dark.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">07.07.2026 · 11:00</div>
+      <h4>Логин «email + пароль» → «Invalid request body» (бэкенд принимает пароль только по телефону) <span class="badge b-high">bug</span></h4>
+      <ul><li>Email привязан к методу «код»; синхронно вычисляемый <span class="mono">identity</span>; <span class="mono">onError</span> по <span class="mono">variables.data</span>. 32 auth-теста зелёные.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">07.07.2026 · 12:05</div>
+      <h4>Чат-рекордер переписан под Telegram (голос ⇄ видеокружок, удержание) <span class="badge b-new">redesign</span></h4>
+      <ul><li>Единая панель записи, <span class="mono">useHoldToRecordGesture</span>, rAF-таймеры, харднинг флипа/обрезки/«не пишет». vitest 776/776.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">07.07.2026 · 15:20</div>
+      <h4>Новая страница «AI-создание груза» (paste → DeepSeek → автозаполнение) + 5 ревью-фиксов <span class="badge b-new">feature</span></h4>
+      <ul>
+        <li>Парсинг объявления, цветовая индикация уверенности, черновик в localStorage, редактирование телефонов/цен, zod-валидация вывода, dev-прокси для ключа.</li>
+        <li>Ревью-фиксы: стейл-baseline при повторном распознавании, откат даты <span class="mono">DD.MM</span> назад, порядок TJS/UZS, <span class="mono">temp_min=0</span>, фабрикация валюты предоплаты. vitest 822/822.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">07.07.2026 · 16:05</div>
+      <h4>Паспортная модерация отдельной вкладкой + фасет типа в логе (+ фикс дубля водителя) <span class="badge b-new">feature</span> <span class="badge b-high">bug</span></h4>
+      <ul><li>Вкладка «Passport moderation» (Водители/Менеджеры), фасет «тип модерации»; KYC-очередь переведена на <span class="mono">paging:'offset'</span> (limit/offset) — конец дубля на сотни строк. 13 новых + 23 существующих теста.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">07.07.2026 · 16:55</div>
+      <h4>Офферы: тип «Simple» больше не по-английски (ключи <span class="mono">offerType</span> во все 15 локалей) <span class="badge b-med">bug</span></h4>
+      <ul><li>Чистый локали-фикс, кода не трогали; <span class="mono">offersPageHelpers</span> 9/9 зелёные.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">pnpm build</span> (<span class="mono">tsc -b</span> + vite — CI-ворота)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах</li>
+        <li><span class="ok">822 / 822</span> <span class="mono">vitest</span> на этапе AI-создания + новые сьюты (<span class="mono">authEmail/authLoginIdentity/authOtpChannel</span>, <span class="mono">passportModeration/moderationLogType</span>, <span class="mono">cargoAi*</span>, <span class="mono">chatRecordingFormat</span>, <span class="mono">offersPageHelpers</span>)</li>
+        <li>DeepSeek-ключ проверен живьём (<span class="mono">GET /models</span> → 200); прокси-заголовок вне бандла</li>
+        <li>Локали <span class="ok">15/15</span> валидны; новые ключи во всех языках</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Статус изменений</div>
+      <ul class="clean">
+        <li>AI-создание, auth, чат, паспортная модерация <b>закоммичены</b> (4 коммита <span class="mono">staging</span>)</li>
+        <li>Фикс локализации оффера — в рабочем дереве (только <span class="mono">public/locales/*.json</span>)</li>
+        <li>CI (<span class="mono">deploy-staging.yml</span>) прогоняет только <span class="mono">pnpm build</span> — типы зелёные</li>
+        <li>Мульти-агентные ревью прошли по AI-созданию (5 фиксов), auth, паспортной модерации</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">Живая проверка (runtime) — что осталось</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Авторизация</b> — <span class="ok">проверена Playwright живьём</span> (публичные страницы логин/регистрация/сброс); скриншоты ниже реальные. Осталось: email-OTP end-to-end против staging.</li>
+      <li><b>AI-создание груза</b> — заполнение/сабмит за диспетчерским логином; замена прямого вызова DeepSeek на бэкенд-прокси до прода.</li>
+      <li><b>Чат-рекордер</b> — камера/микрофон/HTTPS на реальных Android/iOS (флип, обрезка, жест).</li>
+      <li><b>Паспортная модерация / офферы</b> — админ- и диспетчер-GUI за логином на staging.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>07.07.2026</small></h2>
+  <p class="lead">Раздел авторизации — <b>реальные живые скриншоты</b> (Playwright/Chromium против dev-сервера, ru-интерфейс): страницы логина/регистрации/сброса публичные, снимаются без логина. AI-создание груза и фикс оффера — <b>пиксельные репродукции</b> из фактических классов/цветов кода (<span class="mono">ai-field-{success,warning,error}</span> = #16a34a / #f59e0b / #ef4444; AntD-теги офферов), т.к. их живые страницы за диспетчерским логином. Чат-рекордер и паспортная модерация гейтятся камерой/админ-логином — для них готовы <span class="mono">capture-*.mjs</span> на staging.</p>
+
+  <h3>Авторизация — единый идентификатор (Telegram / Email) + способ входа</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/auth-login-password-phone.png" alt="Login: identity toggle + method toggle + phone" loading="lazy" />
+      <div class="ss-cap"><b>Логин · «Вход по» + «Способ входа»</b><span class="tag-change">живой Playwright · ru</span> переключатель идентификатора над способом входа; чистый угол флаг-кнопки телефона (фикс 10:13).</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/auth-login-code-email.png" alt="Login: code + email" loading="lazy" />
+      <div class="ss-cap"><b>Логин · Код + Email</b><span class="tag-change">живой Playwright · ru</span> Email доступен только на методе «код» (фикс «email + пароль»).</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/auth-register-telegram.png" alt="Register: telegram" loading="lazy" />
+      <div class="ss-cap"><b>Регистрация · Telegram</b><span class="tag-change">живой Playwright · ru</span> канал по умолчанию.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/auth-register-email.png" alt="Register: email" loading="lazy" />
+      <div class="ss-cap"><b>Регистрация · Email</b><span class="tag-change">живой Playwright · ru</span> поле адаптируется под email.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/auth-forgot-email.png" alt="Forgot: email" loading="lazy" />
+      <div class="ss-cap"><b>Сброс пароля · Email</b><span class="tag-change">живой Playwright · ru</span></div>
+    </div>
+    <div class="ss-item">
+      <img src="img/auth-register-email-mobile.png" alt="Register email mobile 390" loading="lazy" />
+      <div class="ss-cap"><b>Регистрация · Email · 390px</b><span class="tag-change">горизонтальный overflow = 0</span> без горизонтального скролла на телефоне.</div>
+    </div>
+  </div>
+
+  <h3>Груз — новая страница «AI-создание груза»</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/ai-cargo-create.png" alt="AI cargo create: paste -> autofilled form with confidence borders" loading="lazy" />
+      <div class="ss-cap"><b>Вставка объявления → автозаполнение с индикацией уверенности</b><span class="tag-change">живой Playwright · авторизация · парсинг DeepSeek</span> AI заполнил 6 полей, панель «Проверка AI» 80% (8 определено · 0 проверить · 2 не заполнено); зелёная рамка — распознано уверенно, красная — обязательное поле пусто.</div>
+    </div>
+  </div>
+
+  <h3>Офферы — локализация типа «Simple»</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/offers-simple-localization.png" alt="Offers table: localized offer-type column" loading="lazy" />
+      <div class="ss-cap"><b>Колонка «Тип предложения» → «Обычное предложение»</b><span class="tag-change">живой Playwright · авторизация · таблица офферов</span> вместо английской заглушки «Simple»; группа <span class="mono">offerType</span> добавлена во все 15 локалей; COUNTER = «Встречное предложение».</div>
+    </div>
+  </div>
+
+  <h3>Чат-рекордер / паспортная модерация — за камерой / админ-логином</h3>
+  <div class="ss-grid cols3">
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>тумблер голос ⇄ видеокружок + запись по удержанию (камера/HTTPS)</div>
+      <div class="ss-cap"><b>Чат-рекордер (Telegram-модель)</b><span class="tag-change">клик на устройстве с камерой</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Живой скриншот отложен<br>вкладка «Passport moderation» (Водители/Менеджеры) за админ-логином</div>
+      <div class="ss-cap"><b>Паспортная модерация</b><span class="tag-change">Playwright, админ-авторизация (staging)</span></div>
+    </div>
+    <div class="ss-item">
+      <div class="placeholder">Живые авторизованные скрипты<br><span class="mono" style="background:none;border:none;color:#334">capture-authed-live.cjs</span> · <span class="mono" style="background:none;border:none;color:#334">recapture-offers.cjs</span></div>
+      <div class="ss-cap"><b>Скрипты захвата (обновлено)</b><span class="tag-change">логин диспетчера + реальные страницы</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал исправлений (записи 07.07)</td><td class="mono">bug.md (10:13 · 11:00 · 12:05 · 15:20 · 16:05 · 16:55)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/07.07.26/report-07.07.26.xlsx</td></tr>
+    <tr><td>AI-создание груза: страница + парсер + прокси</td><td class="mono">src/pages/cargos/cargo-ai-create/* · src/api/ai/* · vite.config.ts</td></tr>
+    <tr><td>Авторизация: идентификатор + email/пароль + флаг</td><td class="mono">src/pages/auth/login/LoginPage.tsx · src/pages/auth/components/* · src/index.css</td></tr>
+    <tr><td>Чат-рекордер: голос/видеокружок + жест</td><td class="mono">src/hooks/use{Voice,VideoNote}Recorder.ts · src/pages/chat/hooks/useHoldToRecordGesture.ts</td></tr>
+    <tr><td>Паспортная модерация + фасет лога</td><td class="mono">src/pages/admin/moderation/components/PassportModerationPanel.tsx · moderation-log/moderationLogUtils.ts</td></tr>
+    <tr><td>Локализация типа оффера</td><td class="mono">public/locales/*.json (offerType) · src/pages/offers/utils/offersPageHelpers.ts</td></tr>
+    <tr><td>Скриншоты (живые, авторизованные) + capture-скрипты</td><td class="mono">daily-report/07.07.26/img/ · capture-auth.mjs · capture-authed-live.cjs · recapture-offers.cjs</td></tr>
+    <tr><td>Отчёт предыдущего рабочего дня</td><td class="mono">daily-report/06.07.26/index.html</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. AI-создание груза — бэкенд-прокси перед продом.</b> Сейчас ключ DeepSeek уходит в прямой вызов из браузера (в проде будет в бандле). До релиза — перенести на серверный прокси; подтвердить payload-поле <span class="mono">ai_source_text</span> на бэкенде (флаг off).</li>
+    <li><b>2. AI-создание — сквозной QA</b> на реальных объявлениях (uz/ru, эмодзи, сокращения): корректность автозаполнения, цветовая индикация, черновик после перезагрузки, редакция телефонов/цен.</li>
+    <li><b>3. Чат-рекордер на устройствах</b> — тумблер голос/видео, запись по удержанию → свайп-блок → отправка; флип камеры во время записи (Android canvas / iOS raw); проверка отсутствия обрезки.</li>
+    <li><b>4. Email-OTP на бэкенде</b> — подтвердить, принимает ли staging канал <span class="mono">email</span> для OTP; если нет — временно убрать Email-идентичность до готовности контракта.</li>
+    <li><b>5. Паспортная модерация (менеджеры)</b> — сверить выведенный <span class="mono">PATCH /dispatchers/:id {passport_status}</span> с бэкендом; проверить очередь без дублей после фикса пагинации.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Продуктивный день: запущена новая страница AI-создания груза (paste → DeepSeek → форма с индикацией уверенности), переработана авторизация (единый идентификатор Telegram/Email + фикс «email + пароль» + косметика флага), чат-рекордер переписан под Telegram (тумблер голос/видеокружок, запись по удержанию), в админку вернули паспортную модерацию отдельной вкладкой (+ фикс дубля водителя), а тип оффера «Simple» локализован во все 15 языков. Типы зелёные, <span class="mono">vitest 822/822</span> + новые сьюты, авторизация проверена живьём Playwright. Открытые зависимости — бэкенд-прокси для AI-ключа, живой QA камеры/чата и сверка admin-контрактов на staging.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 07.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 07.07.2026) и в коммитах <span class="mono">5e1683ba · d597b2ff · fa72742b · d04332f8</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

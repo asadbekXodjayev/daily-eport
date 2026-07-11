@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 10.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+  pre.diff{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:12.5px;line-height:1.5;margin:12px 0}
+  pre.diff .del{color:#fca5a5}
+  pre.diff .add{color:#86efac}
+  pre.diff .cmt{color:#94a3b8}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;10 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День подготовки к релизу <b>staging → main</b>. Главное — <b>переработка админ Command Center</b>: 6-я KPI-карточка «Всего грузов», единая секция Summary (~20 именованных метрик как counter-карточки в порядке для стейкхолдеров, каждая — со «семьёй» показателей: значение · рост% к прошлому · среднее · рост среднего% · предыдущее, свой акцентный цвет и переключатель на гистограмму), контролы тренда (диапазон дат, показать/скрыть серии, горизонтальный скролл) + 3 визуальных фикса. Плюс <b>полный жизненный цикл модерации</b> диспетчеров/водителей, <b>серверная пагинация</b> больших админ-списков (мгновенный первый рендер), <b>GPS-карта менеджера — только свои водители</b> и поиск по имени/телефону, и <b>упрощённый вход</b> (только телефон — идентификатор Telegram/Email скрыт под флагом на время релиза).</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging → main</span>
+      <span><b>Коммиты:</b> <span class="mono">a953ba77 · c46fa3f4 · e2ae515b</span> (2 merge в main)</span>
+      <span><b>Объём:</b> <span class="tag">Command Center редизайн</span> <span class="tag">модерация · пагинация</span> <span class="tag">release-prep флаги</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">10.07.2026 — подготовка к пушу <b>staging → main</b> с крупной админ-работой. <b>Command Center переработан</b>: добавлена 6-я KPI-карточка «Всего грузов» (<span class="mono">totals.cargo</span>); блок «Тренд по времени» получил диапазон дат, показ/скрытие отдельных серий и горизонтальный скролл для широких окон; разрозненные секции «Platform pulse / Cargo breakdown / Role statistics» свёрнуты в единый <b>Summary</b>, где ~20 именованных метрик показаны counter-карточками в точном порядке для стейкхолдеров — каждая с полной «семьёй» (значение · рост% к предыдущему · среднее · рост среднего% · предыдущее), своим акцентным цветом и переключателем на мини-гистограмму (свой bucket день/неделя/месяц + диапазон). Заодно закрыты 3 живых визуальных бага (стилизация чипов-серий в свет/тёмной теме, лишний вертикальный скроллбар графика, календарь диапазона за соседней секцией из-за <span class="mono">filter:blur</span>-стекинга). В админ-списках диспетчеров/водителей — <b>полный жизненный цикл модерации</b> (resubmit из любого статуса, активация, inactive, блок с каскадом, разблок), ужатые действия строки, отдельная кнопка «Заблокировать», volcano-тег для заблокированных. Большие Excel-подобные списки переведены на <b>двухрежимный загрузчик</b> (<span class="mono">useAdminPaginatedList</span>): серверная пагинация по 50 строк при просмотре (мгновенный первый рендер) и загрузка всего — только при фильтрации/сортировке. На стороне менеджеров: <b>GPS-карта показывает только своих водителей</b> (+ на активных рейсах), поиск водителя ищет по имени <b>или</b> телефону (толерантно к формату). И <b>release-prep флаги</b>: вход — только по телефону (идентификатор Telegram/Email скрыт), страница AI-создания груза временно спрятана.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">6</div><div class="l">KPI в Command Center (+«Всего грузов»)</div></div>
+    <div class="stat blue"><div class="v">~20</div><div class="l">метрик-карточек в Summary</div></div>
+    <div class="stat blue"><div class="v">2</div><div class="l">merge staging → main</div></div>
+    <div class="stat good"><div class="v">989/989</div><div class="l">pnpm test (100 файлов)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b</div></div>
+    <div class="stat blue"><div class="v">2</div><div class="l">фичи под флагом (release-prep)</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    <b>Редизайн админ Command Center</b> — единая приборная панель: 6 KPI (с новой «Всего грузов»), «Needs attention» с очередями модерации, «Platform metrics» и «New this period», а per-role Summary — counter-карточки с полной семьёй показателей, акцентными цветами и переключением на гистограмму. Плюс подготовка к релизу: серверная пагинация админ-списков, полный цикл модерации, GPS «только свои водители» и упрощённый вход по телефону.
+  </div>
+  <div class="callout blue">
+    <div class="h">Release-prep — что скрыто под флагами (готово, вернём позже)</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Вход только по телефону</b> — <span class="mono">EMAIL_AUTH_ENABLED=false</span> прячет переключатель идентификатора Telegram/Email; бэкенд и хелперы email продолжают работать, скрыты только точки входа в UI.</li>
+      <li><b>Страница AI-создания груза</b> — <span class="mono">AI_CARGO_CREATE_ENABLED=false</span> прячет CTA и маршрут <span class="mono">/cargo-ai-create</span> (прямой переход → список грузов); фича собрана и работает, вернётся флагом.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>Command Center · модерация · пагинация · GPS · вход</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Админ — редизайн Command Center</b> <span class="badge b-new">redesign</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Панель была разбита на «Platform pulse / Cargo breakdown / Role statistics», метрики показывали лишь голое значение, не было KPI по грузам и контролов тренда.</td>
+      <td>6-я KPI «Всего грузов»; «Тренд» — диапазон дат + показ/скрытие серий + горизонтальный скролл; единый Summary: ~20 метрик counter-карточками в порядке для стейкхолдеров, каждая — со «семьёй» (значение · рост% · среднее · рост среднего% · пред.), акцентным цветом и переключателем на гистограмму. Чистый tested <span class="mono">summaryMetricConfig</span>.</td>
+      <td><span class="mono">AdminCommandCenterPage.tsx</span>, <span class="mono">command-center/components/{summaryMetricConfig,AdminSummaryMetrics,AdminSummaryMetricCard,AdminMetricMiniTrend}</span>, <span class="mono">charts/{AdminTrendBars,commandCenterChartData}</span>, <span class="mono">summaryMetricConfig.test.ts</span>, локали ×15</td>
+    </tr>
+    <tr>
+      <td><b>Command Center — 3 визуальных фикса</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Чипы-серии плохо читались в свет/тёмной теме; у графика был лишний вертикальный скроллбар; календарь диапазона рендерился <b>за</b> соседней секцией.</td>
+      <td>Чипы → кастомные пилюли, тонированные цветом серии (<span class="mono">useAdminChartTheme</span>); добавлен <span class="mono">overflow-y-hidden</span> (скролл только по горизонтали); <span class="mono">getPopupContainer=()=&gt;document.body</span> для RangePicker (Framer <span class="mono">filter:blur</span> создавал стекинг-контекст, ловивший поповеры).</td>
+      <td><span class="mono">AdminCommandCenterPage.tsx</span>, <span class="mono">charts/AdminTrendBars.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — жизненный цикл модерации диспетчеров/водителей</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Действия строки были разрозненны; не хватало полного цикла статусов доступа.</td>
+      <td>Полный lifecycle: resubmit из любого статуса, активация, inactive, <b>блок с каскадом</b>, разблок; ужатые действия строки (убрана Edit-модалка), отдельная кнопка «Заблокировать», volcano-тег для заблокированного статуса модерации.</td>
+      <td><span class="mono">AdminModerationActions.tsx</span>, <span class="mono">adminModerationRoutes.ts</span>, <span class="mono">AdminDispatchersPage.tsx</span>, <span class="mono">AdminDriversPage.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — серверная пагинация больших списков</b> <span class="badge b-new">perf</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Excel-подобные списки (водители, диспетчеры) грузили <b>всё</b> — десятки последовательных запросов страниц блокировали первый рендер.</td>
+      <td>Двухрежимный <span class="mono">useAdminPaginatedList</span>: просмотр → серверная пагинация по 50 строк (мгновенный первый рендер, тянется только текущая страница); фильтр/поиск/сортировка → загрузка всего датасета (чтобы фильтр охватывал все строки). Обе очереди всегда смонтированы — порядок хуков стабилен.</td>
+      <td><span class="mono">hooks/useAdminPaginatedList.ts</span> (new), <span class="mono">AdminDriversPage.tsx</span>, <span class="mono">AdminDispatchersPage.tsx</span>, <span class="mono">shared/table/Table.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>GPS — карта менеджера: только свои водители + поиск по телефону</b> <span class="badge b-new">feature</span> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Менеджер видел на карте весь автопарк; фильтр «Поиск по водителю» не искал по номеру телефона.</td>
+      <td>Cargo/Driver-менеджеры видят только своих водителей (свои + на активных рейсах), не весь автопарк; фильтр Select ищет по имени <b>или</b> телефону, сравнивая номер и «как есть», и digits-only (<span class="mono">«+998 90 123»</span> находит <span class="mono">«99890123»</span>).</td>
+      <td><span class="mono">GpsTrackingPage.tsx</span>, <span class="mono">gps-tracking/hooks/useGpsMarkersData.ts</span>, <span class="mono">GpsFilterSidebar.tsx</span>, <span class="mono">utils/driverOptionFilter.ts</span> (new)</td>
+    </tr>
+    <tr>
+      <td><b>Вход — упрощён до телефона (release-prep)</b> <span class="badge b-med">flag</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Переключатель идентификатора Telegram/Email не нужен на релизе, пока email-контур не готов end-to-end.</td>
+      <td><span class="mono">EMAIL_AUTH_ENABLED=false</span> прячет segmented-переключатель идентификатора — остаются только табы способа (Пароль / Код) над единым телефонным полем; бэкенд/хелперы email не тронуты. Аналогично <span class="mono">AI_CARGO_CREATE_ENABLED=false</span> прячет AI-создание груза.</td>
+      <td><span class="mono">constants/featureFlags.ts</span> (new), <span class="mono">LoginPage.tsx</span>, <span class="mono">MyCargosActionBar.tsx</span>, <span class="mono">RootRouter.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Админ — i18n-аудит summary-вью</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>В summary-вью админки (users / communications / geo / metrics / moderation) оставался захардкоженный английский.</td>
+      <td>Захардкоженные строки заменены на ключи локалей во всех перечисленных summary-вью; синхронизированы недостающие ключи.</td>
+      <td><span class="mono">admin/{communications,metrics,moderation,users}/**/Admin*SummaryView.tsx</span>, локали ×15</td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по записям bug.md (2026-07-10)</small></h2>
+  <p class="lead">Работа влилась в <span class="mono">main</span> двумя merge-коммитами. Технические записи — в <span class="mono">bug.md</span> (записи 2026-07-10 с 14:10 до 17:47).</p>
+
+  <div class="timeline">
+    <div class="ev feat">
+      <div class="t">10.07.2026 · 14:10 → 14:40</div>
+      <h4>Command Center: KPI «Всего грузов» + контролы тренда + единый Summary (counter-карточки со «семьёй») <span class="badge b-new">redesign</span></h4>
+      <ul><li>6-я KPI, диапазон дат/показ-скрытие серий/горизонтальный скролл, ~20 метрик counter-карточками с value·рост%·avg·avg-рост%·prev, акцентный цвет и переключатель на гистограмму. <span class="mono">summaryMetricConfig.test.ts</span> (8 кейсов).</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">10.07.2026 · 14:45 → 15:17</div>
+      <h4>Админ диспетчеры/водители: полный жизненный цикл модерации доступа <span class="badge b-new">feature</span></h4>
+      <ul><li>resubmit из любого статуса, активация, inactive, блок с каскадом, разблок; ужатые действия строки, отдельная «Заблокировать», volcano-тег для заблокированных.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">10.07.2026 · 16:20</div>
+      <h4>Command Center: тултип тренда обрезался границей секции <span class="badge b-med">bug</span></h4>
+      <ul><li>Поповер/тултип выведен из клиппинг-контекста секции.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">10.07.2026 · 17:30</div>
+      <h4>GPS «Поиск по водителю» не искал по телефону + i18n-аудит админки <span class="badge b-med">bug</span></h4>
+      <ul><li><span class="mono">optionMatchesNameOrPhone</span> ищет по имени/телефону (digits-only толерантно); захардкоженный английский в summary-вью заменён ключами локалей.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">10.07.2026 · 10:19 / 18:12 · merge</div>
+      <h4>Слияние в main (release-prep) <span class="badge b-new">release</span></h4>
+      <ul><li>Флаги <span class="mono">EMAIL_AUTH_ENABLED</span> / <span class="mono">AI_CARGO_CREATE_ENABLED</span> = false (вход по телефону, AI-создание скрыто); серверная пагинация админ-списков; GPS «только свои водители». Два merge <span class="mono">staging → main</span>.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span> (типы)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах</li>
+        <li><span class="ok">989 / 989</span> <span class="mono">pnpm test</span> (100 файлов) — включая новый <span class="mono">summaryMetricConfig.test.ts</span> (порядок метрик, разрешение ключей/вариантов, чтение семьи с null-деградацией, различимые акценты, маппинг роль→список)</li>
+        <li>3 живых визуальных бага Command Center закрыты и проверены на hot-reload</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Статус релиза</div>
+      <ul class="clean">
+        <li>Работа влита в <b>main</b> двумя merge-коммитами (<span class="mono">a953ba77 · e2ae515b</span>)</li>
+        <li>Release-prep: две готовые фичи скрыты флагами (вход по телефону, AI-создание) — вернём переключением флага</li>
+        <li>Серверная пагинация: первый рендер больших списков мгновенный (тянется только видимая страница)</li>
+        <li>Ролевое гейтирование подтверждено (driver-manager видит «Мои водители», cargo-manager — «Менеджеры водителей»)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>10.07.2026 · живой Playwright, авторизация</small></h2>
+  <p class="lead">Все скриншоты — <b>реальные</b>, сняты Playwright/Chromium против живого staging-бэкенда. Роли: Admin (<span class="mono">/admin</span>), Cargo Manager <span class="mono">+998994878460</span>, Driver Manager <span class="mono">+998998809935</span>. Скрипты — в папке отчёта.</p>
+
+  <h3>Админ Command Center — переработанная приборная панель</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/07-admin-command-center.png" alt="Admin Command Center redesign" loading="lazy" />
+      <div class="ss-cap"><b>6 KPI (в т.ч. новая «Всего грузов» = 84) · «Needs attention» с очередями модерации · «Platform metrics» · «New this period»</b><span class="tag-change">живой Playwright · админ-логин</span> единая панель вместо разрозненных секций.</div>
+    </div>
+  </div>
+
+  <h3>Админ — список водителей (серверная пагинация + поиск по имени/телефону)</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/03-admin-drivers-paginated.png" alt="Admin drivers list, server-paginated" loading="lazy" />
+      <div class="ss-cap"><b>Реестр водителей — 50 строк на страницу, мгновенный первый рендер</b><span class="tag-change">useAdminPaginatedList · поиск «по имени или телефону»</span> сортируемые/фильтруемые колонки, действия модерации в строке.</div>
+    </div>
+  </div>
+
+  <h3>Упрощённый вход — только телефон (идентификатор Telegram/Email скрыт)</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/01-login-phone-only.png" alt="Login page phone-only, code method" loading="lazy" />
+      <div class="ss-cap"><b>Вход · «Код подтверждения» + телефон</b><span class="tag-change">EMAIL_AUTH_ENABLED=false</span> нет переключателя Telegram/Email — только табы способа над телефоном.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/02-login-password-phone.png" alt="Login page phone-only, password method" loading="lazy" />
+      <div class="ss-cap"><b>Вход · «Пароль» + телефон</b><span class="tag-change">единственный идентификатор — телефон</span> бэкенд/хелперы email не тронуты, скрыты только точки входа UI.</div>
+    </div>
+  </div>
+
+  <h3>Менеджеры — GPS «только свои водители» · страница водителей</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/05-gps-tracking-scoped.png" alt="GPS tracking scoped to own drivers" loading="lazy" />
+      <div class="ss-cap"><b>GPS-карта менеджера (Cargo Manager)</b><span class="tag-change">только свои водители + на активных рейсах</span> маркеры водителей/грузов на карте Яндекса; поиск по имени/телефону.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/06-drivers-page.png" alt="Driver manager drivers page" loading="lazy" />
+      <div class="ss-cap"><b>«Мои водители» (Driver Manager)</b><span class="tag-change">поиск по телефону/имени · приглашение водителя</span> транспорт·статус, активность, рейтинг, действия строки.</div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал работ дня (записи 10.07)</td><td class="mono">bug.md (2026-07-10 · 14:10 · 14:40 · 14:45 · 15:17 · 16:20 · 17:30 · 17:47)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/10.07.26/report-10.07.26.xlsx</td></tr>
+    <tr><td>Command Center + Summary-карточки</td><td class="mono">src/pages/admin/command-center/** · charts/AdminTrendBars.tsx</td></tr>
+    <tr><td>Серверная пагинация админ-списков</td><td class="mono">src/hooks/useAdminPaginatedList.ts · AdminDriversPage.tsx · AdminDispatchersPage.tsx</td></tr>
+    <tr><td>GPS «только свои» + поиск по телефону</td><td class="mono">src/pages/gps-tracking/** · src/utils/driverOptionFilter.ts</td></tr>
+    <tr><td>Release-prep флаги</td><td class="mono">src/constants/featureFlags.ts · LoginPage.tsx · RootRouter.tsx</td></tr>
+    <tr><td>Скриншоты (живые, авторизованные) + capture-скрипты</td><td class="mono">daily-report/10.07.26/img/ · capture-10-public.cjs · capture-10-admin.cjs · capture-10-command-center.cjs · capture-10-managers.cjs</td></tr>
+    <tr><td>Отчёт предыдущего рабочего дня</td><td class="mono">daily-report/09.07.26/</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Вернуть флаги, когда контуры готовы:</b> <span class="mono">EMAIL_AUTH_ENABLED</span> — после подтверждения email-OTP на бэкенде; <span class="mono">AI_CARGO_CREATE_ENABLED</span> — после переноса вызова DeepSeek на бэкенд-прокси.</li>
+    <li><b>2. Проверить серверную пагинацию на объёме</b> — переключение browse ↔ filter/sort на больших датасетах диспетчеров/водителей (первый рендер, тотал, футер).</li>
+    <li><b>3. GPS-скоупинг менеджера</b> — сверить на staging, что видны только свои водители (свои + на активных рейсах), и поиск по телефону работает при разных форматах.</li>
+    <li><b>4. Полный цикл модерации</b> — прогнать resubmit/активацию/блок-с-каскадом/разблок диспетчеров/водителей на staging.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    Подготовка к релизу <b>staging → main</b> завершена и влита двумя merge. Крупнейшее — редизайн админ Command Center (KPI «Всего грузов», единый Summary с counter-карточками и семьёй показателей, контролы тренда, 3 визуальных фикса). Плюс полный цикл модерации, серверная пагинация больших списков, GPS «только свои водители» + поиск по телефону и упрощённый вход по телефону. Типы зелёные, <span class="mono">pnpm test 989/989</span> (100 файлов). Две готовые фичи (email-вход, AI-создание) скрыты флагами до готовности контуров.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 10.07.2026 · Проект <b>sarbon-frontend</b> (staging → main).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 2026-07-10) и коммитах <span class="mono">a953ba77 · c46fa3f4 · e2ae515b</span>.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
