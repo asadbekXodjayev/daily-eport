@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 11.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;11 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День <b>пакетных улучшений для менеджеров</b>: реализованы <b>8 рекомендаций бизнес-аналитика</b> (Sarbon_v2), на дашборде появился <b>переключатель графика «Линия ↔ Столбцы»</b> с добавляемыми/убираемыми сериями, <b>трекер истории рейсов</b> получил рейтинги, ФИО и цену в шагах, форма создания груза очищена от неиспользуемой кнопки «Заполнить из шаблона», а модалка приглашения водителя — от лишнего блока. Плюс блок фиксов <b>звонков в чате</b>: видеозвонок теперь с иконкой камеры и текстом «Видеозвонок».</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммитов:</b> <span class="mono">7</span> (1509584b … 38c164a8)</span>
+      <span><b>Объём:</b> <span class="tag">BA-рекомендации ×8</span> <span class="tag">дашборд · история рейсов</span> <span class="tag">чат-звонки</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">11.07.2026 — насыщенный день по веб-разделам <b>менеджера грузов и менеджера водителей</b>. Реализованы <b>8 фронтенд-доработок по ревью бизнес-аналитика</b> (автоперенос способа оплаты, объём с учётом кол-ва мест, причина отклонения + переотправка, подсказки по точкам маршрута, экран «аккаунт на проверке», липкий верхний скроллбар таблицы, отправка оффера из строки и нескольким водителям). На <b>дашборде аналитики</b> график активности получил переключатель <b>Линия ↔ Столбцы</b> и 5 серий-чипов (добавляемых/убираемых), а также ранее не показывавшиеся денежные метрики (выручка/стоимость завершённых, цена маршрута, средняя цена водителя). <b>Трекер истории рейсов</b> закрыл 6 пробелов (тултипы бейджей, рейтинги диспетчер/водитель, ФИО в шагах, цена в шаге, счётчик шагов, вид отменённых) и лишился горизонтального скролла. Форма <b>создания груза</b> очищена от нереализованной кнопки «Заполнить из шаблона», а модалка <b>приглашения водителя</b> — от ошибочного блока «Ожидающие приглашения» (теперь только поиск по телефону). Отдельный блок — <b>звонки в чате</b>: видеозвонок теперь показывает иконку камеры и текст «Видеозвонок» (раньше — телефон и «Голосовой»), устранено дублирование времени в пузырьке звонка, а подпись кнопки камеры стала действием («Включить/Выключить камеру») в 15 локалях. Таблица <b>менеджеров водителей</b> получила изменяемую ширину колонок и аккуратную кнопку «Отправить оффер». Флаги <b>email-входа и AI-создания груза</b> снова включены для тестирования.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">11</div><div class="l">задач за день (фичи + фиксы)</div></div>
+    <div class="stat blue"><div class="v">8</div><div class="l">доработок по BA-ревью (Sarbon_v2)</div></div>
+    <div class="stat good"><div class="v">1052/1052</div><div class="l">pnpm test (108 файлов)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b</div></div>
+    <div class="stat blue"><div class="v">15</div><div class="l">локалей обновлено (i18n)</div></div>
+    <div class="stat blue"><div class="v">7</div><div class="l">живых скриншотов (авторизация)</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    <b>Пакет улучшений для менеджеров грузов/водителей</b>: 8 доработок по рекомендациям бизнес-аналитика, переключатель графика «Линия ↔ Столбцы» на дашборде, полноценный трекер истории рейсов (рейтинги, ФИО, цена в шагах), очистка формы создания груза и модалки приглашения водителя, а также блок фиксов звонков в чате — прежде всего <b>иконка камеры и текст «Видеозвонок»</b> для видеозвонков.
+  </div>
+  <div class="callout blue">
+    <div class="h">Звонки в чате — три доработки</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Видеозвонок = камера + «Видеозвонок»</b> — медиа-тип звонка приходит в <span class="mono">payload.type</span> («video»), а код читал только <span class="mono">payload.call_type</span>; теперь читаем оба, поэтому видеозвонок показывается иконкой камеры и текстом «Видеозвонок» (а не телефоном/«Голосовой») и в пузырьке, и в превью списка бесед.</li>
+      <li><b>Без дублирования времени</b> — в пузырьке звонка время больше не показывается дважды, длительность не налезает на отметку доставки.</li>
+      <li><b>Кнопка камеры = действие</b> — подпись стала «Включить/Выключить камеру» (а не статус «Камера включена/выключена») во всех 15 локалях.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>BA-рекомендации · дашборд · история рейсов · форма груза · чат-звонки</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Бизнес-аналитик — 8 доработок (Sarbon_v2)</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>По ревью бизнес-аналитика — набор точечных улучшений для веб-разделов менеджера грузов и водителей (проверено, что каждый пункт реализуем на фронтенде, без новых полей/эндпоинтов бэкенда).</td>
+      <td>Автоперенос способа оплаты в строки предоплаты/остатка; объём = Д×Ш×В × кол-во мест; причина отклонения + «изменить и переотправить»; подсказки по точкам маршрута; экран «аккаунт на проверке» с контактом поддержки; липкий верхний скроллбар таблицы; отправка оффера из строки + нескольким водителям.</td>
+      <td><span class="mono">Step4Payment · Step1CargoInfo · MyCargoDetailPage · Step2Route · AccountUnderReviewScreen · Table · CargoDriverOfferPanel</span> + утилиты и тесты</td>
+    </tr>
+    <tr>
+      <td><b>Дашборд — график Линия/Столбцы + серии</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>График активности был только линией/областью; 5 серий нельзя было скрыть; аналитика возвращала неиспользуемые денежные поля.</td>
+      <td>Переключатель <b>Линия ↔ Столбцы</b> (гистограмма); 5 серий-чипов добавляемых/убираемых (нельзя скрыть последнюю видимую); выведены выручка/стоимость завершённых, цена маршрута, средняя цена водителя как KPI/строки.</td>
+      <td><span class="mono">ActivityChartBlock · ActivityChartCard(new) · RankedRows · activityChartControls(new) · useDashboardViewData · DashboardPage</span>, локали ×15, тест</td>
+    </tr>
+    <tr>
+      <td><b>История рейсов — трекер статусов (6 фиксов)</b> <span class="badge b-new">feature</span> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Трекер истории рейса имел 6 пробелов: два неясных бейджа, не показаны рейтинги, нет ФИО в шагах, цена только в шапке, необъяснённый счётчик «7», неясный вид отменённого. Плюс горизонтальный скролл.</td>
+      <td>Тултипы на бейджи событие/статус; рейтинги диспетчер/водитель (read-only звёзды); ФИО водителя в шагах (резолв по <span class="mono">/drivers/:id</span>); цена на завершающем шаге; тултип на счётчик шагов; подтверждён вид отменённых. Убран горизонтальный скролл.</td>
+      <td><span class="mono">cargoTypes · tripStatusTimeline · tripRatingsDisplay(new) · TripHistoryTimeline · TripHistoryRatings(new) · TripsHistoryCardsList · useTripsPresentation · useTripHistoryDriverNames(new)</span>, локали ×15, 3 теста</td>
+    </tr>
+    <tr>
+      <td><b>Отправка оффера из строки + несколько водителей</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Оффер отправлялся только из детальной панели и только одному водителю.</td>
+      <td>Компактная кнопка «отправить оффер» в колонке действий (all-cargos + my-cargos), доступна по статусу груза; выбор нескольких водителей за раз (по одному вызову на получателя, агрегированный итог).</td>
+      <td><span class="mono">CargoDriverOfferPanel · allCargosTableColumns · myCargosTableColumns · offerSendSummary(new)</span> + тест</td>
+    </tr>
+    <tr>
+      <td><b>Создание груза — убрана «Заполнить из шаблона»</b> <span class="badge b-info">cleanup</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>На странице «Создание груза» была кнопка + модалка «Заполнить из шаблона»; пикер шаблонов так и не был реализован, фича больше не нужна.</td>
+      <td>Удалено на всю глубину: кнопка, состояние, пропсы, тип и 4 осиротевших ключа локали ×15. Все 4 шага мастера и валидация не тронуты, ручной ввод работает.</td>
+      <td><span class="mono">CargoCreatePage · CargoForm · types.ts</span>, локали ×15 (−4 ключа)</td>
+    </tr>
+    <tr>
+      <td><b>Приглашение водителя — убран блок «Ожидающие приглашения»</b> <span class="badge b-info">cleanup</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Модалка «Пригласить нового водителя» ошибочно рендерила блок «Ожидающие приглашения (N)» — он относится к отдельной вкладке, а не к поиску.</td>
+      <td>Удалён блок + его пропсы/тип/источник данных. Модалка теперь только поиск водителя по телефону + отправка приглашения.</td>
+      <td><span class="mono">InviteDriverModal (−48) · DriversPage (−3) · useDriversPresentationData (−27)</span></td>
+    </tr>
+    <tr>
+      <td><b>Звонки в чате — иконка/текст видеозвонка</b> <span class="badge b-med">bug</span><br><span class="badge b-med">рабочее дерево</span></td>
+      <td>Видеозвонок (<span class="mono">call_type: video</span>) показывался в чате иконкой <b>телефона</b> и текстом «Голосовой звонок».</td>
+      <td>Медиа-тип звонка приходит в <span class="mono">payload.type</span> («video»), а код читал только <span class="mono">payload.call_type</span>. Теперь читаем оба → иконка камеры + «Видеозвонок» и в пузырьке, и в превью списка бесед.</td>
+      <td><span class="mono">chatCallEvents.ts · chatTypes.ts · ConversationItem.tsx</span> + тест (+2)</td>
+    </tr>
+    <tr>
+      <td><b>Звонки в чате — время в пузырьке + кнопка камеры</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>В пузырьке звонка время показывалось дважды, длительность налезала на отметку доставки; кнопка камеры показывала статус, а не действие.</td>
+      <td>Убрано дублирующее inline-время, строка статуса переносится; подпись кнопки камеры — действие («Включить/Выключить камеру») в 15 локалях.</td>
+      <td><span class="mono">MessageBubble.tsx · GlobalAudioCallModal.tsx</span>, локали ×15</td>
+    </tr>
+    <tr>
+      <td><b>Менеджеры водителей — таблица + кнопка</b> <span class="badge b-med">bug</span> <span class="badge b-info">ui</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Таблица «Менеджеры водителей» выглядела сломанной; колонки без изменения ширины; кнопка «отправить оффер» смотрелась чужеродно рядом с иконками.</td>
+      <td>Включена изменяемая ширина колонок + сохранение ширины (<span class="mono">resizeStorageKey</span>), аккуратная кнопка «Отправить оффер» (primary ghost), выровнены действия строки.</td>
+      <td><span class="mono">DriverManagersPage · useDriverManagerColumns</span></td>
+    </tr>
+    <tr>
+      <td><b>Флаги — email-вход и AI-создание (для тестирования)</b> <span class="badge b-med">flag</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>После релиза оба флага остались выключены; нужно вернуть для тестирования.</td>
+      <td><span class="mono">EMAIL_AUTH_ENABLED</span> и <span class="mono">AI_CARGO_CREATE_ENABLED</span> = true (только UI-гейтинг). Проверено на staging: страница AI-создания и Email-вход снова доступны.</td>
+      <td><span class="mono">constants/featureFlags.ts</span></td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ТАЙМЛАЙН -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по записям bug.md (2026-07-11)</small></h2>
+  <p class="lead">Технические записи — в <span class="mono">bug.md</span> (записи 2026-07-11 с 11:56 до 17:13).</p>
+
+  <div class="timeline">
+    <div class="ev feat">
+      <div class="t">11.07.2026 · 11:56</div>
+      <h4>8 доработок по рекомендациям бизнес-аналитика (Sarbon_v2) <span class="badge b-new">feature</span></h4>
+      <ul><li>Автоперенос способа оплаты, объём × кол-во мест, причина отклонения + переотправка, подсказки по точкам маршрута, экран «аккаунт на проверке», липкий верхний скроллбар, отправка оффера из строки + нескольким водителям.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">11.07.2026 · 12:20</div>
+      <h4>Флаги email-вход и AI-создание груза снова включены (для тестирования) <span class="badge b-med">flag</span></h4>
+      <ul><li>Проверено на staging: AI-создание и Email-вход доступны.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">11.07.2026 · 14:45</div>
+      <h4>Из модалки приглашения водителя убран блок «Ожидающие приглашения» <span class="badge b-info">cleanup</span></h4>
+      <ul><li>Модалка теперь только поиск по телефону + отправка приглашения.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">11.07.2026 · 15:05</div>
+      <h4>Подпись кнопки камеры в видеозвонке — действие, а не статус (15 локалей) <span class="badge b-med">bug</span></h4>
+      <ul><li>«Включить/Выключить камеру» вместо «Камера включена/выключена».</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">11.07.2026 · 15:25</div>
+      <h4>Убрана кнопка «Заполнить из шаблона» из формы создания груза <span class="badge b-info">cleanup</span></h4>
+      <ul><li>Удалено на всю глубину (кнопка/состояние/пропсы/тип/локали ×15); мастер и валидация не тронуты.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">11.07.2026 · 15:40 → 15:45</div>
+      <h4>История рейсов: трекер статусов — 6 фиксов + убран горизонтальный скролл <span class="badge b-new">feature</span></h4>
+      <ul><li>Тултипы бейджей, рейтинги диспетчер/водитель, ФИО в шагах, цена в шаге, счётчик шагов, отменённые рейсы; таблица без горизонтального скролла.</li></ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">11.07.2026 · 15:55</div>
+      <h4>Дашборд: переключатель графика Линия/Столбцы + добавляемые серии + денежные метрики <span class="badge b-new">feature</span></h4>
+      <ul><li>Гистограмма/линия, 5 серий-чипов, выведены выручка/цена маршрута/средняя цена водителя.</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">11.07.2026 · 16:00 → 16:05</div>
+      <h4>Пузырёк звонка: убрано дублирование времени · Менеджеры водителей: изменяемые колонки + кнопка <span class="badge b-med">bug</span></h4>
+      <ul><li>Длительность звонка не налезает на отметку доставки; таблица менеджеров водителей — resizable-колонки + аккуратная «Отправить оффер».</li></ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">11.07.2026 · 17:13</div>
+      <h4>Видеозвонок в чате: иконка камеры + текст «Видеозвонок» <span class="badge b-med">bug</span></h4>
+      <ul><li>Медиа-тип читается из <span class="mono">payload.type</span> в дополнение к <span class="mono">payload.call_type</span>; +2 регресс-теста на реальном payload.</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- QA -->
+<section id="qa">
+  <h2><span class="n">3</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="callout">
+      <div class="h ok">Воротные проверки</div>
+      <ul class="clean">
+        <li><span class="ok">0</span> ошибок <span class="mono">tsc -b</span> (типы)</li>
+        <li><span class="ok">0</span> предупреждений <span class="mono">eslint --max-warnings 0</span> на затронутых файлах</li>
+        <li><span class="ok">1052 / 1052</span> <span class="mono">pnpm test</span> (108 файлов) — включая новые тесты по графику активности, рейтингам/таймлайну рейса, объёму, автопереносу оплаты, итогам отправки офферов и разбору событий звонков</li>
+        <li>15 локалей синхронизированы для новых ключей истории рейсов, дашборда и подписей камеры</li>
+      </ul>
+    </div>
+    <div class="callout blue">
+      <div class="h">Что проверено вживую (Playwright, авторизация)</div>
+      <ul class="clean">
+        <li>Дашборд — переключение график ↔ гистограмма и серии-чипы</li>
+        <li>Создание груза — кнопки «Заполнить из шаблона» больше нет</li>
+        <li>Приглашение водителя — модалка только поиск по телефону, без блока «Ожидающие приглашения»</li>
+        <li>Отправка оффера из строки грузов, таблица менеджеров водителей, вкладка «История» рейсов</li>
+        <li>Видеозвонок (камера/«Видеозвонок») — подтверждён юнит-тестом на реальном payload <span class="mono">{type:'video'}</span>; живой скрин недоступен (у тест-аккаунтов нет беседы со звонком)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screenshots">
+  <h2><span class="n">4</span> Скриншоты <small>11.07.2026 · живой Playwright, авторизация</small></h2>
+  <p class="lead">Все скриншоты — <b>реальные</b>, сняты Playwright/Chromium против живого staging-бэкенда с авторизацией по паролю. Роли: Менеджер грузов <span class="mono">+998994878460</span>, Менеджер водителей <span class="mono">+998998809935</span>. Скрипты — в папке отчёта (<span class="mono">capture-11-*.cjs</span>).</p>
+
+  <h3>Дашборд — график активности: переключатель «Линия ↔ Столбцы» + добавляемые серии</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/01-dashboard-activity-line.png" alt="Dashboard activity chart, line/area" loading="lazy" />
+      <div class="ss-cap"><b>Линия/область</b><span class="tag-change">переключатель Линия · Столбцы + 5 серий-чипов</span> серии добавляются/убираются; тултип по неделе.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/02-dashboard-activity-bar.png" alt="Dashboard activity chart, bar histogram" loading="lazy" />
+      <div class="ss-cap"><b>Гистограмма (Столбцы)</b><span class="tag-change">тот же график, режим «Столбцы»</span> сгруппированные столбцы по неделям для 5 серий.</div>
+    </div>
+  </div>
+
+  <h3>Создание груза — без кнопки «Заполнить из шаблона»</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/03-cargo-create-no-template.png" alt="Cargo create form without template button" loading="lazy" />
+      <div class="ss-cap"><b>Мастер создания груза, шаг 1</b><span class="tag-change">в шапке только «Очистить форму»</span> кнопка «Заполнить из шаблона» удалена; шаги и валидация формы работают.</div>
+    </div>
+  </div>
+
+  <h3>Мои грузы — отправка оффера прямо из строки таблицы</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/04-my-cargos-row-offer.png" alt="My cargos table with row send-offer icon" loading="lazy" />
+      <div class="ss-cap"><b>Таблица «Мои грузы»</b><span class="tag-change">иконка «отправить оффер» в колонке действий</span> показана на грузах в статусе «Поиск (все)»; для «В процессе/Завершён» скрыта.</div>
+    </div>
+  </div>
+
+  <h3>Приглашение водителя — только поиск по телефону (блок «Ожидающие приглашения» убран)</h3>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/07-invite-driver-modal.png" alt="Invite driver modal, phone search only" loading="lazy" />
+      <div class="ss-cap"><b>Модалка «Пригласить нового водителя»</b><span class="tag-change">только «Найти водителя» по телефону</span> лишнего блока «Ожидающие приглашения» больше нет — он остался на отдельной вкладке.</div>
+    </div>
+  </div>
+
+  <h3>История рейсов · Менеджеры водителей</h3>
+  <div class="ss-grid">
+    <div class="ss-item">
+      <img src="img/06-trips-history-timeline.png" alt="Trips history status timeline" loading="lazy" />
+      <div class="ss-cap"><b>Рейсы → вкладка «История»</b><span class="tag-change">трекер статусов, без горизонтального скролла</span> отменённые рейсы показывают красный завершающий шаг (для завершённых — рейтинги и цена в шаге).</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/05-driver-managers-table.png" alt="Driver managers table" loading="lazy" />
+      <div class="ss-cap"><b>«Менеджеры водителей»</b><span class="tag-change">изменяемая ширина колонок + «Отправить оффер»</span> статус/рейтинг/активность + аккуратные действия строки.</div>
+    </div>
+  </div>
+</section>
+
+<!-- АРТЕФАКТЫ -->
+<section id="artifacts">
+  <h2><span class="n">5</span> Где что лежит <small>артефакты дня</small></h2>
+  <div class="card"><table>
+    <tr><th>Артефакт</th><th>Путь</th></tr>
+    <tr><td>Журнал работ дня (записи 11.07)</td><td class="mono">bug.md (2026-07-11 · 11:56 · 12:20 · 14:45 · 15:05 · 15:25 · 15:40 · 15:45 · 15:55 · 16:00 · 16:05 · 17:13)</td></tr>
+    <tr><td>Краткая сводка для PM (Excel)</td><td class="mono">daily-report/11.07.26/report-11.07.26.xlsx</td></tr>
+    <tr><td>Дашборд — график активности</td><td class="mono">src/pages/dashboard/components/{ActivityChartBlock,ActivityChartCard}.tsx · utils/activityChartControls.ts</td></tr>
+    <tr><td>История рейсов — трекер статусов</td><td class="mono">src/pages/trips/components/{TripHistoryTimeline,TripHistoryRatings}.tsx · hooks/useTripHistoryDriverNames.ts · utils/tripRatingsDisplay.ts</td></tr>
+    <tr><td>Звонки в чате (видео-иконка/текст)</td><td class="mono">src/pages/chat/utils/chatCallEvents.ts · types/chatTypes.ts · components/{MessageBubble,ConversationItem}.tsx</td></tr>
+    <tr><td>Отправка оффера из строки</td><td class="mono">src/pages/cargos/components/CargoDriverOfferPanel.tsx · utils/offerSendSummary.ts</td></tr>
+    <tr><td>Скриншоты (живые, авторизованные) + capture-скрипты</td><td class="mono">daily-report/11.07.26/img/ · capture-11-dashboard.cjs · capture-11-cargo-manager.cjs · capture-11-mycargos.cjs · capture-11-invite-modal.cjs</td></tr>
+    <tr><td>Отчёт предыдущего рабочего дня</td><td class="mono">daily-report/10.07.26/</td></tr>
+  </table></div>
+</section>
+
+<!-- РЕКОМЕНДАЦИИ -->
+<section id="next">
+  <h2><span class="n">6</span> Рекомендации и приоритеты</h2>
+  <ul class="clean">
+    <li><b>1. Видеозвонок в чате</b> — проверить на staging на реальной беседе с видеозвонком, что и в пузырьке, и в превью списка бесед виден значок камеры и текст «Видеозвонок» (у тест-аккаунтов беседы со звонком не было).</li>
+    <li><b>2. История рейсов — ФИО диспетчера/менеджера</b> — на стороне бэкенда добавить имя менеджера в записи истории (сейчас ФИО показывается только когда API отдаёт <span class="mono">cargo_manager_name</span>; резолва имени диспетчера на фронте нет).</li>
+    <li><b>3. Дашборд</b> — сверить денежные метрики (выручка/стоимость завершённых, цена маршрута, средняя цена водителя) с бэкендом при разных фильтрах и переключении Линия/Столбцы.</li>
+    <li><b>4. Отправка оффера нескольким водителям</b> — прогнать частичный успех (часть получателей приняла/часть отклонена) и корректность агрегированного сообщения.</li>
+  </ul>
+  <div class="callout">
+    <div class="h ok">Статус</div>
+    За день закрыто <b>11 задач</b> для веб-разделов менеджеров: 8 доработок по BA-ревью, дашборд с переключателем графика, трекер истории рейсов, очистка формы груза и модалки приглашения, блок фиксов чат-звонков (в т.ч. иконка камеры и текст «Видеозвонок»). Типы зелёные, <span class="mono">pnpm test 1052/1052</span> (108 файлов), 15 локалей синхронизированы. Все изменения, кроме фикса видео-иконки звонка (в рабочем дереве), закоммичены в <span class="mono">staging</span>.
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    Отчёт сформирован 11.07.2026 · Проект <b>sarbon-frontend</b> (ветка staging).<br>
+    Документ предназначен для PM, QA и стейкхолдеров. Технические подробности — в <span class="mono">bug.md</span> (записи 2026-07-11) и сегодняшних коммитах.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
