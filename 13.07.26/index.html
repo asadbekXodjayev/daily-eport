@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 13.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;13 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">Два больших направления: <b>админ-консоль</b> получила систему <b>внутренних заметок</b> (к грузам, водителям, менеджерам, компаниям), <b>действия прямо из журнала модерации</b> (редактирование + смена статуса из строки), нумерацию <b>№</b> во всех таблицах и липкий верхний скроллбар; в <b>чате</b> устранены тормоза телефонов от видеосообщений (ленивая загрузка + отрисовка кольца без re-render) и появилась <b>верхняя панель воспроизведения</b> в стиле Telegram. Плюс два серьёзных фикса: повторное сохранение типа водителя больше не приводит к 500, а из формы редактирования водителя убраны типы «Компания» и «Фрилансер».</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммитов:</b> <span class="mono">4</span> (7e11ccd0 … bbd0565b) + пакет в рабочем дереве</span>
+      <span><b>Объём:</b> <span class="tag">заметки админа</span> <span class="tag">журнал модерации</span> <span class="tag">чат-производительность</span> <span class="tag">типы водителя</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">13.07.2026 — день <b>админ-консоли и чата</b>. В админке появилась полноценная система <b>заметок модератора</b>: к любой сущности (груз, водитель, менеджер, компания) можно вести внутреннюю переписку-историю — колонка «Заметки» с последней записью и счётчиком в очередях модерации и журнале, панель-тред с добавлением/редактированием/удалением, статусом звонка, источником привлечения и флагом «нужен перезвон» (автор берётся из токена, 15 локалей). <b>Журнал модерации</b> получил меню действий в каждой строке — редактирование сущности и смена модерационного статуса без ухода со страницы, плюс модалку истории модерации груза и липкий верхний скроллбар таблицы. Все ~15 админ-таблиц обзавелись сквозной нумерацией <b>№</b> (не сбрасывается при пагинации). Исправлен баг сворачиваемой сводки модерации (открытие прятало детальные карточки). В <b>чате</b> побеждены тормоза телефонов от круглых видеосообщений: клипы теперь грузятся лениво по мере прокрутки, кольцо прогресса рисуется без 60 re-render/сек, а воспроизведение получило <b>верхнюю панель</b> в стиле Telegram (пауза, перемотка, скорость, одно воспроизведение за раз) и «эксклюзивное» увеличение по клику. Два фикса форм редактирования в админке: после сохранения кэш детали инвалидируется (раньше повторное открытие показывало старый тип водителя и повторное сохранение падало с 500), а из выпадающего списка «Тип» убраны легаси-значения <b>«Компания» и «Фрилансер»</b> — включая записи со старым верхним регистром (FREELANCER), при этом легаси-значение существующей записи отображается локализованной подписью, а не сырым кодом.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">8</div><div class="l">задач за день (фичи + фиксы)</div></div>
+    <div class="stat blue"><div class="v">4</div><div class="l">коммита + пакет в рабочем дереве</div></div>
+    <div class="stat good"><div class="v">1134/1134</div><div class="l">pnpm test (123 файла)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b · 0 предупреждений ESLint</div></div>
+    <div class="stat blue"><div class="v">15</div><div class="l">локалей обновлено (i18n)</div></div>
+    <div class="stat blue"><div class="v">8</div><div class="l">живых скриншотов (админ + диспетчер)</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    <b>Заметки администратора</b> на любой сущности + <b>действия из журнала модерации</b> (редактирование и смена статуса прямо из строки) превращают журнал из read-only лога в рабочий инструмент модератора. В чате — <b>ленивая загрузка видеосообщений</b> и панель воспроизведения: телефоны больше не «греются» от открытия треда с клипами.
+  </div>
+  <div class="callout blue">
+    <div class="h">Типы водителя — «Компания» и «Фрилансер» удалены из формы редактирования</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Выпадающий список = Водитель · Диспетчер · Владелец</b> — легаси-типы больше не предлагаются ни при каких условиях, включая записи со старым верхним регистром (<span class="mono">FREELANCER</span>/<span class="mono">COMPANY</span> — бэкенд отдаёт оба варианта написания).</li>
+      <li><b>Существующие записи не ломаются</b> — если у водителя сейчас легаси-тип, поле показывает локализованную подпись («Компания»), а не сырой код, но повторно выбрать её нельзя; сохранение без изменения типа не отправляет ничего лишнего.</li>
+      <li><b>Логика вынесена в чистый хелпер</b> <span class="mono">buildDriverTypeSelectValues()</span> с 5 юнит-тестами (регистры, trim, неизвестные значения будущих типов остаются выбираемыми).</li>
+    </ul>
+  </div>
+  <div class="callout warn">
+    <div class="h">Фикс «повторное сохранение типа → 500»</div>
+    После сохранения типа водителя повторное открытие формы показывало <b>старый</b> тип (кэш TanStack Query не инвалидировался), пользователь «пересохранял» уже применённое изменение — и второй PATCH падал на бэкенде с 500. Теперь все три формы (водитель, диспетчер, груз) после сохранения инвалидируют кэш детали: при повторном открытии видно сохранённое значение, а повторный выбор того же типа уходит в ветку «нет изменений» без запроса.
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>заметки админа · журнал модерации · нумерация · чат · формы редактирования</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Заметки администратора (внутренние комментарии)</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Модераторам негде было фиксировать историю работы с сущностью (звонили/не звонили, договорённости, источник привлечения) — контекст терялся между сменами.</td>
+      <td>Система заметок к любой сущности (груз / водитель / менеджер / компания) через <span class="mono">/v1/admin/comments</span>: колонка «Заметки» (последняя запись + счётчик «+N») в очередях модерации и журнале; панель-тред с добавлением, редактированием, удалением; поля «статус звонка», «источник привлечения», «нужен перезвон»; автор берётся из токена (не подделывается клиентом); ленивая загрузка панели — таблица из N строк не монтирует N панелей.</td>
+      <td><span class="mono">AdminCommentsDrawer(new) · AdminNotesCell(new) · adminComments.ts(new) · endpoints · queryKeys</span>, локали ×15, 4 теста</td>
+    </tr>
+    <tr>
+      <td><b>Журнал модерации — действия из строки</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Журнал был read-only: увидев проблемную запись, модератор шёл искать сущность на других страницах, чтобы отредактировать или сменить статус.</td>
+      <td>Меню «⋯» в каждой строке: <b>Редактировать</b> (открывает форму водителя/менеджера/груза с самозагрузкой по id), <b>Принять / Отклонить</b> и подменю «Модерация» (полный жизненный цикл: активировать, блокировать и т.д. — те же действия и подтверждения, что на страницах модерации); модалка истории модерации груза; статус «заблокирован» корректно выводится из <span class="mono">to_status</span>.</td>
+      <td><span class="mono">ModerationLogRowActions(new) · moderationLogActions.ts(new) · CargoModerationHistoryModal(new) · useModerationLifecycleItems(new)</span>, 3 теста</td>
+    </tr>
+    <tr>
+      <td><b>Нумерация № во всех админ-таблицах</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>В плотных «экселевских» таблицах не к чему привязаться при обсуждении («какая строка?»); при пагинации нумерация терялась.</td>
+      <td>Ведущая колонка «№» во всех ~15 админ-таблицах: сквозная (учитывает страницу — на 2-й странице при 50/стр первая строка = 51), реализована общим пропом таблицы + хелперами для AntD-таблиц.</td>
+      <td><span class="mono">Table (rowNumber prop) · rowNumberColumn(new) · usePaginationOffset(new)</span> + 15 страниц, 3 теста</td>
+    </tr>
+    <tr>
+      <td><b>Сводка модерации — сворачиваемый обзор</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Открытие «Общего вида» показывало KPI-карточки, но детальные карточки очередей оставались невидимыми (пустое место), а вкладки уезжали за экран.</td>
+      <td>Причина — вставленный <span class="mono">motion.section</span> обрывал каскад framer-motion-вариантов от <span class="mono">AdminPageStack</span> к карточкам (они застревали в opacity:0). Контент секции стал обычным <span class="mono">&lt;div&gt;</span> — карточки снова анимируются и занимают своё место.</td>
+      <td><span class="mono">AdminCollapsibleSection.tsx</span>, render-тест</td>
+    </tr>
+    <tr>
+      <td><b>Журнал модерации — верхний скроллбар + полировка заметок</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>У широкой таблицы журнала горизонтальный скролл был только снизу — чтобы прокрутить, надо было уехать в конец списка.</td>
+      <td>Липкий верхний скроллбар, синхронизированный с таблицей (как в экселе); доработки панели заметок по итогам прогона.</td>
+      <td><span class="mono">TableTopScrollBar(new) · useTableTopScroll(new) · AdminModerationLogPage · AdminCommentsDrawer</span></td>
+    </tr>
+    <tr>
+      <td><b>Чат — видеосообщения не тормозят телефоны</b> <span class="badge b-med">bug</span> <span class="badge b-new">feature</span><br><span class="badge b-info">в рабочем дереве</span></td>
+      <td>Открытие треда с круглыми видеосообщениями «вешало» телефон: каждый пузырёк качал весь клип при монтировании (~9 МБ на минуту записи × N клипов), кольцо прогресса перерисовывало пузырёк ~60 раз/сек, а прогресс загрузки дёргал стор на каждый сетевой чанк.</td>
+      <td>Ленивая загрузка клипа по приближению к экрану (IntersectionObserver, 300px); кольцо/время рисуются императивно в rAF без setState; прогресс загрузки — не чаще 1%; автоплей уважает reduced-motion и не перебивает голосовые. Плюс: <b>верхняя панель воспроизведения</b> в стиле Telegram (пауза, ±перемотка, скорость 1×/1.5×/2× с запоминанием, одно воспроизведение за раз) и увеличение видеосообщения по клику — эксклюзивное (другие сворачиваются).</td>
+      <td><span class="mono">ChatPlaybackBar(new) · useChatPlaybackStore(new) · ChatVideoNoteMessage · ChatVideoNoteRing · ChatVoiceMessage · useChatMediaSrc · useVideoNoteUploadStore</span>, 2 теста</td>
+    </tr>
+    <tr>
+      <td><b>Формы редактирования в админке — свежий кэш после сохранения</b> <span class="badge b-high">bug</span><br><span class="badge b-info">в рабочем дереве</span></td>
+      <td>После смены типа водителя повторное открытие формы показывало старый тип («как будто не сохранилось»); повторное сохранение отправляло уже применённый переход — бэкенд отвечал 500.</td>
+      <td>Все три формы (водитель, диспетчер, груз) после успешного PATCH инвалидируют кэш детали — при повторном открытии форма показывает сохранённые значения, а повторный выбор того же значения уходит в ветку «нет изменений» (запрос не отправляется вовсе).</td>
+      <td><span class="mono">AdminDriverEditDrawer · AdminDispatcherEditDrawer · AdminCargoEditModal</span> (инвалидция в onSuccess)</td>
+    </tr>
+    <tr>
+      <td><b>Тип водителя — убраны «Компания» и «Фрилансер»</b> <span class="badge b-new">feature</span><br><span class="badge b-info">в рабочем дереве</span></td>
+      <td>Продуктовое решение: легаси-типы «Компания» и «Фрилансер» не должны предлагаться при редактировании водителя (модерация и страница водителей используют одну форму).</td>
+      <td>Список «Тип» = Водитель · Диспетчер · Владелец. Исключение регистронезависимое (бэкенд отдаёт и <span class="mono">freelancer</span>, и <span class="mono">FREELANCER</span>); легаси-значение существующей записи отображается переводом («Компания»), а не сырым кодом, но выбрать его заново нельзя; неизвестные будущие типы по-прежнему не теряются. Логика — чистый хелпер + 5 юнит-тестов.</td>
+      <td><span class="mono">driverEditFields.ts (buildDriverTypeSelectValues) · AdminDriverEditDrawer (labelRender)</span>, тест(new)</td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ХРОНОЛОГИЯ -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по коммитам и записям bug.md</small></h2>
+  <div class="timeline">
+    <div class="ev feat">
+      <div class="t">13:44 · 7e11ccd0</div>
+      <h4>Заметки администратора + действия в журнале модерации</h4>
+      <ul>
+        <li>Система заметок: панель-тред, ячейка «Заметки», парсинг/пейлоады, эндпоинты и query-keys, локали ×15.</li>
+        <li>Журнал модерации: меню «⋯» (редактировать / принять / отклонить / жизненный цикл), модалка истории модерации груза.</li>
+        <li>6 файлов тестов (заметки, действия журнала, сводка модерации).</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">14:44 · 67eb379e</div>
+      <h4>Нумерация № во всех админ-таблицах + сворачиваемая сводка</h4>
+      <ul>
+        <li>Колонка «№» на ~15 страницах админки (общий проп Table + хелперы для AntD-таблиц, сквозная нумерация между страницами).</li>
+        <li><span class="mono">AdminCollapsibleSection</span> для сводки модерации, 5 тестов.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">15:00–15:09 · e9f1e7c0</div>
+      <h4>Фикс сводки модерации + доводка заметок</h4>
+      <ul>
+        <li>Баг: открытие «Общего вида» прятало детальные карточки (обрыв каскада framer-motion-вариантов) — контент стал обычным div.</li>
+        <li>Редактирование/удаление заметок, поля «статус звонка» / «источник» / «нужен перезвон», локали ×15.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">15:48 · bbd0565b</div>
+      <h4>Липкий верхний скроллбар журнала модерации</h4>
+      <ul>
+        <li><span class="mono">TableTopScrollBar</span> + <span class="mono">useTableTopScroll</span>: горизонтальная прокрутка широкой таблицы доступна сверху, синхронно с нижней.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">16:58 · bug.md</div>
+      <h4>Чат: видеосообщения перестали тормозить телефоны</h4>
+      <ul>
+        <li>Ленивая загрузка клипов (IntersectionObserver, 300px до экрана) вместо скачивания всех клипов треда при открытии.</li>
+        <li>Кольцо прогресса и время — императивная отрисовка в rAF (0 setState на кадр); прогресс загрузки — порог 1%.</li>
+        <li>Верхняя панель воспроизведения (Telegram-стиль) + эксклюзивное увеличение по клику.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">17:02 · bug.md</div>
+      <h4>Формы редактирования: повторный PATCH типа → 500 устранён</h4>
+      <ul>
+        <li>Кэш детали (водитель/диспетчер/груз) инвалидируется после сохранения — форма при повторном открытии показывает сохранённое, дубль-запрос не уходит.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">вечер · рабочее дерево</div>
+      <h4>Тип водителя: «Компания» и «Фрилансер» удалены из формы</h4>
+      <ul>
+        <li>Выпадающий список = Водитель / Диспетчер / Владелец; исключение регистронезависимое; легаси-значение записи показывается переводом (не сырым кодом) и недоступно для повторного выбора.</li>
+        <li>Чистый хелпер <span class="mono">buildDriverTypeSelectValues</span> + 5 юнит-тестов; live-проверка Playwright на staging (в т.ч. принудительные <span class="mono">FREELANCER</span>/<span class="mono">company</span> ответы API).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screens">
+  <h2><span class="n">3</span> Скриншоты <small>живой Playwright · staging · админ + менеджер грузов</small></h2>
+  <p class="lead">Все снимки сделаны в реальном приложении (dev-сервер на staging-API) с авторизацией: админ-консоль — учётка администратора, чат — менеджер грузов +998994878460.</p>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/08-chat-video-note-playing.png" alt="Видеосообщение воспроизводится: увеличенный кружок, кольцо прогресса, верхняя панель воспроизведения" />
+      <div class="ss-cap"><b>Чат · видеосообщение играет</b><span class="tag-change">новое</span> — кружок увеличен по клику (второй остался маленьким — увеличение эксклюзивное), кольцо прогресса рисуется без re-render, сверху — панель воспроизведения в стиле Telegram: пауза, перемотка, «Вы · 16:39», таймер, громкость, скорость 1×.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/07-chat-video-note.png" alt="Тред с видеосообщением до воспроизведения" />
+      <div class="ss-cap"><b>Чат · видеосообщение в треде</b><span class="tag-change">производительность</span> — клип скачивается лениво, только когда пузырёк приближается к экрану (раньше — все клипы треда сразу при открытии).</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/09-chat-voice-thread.png" alt="Тред с голосовым сообщением" />
+      <div class="ss-cap"><b>Чат · голосовые</b> — воспроизведение подчинено тому же принципу «один плеер за раз»; скорость запоминается между сообщениями.</div>
+    </div>
+    <div class="ss-item full">
+      <img src="img/03-moderation-log-row-actions.png" alt="Журнал модерации: колонка Заметки и меню действий в строке" />
+      <div class="ss-cap"><b>Журнал модерации · действия из строки</b><span class="tag-change">новое</span> — меню «⋯»: Редактировать, Принять, Отклонить, подменю «Модерация»; колонка «Заметки» с «+ Добавить заметку»; журнал перестал быть read-only.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/02-admin-notes-drawer.png" alt="Панель заметок администратора с тредом" />
+      <div class="ss-cap"><b>Заметки администратора</b><span class="tag-change">новое</span> — тред заметок к сущности: статус звонка, источник привлечения, «нужен перезвон», редактирование и удаление; автор — из токена.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/01-moderation-overview-collapsible.png" alt="Модерация: сворачиваемая сводка с детальными карточками" />
+      <div class="ss-cap"><b>Модерация · сводка</b><span class="tag-change">фикс</span> — «Общий вид» разворачивается корректно: KPI-карточки и детальные карточки очередей видны, вкладки на месте.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/04-drivers-row-numbers.png" alt="Таблица водителей с колонкой №" />
+      <div class="ss-cap"><b>Водители · колонка №</b><span class="tag-change">новое</span> — сквозная нумерация во всех админ-таблицах, не сбрасывается при переходе по страницам.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/05-driver-type-dropdown.png" alt="Форма редактирования водителя: тип — только Водитель, Диспетчер, Владелец" />
+      <div class="ss-cap"><b>Редактирование водителя · Тип</b><span class="tag-change">изменение</span> — список сокращён до «Водитель / Диспетчер / Владелец»: «Компания» и «Фрилансер» удалены (включая легаси-записи в верхнем регистре).</div>
+    </div>
+  </div>
+</section>
+
+<!-- КАЧЕСТВО -->
+<section id="quality">
+  <h2><span class="n">4</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Автоматические проверки</h3>
+      <ul class="clean">
+        <li><span class="ok">✓</span> <b>pnpm test:</b> 1134/1134, 123 файла (за день +10 файлов тестов: заметки ×4, журнал ×3, нумерация ×3-в-2, чат-сторы ×2, тип водителя ×1)</li>
+        <li><span class="ok">✓</span> <b>tsc -b:</b> 0 ошибок (полная сборка с project references)</li>
+        <li><span class="ok">✓</span> <b>ESLint:</b> 0 предупреждений (--max-warnings 0)</li>
+        <li><span class="ok">✓</span> <b>Локали:</b> ключи <span class="mono">admin.comments.*</span> и правки добавлены во все 15 файлов</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Живые проверки (Playwright, staging)</h3>
+      <ul class="clean">
+        <li><span class="ok">✓</span> Тип водителя: выпадающий список = ровно 3 значения; принудительные ответы API с <span class="mono">FREELANCER</span> и <span class="mono">company</span> — легаси-тип не предлагается, подпись локализована</li>
+        <li><span class="ok">✓</span> Заметки: тред открывается из ячейки, записи добавляются/редактируются</li>
+        <li><span class="ok">✓</span> Журнал модерации: меню действий в строке работает</li>
+        <li><span class="ok">✓</span> Чат: видеосообщение играет с панелью воспроизведения, увеличение эксклюзивное</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">На контроле / следующие шаги</div>
+    <ul class="clean" style="margin-top:4px">
+      <li>Пакет рабочего дерева (чат-производительность, инвалидция кэша, типы водителя) готов к коммиту — тесты и сборка зелёные.</li>
+      <li>Замер производительности чата на реальном телефоне — за пользовательским QA на staging.</li>
+      <li>Словарь типов водителя разъехался по 4 местам кодовой базы (тип-юнион, массивы формы, локали) — стоит централизовать отдельной задачей.</li>
+      <li>Бэкенд по-прежнему принимает/отдаёт «company»/«freelancer» — удаление только на фронтенде (осознанное продуктовое решение).</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    Отчёт сформирован 13.07.2026 · sarbon-frontend · ветка staging · коммиты 7e11ccd0…bbd0565b + рабочее дерево · скриншоты: живой Playwright на staging (админ + менеджер грузов) · файлы: report-13.07.26.xlsx, img/*.png
+  </div>
+</footer>
+
+</body>
+</html>
