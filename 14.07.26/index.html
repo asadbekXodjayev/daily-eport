@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Отчёт о работе · 14.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346;white-space:nowrap}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#acd9ff;font-weight:600}
+  header.top h1{margin:.25em 0 .15em;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  header.top .sub{color:#d4ddff;font-size:16px;max-width:900px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:#cdd8ff}
+  .meta-row b{color:#fff;font-weight:600}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:12.5px;color:#fff}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:23px;font-weight:800;letter-spacing:-.3px;margin:0 0 4px;display:flex;align-items:center;gap:11px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h2 small{font-weight:500;color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:940px}
+  h3{font-size:16.5px;margin:22px 0 8px;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0 6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.warn .v{color:var(--high)} .stat.blue .v{color:var(--blue)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.6px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  td.mono,td .mono{white-space:normal}
+
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .b-crit{background:var(--crit)} .b-high{background:var(--high)} .b-med{background:var(--med)} .b-low{background:var(--low)} .b-info{background:var(--info)} .b-ok{background:var(--ok)} .b-new{background:var(--green)} .b-design{background:#7c3aed}
+
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;margin-bottom:18px}
+  .ev::before{content:"";position:absolute;left:-26px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ev.fix::before{border-color:var(--ok)}
+  .ev.feat::before{border-color:var(--green)}
+  .ev .t{font-size:12.5px;color:var(--blue);font-weight:700;font-family:monospace}
+  .ev h4{margin:2px 0 6px;font-size:15.5px}
+  .ev ul{margin:6px 0;padding-left:18px}
+  .ev li{margin:3px 0}
+
+  .callout{background:#f0fdf6;border:1px solid #b7ebd2;border-radius:12px;padding:14px 18px;margin:16px 0}
+  .callout.blue{background:var(--blue-soft);border-color:#c4d2ff}
+  .callout.warn{background:#fff7ed;border-color:#fed7aa}
+  .callout .h{font-weight:700;margin-bottom:4px}
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:5px 0}
+  .ok{color:var(--ok);font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header.top h1{font-size:26px}}
+
+  .ss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:16px 0}
+  .ss-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .ss-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(20,30,60,.06)}
+  .ss-item.full{grid-column:1/-1}
+  .ss-item img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .ss-item.mobile img{max-width:300px;margin:0 auto}
+  .ss-cap{padding:9px 14px;font-size:12.5px;color:var(--muted)}
+  .ss-cap b{color:var(--ink);font-weight:700}
+  .ss-cap .tag-change{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:6px}
+  @media(max-width:820px){.ss-grid,.ss-grid.cols3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Отчёт о проделанной работе · для PM, QA и стейкхолдеров</div>
+    <h1>Итоги за&nbsp;14 июля 2026 — Sarbon Frontend</h1>
+    <div class="sub">День раздела <b>«Компания»</b> — третьей личности продукта: владелец компании теперь <b>регистрируется</b> (телефон + Telegram-OTP), <b>входит</b> (пароль / одноразовый код), <b>заполняет профиль</b> и ведёт компанию (главная, профиль, детальная страница с грузами). Правый <b>баннер входа переделан</b> из «снайперского прицела» (кольца + спицы) в живую логистическую сцену: центр — SARBON, вокруг разбросаны точки (парк, команда, грузы, маршруты, склад), к центру ведут <b>змеевидные маршруты</b> с летящими «пакетами». Плюс: <b>автофокус поля OTP</b>, победа над <b>лагами записи видеосообщений</b>, перестройка экрана <b>«Аккаунт на проверке»</b> и тёмная тема диспетчерского баннера.</div>
+    <div class="meta-row">
+      <span><b>Проект:</b> sarbon-frontend (React 19 · Vite · Ant Design 6)</span>
+      <span><b>Ветка:</b> staging</span>
+      <span><b>Коммитов:</b> <span class="mono">6</span> (d285f170 … be5fe1b1)</span>
+      <span><b>Объём:</b> <span class="tag">раздел «Компания»</span> <span class="tag">баннер входа</span> <span class="tag">автофокус OTP</span> <span class="tag">запись видео</span> <span class="tag">экран модерации</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- РЕЗЮМЕ -->
+<section id="summary">
+  <h2><span class="n">i</span> Краткое резюме</h2>
+  <p class="lead">14.07.2026 — день <b>раздела «Компания»</b>. У владельца компании появился собственный сквозной путь: <b>регистрация</b> по телефону с подтверждением через <b>Telegram-OTP</b> → шаг <b>«Профилни якунланг»</b> (имя + пароль); <b>вход</b> с вкладками «Пароль» и «Одноразовый код»; страницы завершения профиля и создания компании; <b>приложение владельца</b> — главная с карточками-статусами (кликабельны и ведут прямо на детальную), <b>профиль</b> в стиле основного приложения (сайдбар личности + вкладки «Личное» / «Аккаунт», выход убран из навбара в профиль, на мобильном — внизу страницы), и <b>детальная страница компании</b> (просмотр/редактирование через <span class="mono">GET/PATCH /v1/companies/:id</span> + вкладка «Грузы»). Правый <b>баннер входа переделан</b>: вместо концентрических «радарных» колец и прямых спиц (выглядело как прицел) — центральный HQ <b>SARBON</b>, вокруг асимметрично разбросаны иконки-узлы (парк, команда, грузы, маршруты, склад), к центру ведут волнистые <b>змеевидные маршруты</b>, по которым внутрь к хабу летят светящиеся <b>«пакеты»</b>; фон-сетка/свечения сохранены, поведение безопасно для reduced-motion и корректно в тёмной теме. Отдельно: поле <b>OTP теперь активно сразу</b> (первая ячейка выделена в момент появления — код можно вводить без клика; при неверном коде фокус возвращается на первую ячейку); <b>запись кружка-видео/голосового больше не лагает</b> (секундомер вынесен во внешний стор, отрисовка canvas и волны ограничены частотой захвата); экран <b>«Аккаунт на проверке»</b> перестроен так, что кнопки не ломают вёрстку в длинных локалях, а связь с поддержкой ведёт в <b>Telegram/Email/звонок</b>; и диспетчерский баннер входа получил <b>тёмную тему</b>.</p>
+
+  <div class="stats">
+    <div class="stat blue"><div class="v">8</div><div class="l">задач за день (фичи + фиксы)</div></div>
+    <div class="stat blue"><div class="v">6</div><div class="l">коммитов (d285f170…be5fe1b1)</div></div>
+    <div class="stat good"><div class="v">1226/1226</div><div class="l">pnpm test (136 файлов)</div></div>
+    <div class="stat good"><div class="v">0</div><div class="l">ошибок tsc -b · 0 предупреждений ESLint</div></div>
+    <div class="stat blue"><div class="v">15</div><div class="l">локалей обновлено (i18n)</div></div>
+    <div class="stat blue"><div class="v">6</div><div class="l">живых скриншотов (раздел «Компания»)</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="h ok">Главное за день</div>
+    <b>Раздел «Компания» — третья личность продукта.</b> Владелец компании получил полный путь: регистрация (телефон + Telegram-OTP), вход, завершение профиля, ведение компании (главная / профиль / детальная страница с грузами). Это отдельная авторизация и отдельное приложение — не смешаны с диспетчером и админом.
+  </div>
+  <div class="callout blue">
+    <div class="h">Баннер входа компании — «прицел» заменён на логистическую сцену</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Было:</b> концентрические пульсирующие кольца + прямые спицы от центра по технической сетке — визуально читалось как «снайперский прицел».</li>
+      <li><b>Стало:</b> центр — HQ <span class="mono">SARBON</span>; вокруг <b>асимметрично разбросаны</b> иконки-узлы (парк · команда · грузы · маршруты · склад); к центру ведут <b>волнистые «змеевидные» маршруты</b> (кубические S-кривые), по которым внутрь к хабу <b>летят светящиеся пакеты</b> (синие/зелёные).</li>
+      <li><b>Аккуратно к качеству:</b> фон-сетка и свечения сохранены (единый язык с другими баннерами); при <span class="mono">prefers-reduced-motion</span> сцена статична и пакеты скрыты; корректно в light/dark. Один и тот же баннер обслуживает и вход, и регистрацию компании.</li>
+    </ul>
+  </div>
+  <div class="callout warn">
+    <div class="h">Автофокус OTP — минус один клик на каждом входе</div>
+    Поле кода теперь <b>активно (первая ячейка выделена) в момент появления</b> — код из Telegram/SMS вводится сразу. При <b>неверном</b> коде фокус возвращается на первую ячейку. Одно изменение общего <span class="mono">OtpField</span> покрывает вход, регистрацию, восстановление и смену телефона/email в профиле.
+  </div>
+</section>
+
+<!-- ИЗМЕНЕНИЯ -->
+<section id="changes">
+  <h2><span class="n">1</span> Все изменения дня <small>раздел «Компания» · баннер входа · OTP · запись видео · экран модерации</small></h2>
+  <div class="card"><table>
+    <tr><th>Область</th><th>Что было / причина</th><th>Что сделано</th><th>Файлы</th></tr>
+    <tr>
+      <td><b>Раздел «Компания» — приложение владельца</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>У компании-владельца не было своего интерфейса — только диспетчер и админ. Нужна третья личность: регистрация, ведение компании, профиль.</td>
+      <td>Главная (карточки-статусы → прямая ссылка на детальную), профиль (сайдбар личности + «Личное»/«Аккаунт», выход перенесён из навбара в профиль, мобильный выход — внизу), детальная страница компании (<span class="mono">GET/PATCH /v1/companies/:id</span> + вкладка «Грузы»), создание компании; стор <span class="mono">useCompanyAuthStore</span>, типы, утилиты, гварды маршрутов.</td>
+      <td><span class="mono">pages/company/{home,profile,detail,create} · CompanyLayout · useCompanyAuthStore · companyTypes · CompanyRouteGuards</span>, локали ×15, тесты</td>
+    </tr>
+    <tr>
+      <td><b>Раздел «Компания» — вход и регистрация</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Владельцу нужен отдельный вход/регистрация (телефон + Telegram-OTP), не смешанный с диспетчерским.</td>
+      <td>Регистрация: телефон → OTP → «Профилни якунланг» (имя/пароль). Вход: вкладки «Пароль» / «Одноразовый код». Страницы OTP и завершения профиля. Кросс-ссылки диспетчер↔компания. Языко-префиксные маршруты и гварды.</td>
+      <td><span class="mono">pages/company/auth/{register,login,otp,complete} · companyOtpChannels.ts · RootRouter · paths.ts</span>, локали ×15</td>
+    </tr>
+    <tr>
+      <td><b>Баннер входа компании — из «прицела» в логистическую сцену</b> <span class="badge b-design">design</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Правая анимация входа выглядела как «снайперский прицел»: концентрические пульсирующие кольца + прямые спицы от центра по сетке.</td>
+      <td>Центр — HQ SARBON; вокруг асимметрично разбросаны иконки-узлы; к центру ведут волнистые «змеевидные» маршруты (S-кривые, чистый хелпер <span class="mono">makeSnakePath</span>), по которым внутрь летят светящиеся «пакеты» (SMIL <span class="mono">animateMotion</span>). Фон-сетка/свечения сохранены; reduced-motion — статично, пакеты скрыты; темы light/dark.</td>
+      <td><span class="mono">layouts/auth-layout/banners/CompanyAuthBanner.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Автофокус поля OTP + возврат фокуса при ошибке</b> <span class="badge b-new">feature</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Когда появлялось поле кода, приходилось сначала кликнуть в него — лишний шаг на каждом входе/регистрации; при неверном коде фокус не возвращался.</td>
+      <td>Общий <span class="mono">OtpField</span>: <span class="mono">focus()</span> на первую ячейку при монтировании; при очистке поля после неверного кода — повторный фокус на ячейку 0. Одно изменение покрывает вход, регистрацию, восстановление и смену телефона/email в профиле.</td>
+      <td><span class="mono">components/ui/OtpField.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Запись видеосообщений лагала (ПК/ноутбук/телефон)</b> <span class="badge b-high">bug</span> <span class="badge b-med">perf</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Во время записи кружка-видео (и голосового) весь UI чата и превью лагали: секундомер писался в React-стейт ~10×/сек внутри ~1145-строчного <span class="mono">ChatPage</span> → перерисовывались тред и композер; canvas рисовался на частоте дисплея при захвате 30fps; волновая дорожка — ~60fps.</td>
+      <td>Секундомер вынесен во внешний стор (<span class="mono">elapsedClockStore</span> + <span class="mono">useSyncExternalStore</span> в новом <span class="mono">RecordingClock</span>) — на тик перерисовывается только <span class="mono">&lt;span&gt;</span>; canvas ограничен частотой захвата (rVFC / rAF ~30fps); <span class="mono">VoiceWaveBars</span> — гейт ~30fps. Применено к обоим рекордерам.</td>
+      <td><span class="mono">hooks/elapsedClockStore.ts(new) · useVideoNoteRecorder · useVoiceRecorder · RecordingClock(new) · ChatComposerPanel · VoiceWaveBars</span>, тест</td>
+    </tr>
+    <tr>
+      <td><b>Экран «Аккаунт на проверке» + связь с поддержкой</b> <span class="badge b-new">feature</span> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Кнопки статуса модерации ломали вёрстку в длинных локалях (uz «Qo‘llab-quvvatlashga murojaat» переносил «Chiqish» на вторую строку); «Связаться» вело на <span class="mono">tel:</span>, email-кнопки не было.</td>
+      <td>Перестроен без AntD <span class="mono">Result</span>: полноширинная «Проверить снова» (не переносится), карточка «Что дальше?», текстовый «Выход»; <span class="mono">SupportChannels</span> — вертикальные брендовые строки: Telegram <span class="mono">@Sarbonme</span>, Email <span class="mono">info@sarbon.me</span>, звонок +998 95 005 66 11. Тот же экран — для «Аккаунт отклонён». Слово account-смысла uz/oz «Hisob»→«Profil» (омонимы сохранены).</td>
+      <td><span class="mono">shared/moderation/{SupportChannels(new),AccountUnderReviewScreen,AccountRejectedScreen} · constants/support.ts</span>, uz/oz + локали ×15</td>
+    </tr>
+    <tr>
+      <td><b>Диспетчерский баннер входа — тёмная тема</b> <span class="badge b-med">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>На <span class="mono">/auth/*</span> в тёмной теме левая форма темнела, а правый баннер (грузовик на дороге) оставался светло-лавандовым — резкий разрыв.</td>
+      <td>Баннер извлечён дословно до появления системы тем — большие поверхности были захардкожены светлыми hex. Добавлены <span class="mono">dark:</span>-варианты фона и дороги, подпись переведена на <span class="mono">var(--sarbon-text-muted)</span>. Грузовик/пины оставлены (читаются как «ночная езда»).</td>
+      <td><span class="mono">layouts/auth-layout/banners/DispatcherAuthBanner.tsx</span></td>
+    </tr>
+    <tr>
+      <td><b>Регистрация компании: телефон диспетчера доходил до OTP и падал криптично</b> <span class="badge b-high">bug</span><br><span class="badge b-ok">закоммичено</span></td>
+      <td>Телефон, уже принадлежащий диспетчеру (DRIVER/CARGO-manager), проходил весь путь: <span class="mono">auth/phone</span>(200, OTP) → <span class="mono">verify</span>(200) → <span class="mono">complete</span>(400 «Invalid request body»). Конфликт всплывал только в конце, после потраченного OTP, общим сообщением.</td>
+      <td>Шаг завершения: 400 трактуем как конфликт личности → предупреждение <span class="mono">company.register.phoneUsedByDispatcher</span> + возврат на шаг телефона. Forward-совместимо: строгая ветка 409 на шаге телефона (сработает до OTP, как только бэкенд начнёт отклонять) + переписан бэкенд-тикет. Чистые хелперы + юнит-тесты.</td>
+      <td><span class="mono">pages/company/auth/companyRegisterConflict.ts · CompanyRegisterPage · CompanyCompletePage</span>, тест, бэкенд-тикет</td>
+    </tr>
+  </table></div>
+</section>
+
+<!-- ХРОНОЛОГИЯ -->
+<section id="timeline">
+  <h2><span class="n">2</span> Хронология дня <small>по коммитам и записям bug.md</small></h2>
+  <div class="timeline">
+    <div class="ev fix">
+      <div class="t">10:25 · d285f170</div>
+      <h4>Автофокус поля OTP</h4>
+      <ul>
+        <li>Поле кода активно (первая ячейка выделена) в момент появления; при неверном коде фокус возвращается на ячейку 0.</li>
+        <li>Одно изменение общего <span class="mono">OtpField</span> — вход, регистрация, восстановление, смена телефона/email.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">13:52 · 0130c159</div>
+      <h4>Производительность записи видеосообщений + экран «Аккаунт на проверке»</h4>
+      <ul>
+        <li>Секундомер записи вынесен во внешний стор (<span class="mono">useSyncExternalStore</span>) — на тик перерисовывается только клок; canvas/волна ограничены частотой захвата.</li>
+        <li>Экран модерации перестроен (полноширинная кнопка + брендовые строки Telegram/Email/звонок); uz/oz «Hisob»→«Profil».</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">15:15 · 1b838ed4</div>
+      <h4>Раздел «Компания» — вход/регистрация + тёмная тема диспетчерского баннера</h4>
+      <ul>
+        <li>Точка входа компании: кросс-ссылки диспетчер↔компания, гостевая ссылка «Для компаний»; тех-спека <span class="mono">TECH-SPEC-company-auth-entry.md</span>.</li>
+        <li>Диспетчерский баннер получил тёмные варианты фона/дороги/подписи.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">16:09 · dea7db84</div>
+      <h4>Раздел «Компания» — приложение владельца (профиль, аватар, отображение владельца)</h4>
+      <ul>
+        <li>Профиль компании в стиле основного приложения (сайдбар личности + «Личное»/«Аккаунт»), выход перенесён в профиль; <span class="mono">CompanyAvatar</span>, <span class="mono">companyOwnerDisplay</span> + тест.</li>
+      </ul>
+    </div>
+    <div class="ev fix">
+      <div class="t">16:49 · 877924a3</div>
+      <h4>Детальная страница компании + конфликт «телефон диспетчера»</h4>
+      <ul>
+        <li>Детальная страница: <span class="mono">GET/PATCH /v1/companies/:id</span> + вкладка «Грузы»; 7 фиксов из adversarial-ревью (a11y, dirty-diff, даты грузов).</li>
+        <li>Регистрация: 400 на шаге завершения трактуется как конфликт личности → предупреждение + возврат к телефону; бэкенд-тикет.</li>
+      </ul>
+    </div>
+    <div class="ev feat">
+      <div class="t">17:35 · be5fe1b1</div>
+      <h4>Баннер входа компании переделан + конфликт вынесен на шаг телефона (forward-совместимо)</h4>
+      <ul>
+        <li>Правый баннер: центр SARBON, разбросанные узлы, змеевидные маршруты, летящие пакеты; убраны «радарные» кольца и спицы. Прошёл code-review + runtime-verify (Playwright, light-режим, 0 ошибок).</li>
+        <li>Строгая ветка 409 на шаге телефона (сработает до OTP, когда бэкенд начнёт отклонять) + переписан бэкенд-тикет; тесты 10 кейсов.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- СКРИНШОТЫ -->
+<section id="screens">
+  <h2><span class="n">3</span> Скриншоты <small>живой Playwright · staging-API · раздел «Компания»</small></h2>
+  <p class="lead">Все снимки сделаны в реальном приложении (dev-сервер на staging-API, 1440×900 и мобайл 390×844). Правый баннер — новая сцена: центр SARBON, разбросанные узлы, змеевидные маршруты и летящие к хабу «пакеты».</p>
+  <div class="ss-grid">
+    <div class="ss-item full">
+      <img src="img/01-company-register.png" alt="Регистрация компании: форма слева + новый баннер справа" />
+      <div class="ss-cap"><b>Компания · регистрация</b><span class="tag-change">новое</span> — форма «Kompaniya profilini yaratish» (телефон + согласие) и <b>новый баннер</b>: центр SARBON, разбросанные узлы (парк/команда/грузы/маршруты/склад), волнистые маршруты, синий «пакет» летит по верхнему маршруту к хабу. Внизу — кросс-ссылка «Диспетчер».</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/02-company-login.png" alt="Вход компании: вкладки Пароль / Одноразовый код" />
+      <div class="ss-cap"><b>Компания · вход</b><span class="tag-change">новое</span> — вкладки «Пароль» / «Одноразовый код», ввод телефона, кросс-ссылки «Создать компанию» и «Вход для диспетчера».</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/03-company-otp-autofocus.png" alt="Страница OTP: первая ячейка выделена автофокусом" />
+      <div class="ss-cap"><b>Компания · подтверждение OTP</b><span class="tag-change">автофокус</span> — код отправлен в Telegram; <b>первая ячейка выделена в момент появления</b> (синяя рамка) — код вводится без клика.</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/04-company-complete.png" alt="Завершение профиля компании: имя, фамилия, пароль" />
+      <div class="ss-cap"><b>Компания · завершение профиля</b><span class="tag-change">новое</span> — шаг «Profilni yakunlang»: имя/фамилия/пароль; справа — та же живая сцена (несколько пакетов в пути к хабу).</div>
+    </div>
+    <div class="ss-item">
+      <img src="img/05-company-banner-closeup.png" alt="Крупный план нового баннера входа компании" />
+      <div class="ss-cap"><b>Новый баннер · крупный план</b><span class="tag-change">design</span> — HQ SARBON в центре, 5 разбросанных узлов, змеевидные S-маршруты, светящийся пакет по левому маршруту. «Радарных» колец и прямых спиц больше нет.</div>
+    </div>
+    <div class="ss-item mobile">
+      <img src="img/06-company-login-mobile.png" alt="Мобильный вход компании: баннер скрыт, только форма" />
+      <div class="ss-cap"><b>Компания · вход (мобайл 390px)</b><span class="tag-change">адаптив</span> — на узком экране правый баннер скрыт, форма занимает весь экран; кросс-ссылки на месте.</div>
+    </div>
+  </div>
+</section>
+
+<!-- КАЧЕСТВО -->
+<section id="quality">
+  <h2><span class="n">4</span> Качество и проверки</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Автоматические проверки</h3>
+      <ul class="clean">
+        <li><span class="ok">✓</span> <b>pnpm test:</b> 1226/1226, 136 файлов</li>
+        <li><span class="ok">✓</span> <b>tsc -b:</b> 0 ошибок (полная сборка с project references)</li>
+        <li><span class="ok">✓</span> <b>ESLint:</b> 0 предупреждений (--max-warnings 0)</li>
+        <li><span class="ok">✓</span> <b>Локали:</b> ключи <span class="mono">company.*</span>, <span class="mono">moderation.gate.*</span>, <span class="mono">company.register.phoneUsedByDispatcher</span> — во всех 15 файлах</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Живые проверки (Playwright, staging)</h3>
+      <ul class="clean">
+        <li><span class="ok">✓</span> Раздел «Компания»: регистрация (телефон → OTP → завершение), вход (пароль / одноразовый код), мобильная вёрстка</li>
+        <li><span class="ok">✓</span> Новый баннер: центр SARBON + 5 узлов + змеевидные маршруты + летящие пакеты; «прицела» нет; light/dark и reduced-motion корректны</li>
+        <li><span class="ok">✓</span> Автофокус OTP: первая ячейка выделена в момент появления (см. скриншот)</li>
+        <li><span class="ok">✓</span> Экран «Аккаунт на проверке»: uz/oz/en без переносов, брендовые строки поддержки</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <div class="h">На контроле / следующие шаги</div>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Конфликт телефона диспетчера:</b> реальный блок «до OTP» (409 на <span class="mono">auth/phone</span>) активируется, только когда бэкенд начнёт отклонять — FE-ветка готова и покрыта тестами, бэкенд-тикет заведён. Сегодня поведение как раньше (без регрессии).</li>
+      <li><b>Замер записи видео на реальном телефоне</b> — за пользовательским QA на staging (изоляция секундомера + троттлинг подтверждены кодом и тестом).</li>
+      <li><b>Кросс-компанийный доступ:</b> детальная страница ходит по URL <span class="mono">:companyId</span>; если бэкенд скоупит по активной компании токена — для не-активной компании нужен <span class="mono">POST /v1/auth/switch-company</span> (контракт не опубликован, не подключён). Активная/единственная компания работает и проверена.</li>
+      <li><b>Тёмная тема / reduced-motion баннера</b> покрыты по построению (токены + CSS-медиазапрос); в этом прогоне драйвился только light-режим.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    Отчёт сформирован 14.07.2026 · sarbon-frontend · ветка staging · коммиты d285f170…be5fe1b1 · скриншоты: живой Playwright на staging-API (раздел «Компания») · файлы: report-14.07.26.xlsx, img/*.png
+  </div>
+</footer>
+
+</body>
+</html>
