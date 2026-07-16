@@ -7,6 +7,16 @@ import path from 'node:path'
 const require = createRequire('C:/Users/hp/.claude/skills/qa-tester/scripts/qa_browser.mjs')
 const { chromium } = require('playwright')
 
+// Credentials come from the environment — never hardcode them here: this file is committed to a
+// GitHub repo, and a staging admin password in it is a published credential.
+//   ADMIN_USER=admin ADMIN_PASS=... node take-screenshots.mjs
+const ADMIN_USER = process.env.ADMIN_USER
+const ADMIN_PASS = process.env.ADMIN_PASS
+if (!ADMIN_USER || !ADMIN_PASS) {
+  console.error('Set ADMIN_USER and ADMIN_PASS in the environment before running this capture.')
+  process.exit(1)
+}
+
 const OUT = path.join(import.meta.dirname, 'img')
 fs.mkdirSync(OUT, { recursive: true })
 const shot = (page, name, opts = {}) => page.screenshot({ path: path.join(OUT, name), ...opts })
@@ -16,8 +26,8 @@ const page = await browser.newPage({ viewport: { width: 1600, height: 1000 } })
 
 const login = async () => {
   await page.goto('http://localhost:5173/en/admin/login', { waitUntil: 'networkidle' })
-  await page.fill('input[autocomplete="username"]', 'admin')
-  await page.fill('input[autocomplete="current-password"]', 'admin321321')
+  await page.fill('input[autocomplete="username"]', ADMIN_USER)
+  await page.fill('input[autocomplete="current-password"]', ADMIN_PASS)
   await page.click('button[type="submit"]')
   await page.waitForSelector('header', { timeout: 25000 })
   await page.waitForTimeout(2500)
