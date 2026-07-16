@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 16.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+  header.top .sub{opacity:.9;font-size:15.5px}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Админка · Водители и Диспетчеры</h1>
+    <div class="sub">Отчёт о работе · 16 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">Account статус: «No data» → эффективный</span>
+      <span class="tag">Activate-баг исправлен</span>
+      <span class="tag">Account / KYC / Moderation в модалке</span>
+      <span class="tag">Actions: View · Edit · Delete</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc + vite)</div></div>
+      <div class="stat good"><div class="v">1754/1754</div><div class="l">юнит-тестов пройдено</div></div>
+      <div class="stat blue"><div class="v">13</div><div class="l">файлов изменено</div></div>
+      <div class="stat blue"><div class="v">15/15</div><div class="l">локалей обновлено</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2><span class="n">0</span> Первопричина <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Объект <code>Driver</code> в API несёт <b>два</b> статусных поля: сырое, <b>nullable</b>
+      <code>account_status</code> и вычисляемое <code>effective_status</code> =
+      <code>COALESCE(NULLIF(TRIM(account_status),''),'active')</code>. По контракту:
+      «account_status null/пустой — водитель функционально активен». Фронт рендерил сырое поле —
+      поэтому большинство водителей (у которых статус никогда не трогали) показывались как «No data»,
+      и по ним же падал <code>activate</code>: null-водитель уже активен, <code>/moderation/inactive</code>
+      принимает null как источник, а <code>/moderation/activate</code> — нет. Отсюда «деактивируй, потом
+      активируй — работает».
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="n">1</span> Колонка «Account» — эффективный статус <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">Теперь колонка показывает эффективный статус (null → <b>Active</b>). Никаких «No data»
+      — они остались только у настоящего пустого рейтинга. Значение используется и в сортировке, фильтрах и
+      признаке <code>isBlocked</code>.</p>
+    <img class="shot" src="img/01-drivers-table-account.png" alt="Drivers table — Account column" />
+    <div class="cap">/en/admin/drivers — Account: Active / Blocked / Inactive по каждой строке.</div>
+    <img class="shot" src="img/05-drivers-ru.png" alt="Drivers table RU" />
+    <div class="cap">Русская локаль — та же колонка.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Действия строки: только View · Edit · Delete <span class="badge b-ui">UI</span></h2>
+    <p class="lead">Кнопка «Send to moderation» убрана из колонки действий. Вся модерация теперь живёт
+      внутри модалки редактирования.</p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/02-drivers-actions-column.png" alt="Drivers actions column" />
+        <div class="cap">Водители: View · Edit · Delete.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/07-dispatchers-actions-column.png" alt="Dispatchers actions column" />
+        <div class="cap">Диспетчеры: View · Edit · Delete.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Account / KYC / Moderation — редактируются в модалке <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">Новый блок в модалке редактирования водителя делает все три статусные оси управляемыми:</p>
+    <ul class="tight">
+      <li><b>Account</b> — activate / deactivate / block / unblock (дропдаун <code>Account status</code>, гейтится по статусу).</li>
+      <li><b>KYC</b> — Accept / Reject (с причиной), эндпоинты <code>/kyc/accept</code>, <code>/kyc/reject</code>.</li>
+      <li><b>Moderation (допуск)</b> — Accept / Reject (с причиной) / Send to moderation.</li>
+    </ul>
+    <img class="shot" src="img/03-driver-edit-status-editor.png" alt="Driver edit status editor" />
+    <div class="cap">Модалка «Edit driver» — блок Account / KYC / Moderation вверху. Лейбл дропдауна — «Account status», не «Moderation».</div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> Activate больше не падает на «No data» <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">Дропдаун «Account status» для уже активного водителя предлагает только
+      <b>Deactivate</b> и <b>Block</b> — <b>Activate скрыт</b> (раньше именно он давал 400 на null-статусе).
+      Кнопка «Send to moderation» задизейблена, пока статус модерации ≠ Rejected: у водителя
+      <code>resubmit</code> строго <code>rejected → pending</code> (иначе <code>400 driver_not_rejected</code>).</p>
+    <img class="shot" src="img/04-driver-account-status-menu.png" alt="Account status dropdown" />
+    <div class="cap">Активный водитель → в меню только Deactivate / Block. «Send to moderation» серая (статус Pending).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span> Диспетчеры — тот же паттерн <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">Ось жизненного цикла диспетчера — <code>moderation_status</code> (а не account_status,
+      который у диспетчера захардкожен в «active»). Секция Moderation переехала в модалку; <code>isBlocked</code>
+      теперь читается из <code>moderation_status</code>. Resubmit у диспетчера работает из любого статуса, поэтому
+      остаётся в дропдауне модалки.</p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/06-dispatchers-table.png" alt="Dispatchers table" />
+        <div class="cap">/en/admin/dispatchers — Status + Moderation заполнены.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/08-dispatcher-edit-moderation.png" alt="Dispatcher edit moderation" />
+        <div class="cap">Модалка «Edit dispatcher» — секция Moderation с дропдауном.</div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/09-dispatcher-moderation-menu.png" alt="Dispatcher moderation menu" />
+        <div class="cap">Дропдаун лайфсайкла диспетчера.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/10-dispatchers-ru.png" alt="Dispatchers RU" />
+        <div class="cap">Русская локаль.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span> Проверка</h2>
+    <table>
+      <tr><th>Гейт</th><th>Результат</th></tr>
+      <tr><td><code>pnpm build</code> (tsc -b + vite)</td><td class="ok">exit 0</td></tr>
+      <tr><td><code>eslint --max-warnings 0</code> (изменённые файлы)</td><td class="ok">чисто</td></tr>
+      <tr><td><code>vitest run</code></td><td class="ok">1754 / 1754 (165 файлов)</td></tr>
+      <tr><td>Локали</td><td class="ok">2 новых ключа × 15 локалей</td></tr>
+      <tr><td>Живой прогон (staging, admin)</td><td class="ok">10 скриншотов, поведение подтверждено</td></tr>
+    </table>
+    <div class="card">
+      <b>Изменённые файлы (13):</b>
+      <ul class="tight">
+        <li><code>src/utils/adminLifecycleStatus.ts</code> (new) + тест</li>
+        <li><code>src/components/shared/admin/adminModerationRoutes.ts</code>, <code>AdminModerationActions.tsx</code></li>
+        <li><code>src/pages/admin/drivers/{AdminDriversPage,AdminDriverEditDrawer}.tsx</code></li>
+        <li><code>src/pages/admin/drivers/components/{AdminDriverStatusEditor(new),AdminDriverDetailDrawer}.tsx</code></li>
+        <li><code>src/pages/admin/dispatchers/{AdminDispatchersPage,AdminDispatcherEditDrawer}.tsx</code></li>
+        <li><code>public/locales/*.json</code> ×15</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<footer>Sarbon Frontend · сгенерировано 16.07.2026 · скриншоты — реальный Playwright-прогон на staging</footer>
+</body>
+</html>
