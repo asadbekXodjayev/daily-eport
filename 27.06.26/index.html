@@ -314,6 +314,20 @@
   </div>
 </section>
 
+  <div class="wrap">
+    <section style="border-top:3px solid #1639C8">
+      <h2><span class="n" style="background:#fdecc8;color:#b8860b">+</span> Дополнение (17.07.2026) — не вошло в первую версию отчёта</h2>
+      <p class="lead">При сверке git-диффа дня с отчётом обнаружены изменённые области, которые не были задокументированы. Добавлены ниже (текстовая доработка отчёта, без скриншотов).</p>
+      <p class="lead" style="margin-top:4px">Полный дифф дня — <b>76 файлов</b> (в первой версии отчёта указывалось «76»).</p>
+      <table>
+        <tr><th>Область</th><th>Значимость</th><th>Файлы / коммит</th></tr>
+        <tr><td>Новая страница Admin Command Center (целиком)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>AdminCommandCenterPage.tsx (427 новых строк), коммит 0a896097 — в отчёте страница лишь упомянута как визуальный референс, не как построенная в этот день</td></tr>
+        <tr><td>Гео: тепловая карта / картографический набор на странице Admin Geo</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>AdminGeoMap.tsx (+308), GeoLayerControls.tsx (+88), GeoInsightsPanel.tsx (+57), geoLayers.ts (+41), utils/yandexHeatmap.ts (+106), AdminGeoPage.tsx (+116) — в отчёте только тест парсинга и локализация колонок</td></tr>
+        <tr><td>Переработка AdminLayout.tsx (навигация под Command Center + роутинг/гарды)</td><td><span class="badge b-ui">мелкое</span></td><td>AdminLayout.tsx (317/-340), RootRouter.tsx (+9), AdminRouteGuards.tsx (+10), paths.ts (+2)</td></tr>
+      </table>
+    </section>
+  </div>
+
 <footer>
   <div class="wrap" style="padding:0">
     Отчёт сформирован 27.06.2026 · Проект <b>sarbon-frontend</b> · Окружение: staging · Коммиты дня 8e8472d → 01b5937.<br>

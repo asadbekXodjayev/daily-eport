@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 17.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+  header.top .sub{opacity:.9;font-size:15.5px}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Кабинет компании · Дашборд · Рейсы · Чат · Админ-водители</h1>
+    <div class="sub">Отчёт о работе · 17 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">Компания: 13 live-эндпоинтов подключены</span>
+      <span class="tag">Автопарк скрыт для грузоотправителя</span>
+      <span class="tag">Редизайн карточек компаний</span>
+      <span class="tag">Дашборд: значения на столбцах + день/неделя/месяц</span>
+      <span class="tag">Трекер истории рейсов</span>
+      <span class="tag">Чат: удаление (только у себя) + закрепление</span>
+      <span class="tag">Админ: фильтр-панель водителей + гейт статусов</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc -b + vite)</div></div>
+      <div class="stat good"><div class="v">1879/1879</div><div class="l">юнит-тестов пройдено</div></div>
+      <div class="stat blue"><div class="v">84</div><div class="l">файлов изменено за день</div></div>
+      <div class="stat blue"><div class="v">15/15</div><div class="l">локалей обновлено</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note">
+    Пять коммитов за день (<code>baa4d0a4</code> → <code>8dcd4758</code>): кабинет компании (эндпоинты,
+    layout, редизайн списка), дашборд, трекер истории рейсов, две правки cargo-create, чат-удаление/закрепление
+    и три задачи по админ-водителям. Все скриншоты ниже — реальный Playwright-прогон на STAGING
+    (admin + yuk-menejer сессии; кабинет компании — реальные компоненты приложения на застабленном по live-спеке API).
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">1</span> Кабинет компании: подключены live-эндпоинты, автопарк скрыт для грузоотправителя, редизайн списка <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      На <code>/company/:companyId</code> дозаписаны <b>13 эндпоинтов live-спеки</b>, которые были объявлены,
+      но не использовались: собственные офферы по грузам, назначение/отмена/оценка водителя в рейсе,
+      платежи по рейсу, дебиторка + экспорт + PDF-инвойс в финансах, композитный дашборд, квоты,
+      деактивация/активация/куратор груза, правка расходов, поиск сотрудников. Вся спорная логика —
+      в чистых модулях с юнит-тестами (<code>companyPayments.ts</code>, <code>companyDashboard.ts</code>,
+      <code>companyCargoActions.ts</code>, дополнения в <code>companyFinance.ts</code>/<code>companyTrips.ts</code>).
+    </p>
+    <p class="lead">
+      Ключевая правка — <b>скрытие автопарка для компаний-грузоотправителей (SHIPPER)</b>: fleet-эндпоинты
+      отклоняют SHIPPER (<code>company_type_forbidden</code>), а права владельца «fail open», поэтому раньше
+      SHIPPER-владелец видел вкладки автопарка и упирался в 403. Теперь секция гейтится по типу компании
+      (<code>forbiddenForTypes: ['SHIPPER']</code>), а deep-link <code>?tab=vehicles</code> откатывается на обзор.
+      Список компаний (<code>/company</code>) переверстан в сетку карточек с акцентом по типу перевозки.
+    </p>
+    <img class="shot" src="img/24-company-list-cards.png" alt="Редизайн списка компаний" />
+    <div class="cap">/company — карточки с акцентом по типу: перевозчик (синий), грузоотправитель (янтарный), экспедитор (бирюзовый) + статус.</div>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/20-company-overview.png" alt="Обзор с дашбордом" />
+        <div class="cap">Раздел «Обзор» — панель «Boshqaruv paneli» (рейсы по статусу, финансы по валютам, рейтинг, квоты).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/21-company-finance.png" alt="Финансы с дебиторкой" />
+        <div class="cap">Раздел «Финансы» — свод по валютам + расходы по категориям + новая карточка «Дебиторка» + Xlsx-экспорт.</div>
+      </div>
+    </div>
+    <img class="shot" src="img/25-company-shipper-no-fleet.png" alt="SHIPPER без автопарка" />
+    <div class="cap">Компания-грузоотправитель (Bahor Savdo · «Yuk egasi»): в боковом меню группа <b>АВТОПАРК отсутствует</b> — из «Jamoa» сразу «Moliya».</div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">2</span> Кабинет компании — UI-полировка: скролл наверх, полная ширина, иконки сегмента <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Три правки внешнего вида: (1) переключение раздела в боковом меню теперь <b>скроллит страницу наверх</b>
+      (уважая <code>prefers-reduced-motion</code>) — раньше позиция скролла оставалась в середине предыдущего
+      длинного раздела; (2) контент раскрыт на <b>полную ширину</b> контейнера (≈95vw), левый край бокового меню
+      выровнен под логотипом (было центрирование <code>max-w-7xl</code>); (3) сегмент «Тягачи / Прицепы» в разделе ТС
+      теперь рисует lucide-иконки внутри лейбла (<code>inline-flex</code>) — раньше через <code>option.icon</code> AntD
+      они стояли криво. Шапка бокового меню сведена к аватар + название компании.
+    </p>
+    <img class="shot" src="img/22-company-vehicles.png" alt="Транспортные средства — сегмент" />
+    <div class="cap">Раздел «Транспортные средства» — аккуратный сегмент «Tortqichlar / Tirkamalar» с ровными иконками, боковое меню под логотипом.</div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">3</span> Дашборд «Грузы и предложения»: значения на столбцах + группировка день/неделя/месяц <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      На карточке активности добавлены <b>числовые подписи над столбцами</b> (recharts <code>LabelList</code>,
+      нули скрыты, чтобы не засорять), и <b>переключатель день / неделя / месяц</b> прямо в карточке рядом с
+      «линия / столбцы». Пере-агрегация — на клиенте (<code>bucketTimelineRows</code>, группировка по
+      <code>dayjs().startOf(unit)</code>), причём укрупнять можно только от гранулярности, которую вернул API
+      (<code>availableActivityBuckets</code> отфильтровывает более мелкие бакеты). Вид по умолчанию переключён
+      на «столбцы», чтобы подписи были видны сразу.
+    </p>
+    <img class="shot" src="img/06-dashboard-activity-chart.png" alt="Дашборд — столбцы с подписями" />
+    <div class="cap">«Yuklar va takliflar» — значения над каждым столбцом + переключатель «Hafta / Oy» (день скрыт, т.к. API вернул недельную гранулярность).</div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">4</span> Рейсы → История: различие бейджей Event/Status + номера шагов + иконка итога в шапке <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      По ре-репорту SARB-FRONT на трекере <code>/v1/dispatchers/trips/history</code>: (1) два бейджа
+      («событие» и «статус») получили <b>всегда видимые надписи-эйбрау «Event» / «Status»</b> вместо
+      hover-подсказок; (5) счётчик шагов стал видимой подписью (без некорректных склонений по количеству).
+      Затем — вторая правка по обратной связи: каждый шаг-кружок теперь показывает <b>свой номер</b>
+      (последний шаг — не галочка, отменённый — не крестик), а иконка итога — <b>эмеральд-галочка при завершении
+      / красный крестик при отмене — переехала в шапку</b>; счётчик «Total steps» убран. Дублирующаяся дата
+      события/статуса для терминальных шагов больше не показывается дважды.
+    </p>
+    <img class="shot" src="img/08-trips-history.png" alt="Трекер истории рейсов" />
+    <div class="cap">Вкладка «Tarix» — трекер «STATUS TARIXI» с пронумерованными шагами (1 · 2), крестик отмены в шапке карточки, дата один раз.</div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">5</span> Создание груза: температура только для рефрижератора + чекбокс ASAP снимает ошибку <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Две правки формы <code>/cargo-create</code>:
+    </p>
+    <ul class="tight">
+      <li><b>Температура (temp_min/temp_max)</b> раньше вводилась при любом типе прицепа, и бэк отклонял отправку
+        <code>400 temp_* require refrigerator</code>. Теперь поле и тумблер «Добавить температуру» гейтятся на
+        <code>isReeferTrailerType</code>, и — что важнее — <code>buildCargoUpsertPayload</code> <b>вырезает</b>
+        temp-поля из запроса для не-рефрижератора, даже если в форме остались устаревшие значения. Правка покрывает
+        и ручную форму (Step 3), и AI-создание.</li>
+      <li><b>Шаг 2 (Маршрут):</b> отметка «как можно скорее» на адресе выгрузки теперь <b>снимает красную ошибку</b>
+        обязательной даты доставки — валидатор читает <code>asap</code> свежим значением, а <code>onChange</code>
+        чекбокса ре-валидирует поле (через <code>validateFields</code>, чтобы очистился и красный маркер шага-таба).</li>
+    </ul>
+    <img class="shot" src="img/09-cargo-create.png" alt="Форма создания груза" />
+    <div class="cap">Мастер «Yangi yuk yaratish» — 4 шага; правки в Step 2 (маршрут/ASAP) и Step 3 (транспорт/температура). Обе — на уровне валидации/пейлоада, покрыты юнит-тестами.</div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2><span class="n">6</span> Админ · Водители — серверная фильтр-панель <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Список <code>/admin/drivers</code> переведён с клиентской фильтрации на <b>серверную</b>
+      (<code>GET /v1/admin/drivers</code>): поиск + селекты work_status / account_status / driver_type /
+      trailer_plate_type + три-стейт online / has_trips / has_offers + work_state (ON_TRIP/FREE) + UUID компании/фрилансера,
+      всё комбинируется AND в одном запросе с сортировкой и постраничкой (20/50/100/200). Отдельно —
+      <b>мягкая обработка 400</b>: <code>lastGood</code>-реф держит предыдущую удачную страницу, поэтому при ошибке
+      показывается инлайн-алерт с ретраем, а таблица не мигает пустотой. Кнопка «Очистить» со счётчиком активных фильтров.
+      Логика в чистом <code>adminDriverFilters.ts</code> (11 тестов).
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/01-admin-drivers-filters.png" alt="Фильтр-панель водителей" />
+        <div class="cap">/admin/drivers — панель серверных фильтров над таблицей + кнопка Clear.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/05-admin-drivers-ru.png" alt="Фильтры — RU" />
+        <div class="cap">Русская локаль — метки фильтров переведены (en/ru/uz/oz живые, остальные 12 — англ. заглушка).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2><span class="n">7</span> Админ · Правка водителя — статус-зависимый выпадающий список + гейт по статусу/роли <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Две связанные правки модалки «Edit driver»:
+    </p>
+    <ul class="tight">
+      <li><b>Выпадающий «Account status»</b> показывал все действия независимо от текущего статуса — заблокированному
+        водителю всё равно предлагали «Активировать» (нелогично + 409). Теперь <code>availableModerationActions</code>
+        статус-зависима: blocked → только Unblock, active → только Block, inactive → только Activate. Та же правка
+        закрывает утечку activate-on-blocked в кебабе журнала модерации.</li>
+      <li><b>Гейт полей по модерации/роли:</b> паспорт/транспорт read-only и не отправляются при
+        <code>moderation_status='approved'</code>; вся форма редактируется только в статусе pending/rejected
+        (иначе — инфо-алерт «Editable only while under moderation» и заблокированный Save); смена account_status
+        доступна только ролям creator/seo/moderator (с всегда-видимой подписью-причиной). Бэковые 409/403 теперь локализованы.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/04-admin-driver-account-dropdown.png" alt="Статус-зависимый дропдаун + гейт" />
+        <div class="cap">Активный водитель → в дропдауне только «Block»; алерт «Editable only while under moderation», поля заблокированы (статус approved).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/03-admin-driver-edit-drawer.png" alt="Модалка Edit driver" />
+        <div class="cap">Модалка «Edit driver» — три оси: Account / KYC / Moderation.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <h2><span class="n">8</span> Чат — удаление беседы (только у текущего пользователя) + закрепление <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      В чат добавлено <b>удаление беседы</b> (<code>DELETE /v1/chat/conversations/:id</code>): скрывает беседу
+      <b>только у текущего пользователя</b> — у собеседника чат остаётся, новое сообщение снова его поднимает;
+      404 трактуется как идемпотентное «уже скрыто» (нейтральное уведомление, не ошибка), остальные машинные
+      токены ошибок локализованы. Плюс <b>закрепление бесед</b> — фронтовое, персистится по id пользователя
+      (<code>useChatPinsStore</code> + <code>chatPins.ts</code>, устойчивый парс: порча блоба деградирует в пустой
+      набор, а не роняет список). Оба действия — в кебабе строки беседы. Покрыто <code>deleteConversation.test.ts</code>
+      + <code>chatPins.test.ts</code>.
+    </p>
+    <img class="shot" src="img/26-chat-list.png" alt="Список бесед чата" />
+    <div class="cap">/chat — список бесед; при наведении на строку появляется кебаб «⋮» с действиями «Закрепить» / «Удалить».</div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <h2><span class="n">9</span> Проверка</h2>
+    <table>
+      <tr><th>Гейт</th><th>Результат</th></tr>
+      <tr><td><code>tsc -b</code> (полная проверка типов проекта)</td><td class="ok">exit 0</td></tr>
+      <tr><td><code>vitest run</code></td><td class="ok">1879 / 1879 (173 файла)</td></tr>
+      <tr><td><code>eslint --max-warnings 0</code> (изменённые файлы)</td><td class="ok">чисто</td></tr>
+      <tr><td>Кабинет компании — <code>qa/verify-company-workspace.mjs</code></td><td class="ok">18/18 разделов, 0 «сырых» ключей i18n</td></tr>
+      <tr><td>Локали</td><td class="ok">15/15 (company.* / admin.* — en/uz/ru + плейсхолдеры)</td></tr>
+      <tr><td>Живой прогон (staging: admin + yuk-menejer)</td><td class="ok">14 скриншотов, поведение подтверждено</td></tr>
+      <tr><td>Adversarial-ревью (3–4-lens Sonnet) на 15:58/17:19</td><td class="ok">находки разобраны</td></tr>
+    </table>
+    <div class="card">
+      <b>Объём дня — 84 файла, 5 коммитов:</b>
+      <ul class="tight">
+        <li><code>baa4d0a4</code> «company update vehicle + 2bugs» — 13 live-эндпоинтов компании, скрытие автопарка для SHIPPER, редизайн списка, UI-полировка воркспейса, cargo-create температура + ASAP; новые <code>company{Payments,Dashboard,CargoActions}.ts</code>, <code>companyBlobDownload.ts</code>, <code>cargoTemperature.ts</code>.</li>
+        <li><code>2d753cbb</code> «analitics» — дашборд: подписи на столбцах + бакет-переключатель, новый <code>activityBucket.ts</code>.</li>
+        <li><code>f5a77039</code> «Trip tarixi …» — трекер истории рейсов (эйбрау Event/Status, номера шагов, иконка итога в шапке).</li>
+        <li><code>b3954c1c</code> «Haydovchi holati dropdown …» — статус-зависимый <code>availableModerationActions</code>.</li>
+        <li><code>8dcd4758</code> «Чат ўчириш & Drivers filter UI» — чат-удаление/закрепление (<code>deleteConversation.ts</code>, <code>chatPins.ts</code>, <code>useChatPinsStore.ts</code>), админ фильтр-панель (<code>adminDriverFilters.ts</code>), гейт правки водителя (<code>driverEditGate.ts</code>).</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<footer style="padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center">Sarbon Frontend · сгенерировано 18.07.2026 · скриншоты — реальный Playwright-прогон на STAGING</footer>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 18.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+  header.top .sub{opacity:.9;font-size:15.5px}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Компания: тарифы · регистрация · обзор · чат · приглашения · веб-звонки</h1>
+    <div class="sub">Отчёт о работе · 18 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">Админ: тарифы и лимиты компаний</span>
+      <span class="tag">Регистрация: полный профиль</span>
+      <span class="tag">Обзор: все ~30 полей + реквизиты</span>
+      <span class="tag">Командный чат компании + звонки</span>
+      <span class="tag">Приглашения: in-app офферы</span>
+      <span class="tag">Приглашение водителя</span>
+      <span class="tag">Колокольчик диспетчера</span>
+      <span class="tag">WebRTC: ответная сторона + камера/микрофон</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc -b + vite)</div></div>
+      <div class="stat good"><div class="v">1950/1950</div><div class="l">юнит-тестов пройдено</div></div>
+      <div class="stat blue"><div class="v">90+</div><div class="l">файлов затронуто за день</div></div>
+      <div class="stat blue"><div class="v">15/15</div><div class="l">локалей обновлено</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note">
+    Три коммита (<code>6762b929</code> → <code>dba91976</code> → <code>6f5dd872</code>) плюс доработки в рабочем
+    дереве: админ-тарифы, полный профиль компании при регистрации, обзор компании со всеми полями,
+    командный чат компании поверх реального <code>/chat</code>, переход на identity-based приглашения
+    (в т.ч. приглашение водителя), рендер приглашения в колокольчике диспетчера, поллинг очереди офферов,
+    человекочитаемая длительность звонка в чате и две правки веб-звонков (WebRTC). Все скриншоты ниже —
+    реальный Playwright-прогон (реальные компоненты приложения на застабленном по live-спеке API;
+    <b>каждая правка runtime-верифицирована отдельным <code>qa/verify-*.mjs</code></b>). 14 новых verify-скриптов.
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">1</span> Админ · Тарифы и лимиты компаний <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Лимиты компании (8 ресурсов) меняются <b>только назначением тарифа</b>, а не прямым PATCH по <code>max_*</code>.
+      Добавлена вкладка <b>«Тарифы»</b> (только для creator-админа) — каталог тарифов со списком/созданием/правкой
+      и тарифом по умолчанию — и <b>модалка «Assign tariff»</b> на <code>/admin/companies</code>: при назначении
+      лимиты тарифа <b>копируются</b> в компанию (существующие компании не затрагиваются последующей правкой тарифа),
+      а превышение показывается как предупреждение <code>over_quota</code>. Логика — в чистом <code>tariffs.ts</code>
+      (юнит-тесты <code>adminTariffs.test.ts</code>). Эндпоинт <code>POST /v1/admin/companies/:id/tariff {tariff_id}</code>.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/01-admin-tariff-create.png" alt="Создание тарифа" />
+        <div class="cap">Вкладка «Тарифы» — модалка создания тарифа с 8 лимитами (creator-only).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/02-admin-assign-tariff.png" alt="Назначение тарифа компании" />
+        <div class="cap">/admin/companies → «Assign tariff»: лимиты тарифа копируются в компанию; предупреждение при over-quota.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">2</span> Регистрация компании: полный профиль при создании <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Форма <code>/company/create</code> расширена с 3 обязательных полей до <b>полного профиля</b>: контакты
+      (телефон/email/сайт/адрес), юридический блок (юр. адрес, ФИО и должность руководителя, номер лицензии)
+      и банковские реквизиты (банк, счёт, МФО, ИНН банка) — все опциональные, помечены <code>(optional)</code>.
+      Обязательны только <b>название</b>, <b>тип компании</b> и <b>ИНН</b> (9-значный STIR / 14-значный PINFL).
+      Создание уже возвращает <b>company-scoped пару токенов</b>, поэтому follow-up switch-company не требуется;
+      опциональные поля дописываются одним <code>PATCH</code> после создания. Логика в <code>companyCreate.ts</code>.
+    </p>
+    <img class="shot" src="img/03-company-create-profile.png" alt="Форма регистрации компании" />
+    <div class="cap">«Create your company» — четыре блока (детали / контакты / юр. и руководитель / банк); обязательны только название, тип и ИНН.</div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">3</span> Кабинет компании · Обзор: все поля <code>GET /v1/companies/:id</code> + реквизиты + баннер удаления <span class="badge b-fix">FIX</span> <span class="badge b-ui">UI</span></h2>
+    <p class="lead">
+      По тикету SARB-COMPANY экран «Обзор» показывал лишь ~8 из ~30 полей, которые возвращает
+      <code>GET /v1/companies/:id</code>. Дописаны: <b>карточка реквизитов</b> (юр. адрес, руководитель и должность,
+      банк/счёт/МФО/ИНН банка), <b>владелец</b> (с бейджем «· Siz», когда это вы), <b>тариф</b>, <code>updated_at</code>,
+      а карточки «Автопарк» и «Лимиты» объединены в одну квота-карту (текущее использование + лимит, метка
+      «Limitdan oshib ketildi» при превышении). Все даты приведены к ташкентскому времени, пустые значения — единый
+      placeholder. Плюс — <b>редизайн баннера запроса на удаление</b>: янтарная плашка с иконкой <code>Trash2</code>
+      и кнопкой «Отозвать запрос» (владелец), т.к. запрос обратим и ждёт модерации. Логика — в <code>companyOverview.ts</code>
+      (юнит-тесты, включая проверку <code>00:30Z → 05:30</code>).
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/04-company-overview.png" alt="Обзор компании — светлая тема" />
+        <div class="cap">«Обзор» (светлая тема): реквизиты, владелец «· Siz», тариф Business, объединённая квота-карта, баннер запроса на удаление.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/05-company-overview-dark.png" alt="Обзор компании — тёмная тема" />
+        <div class="cap">Та же страница в тёмной теме — янтарные варианты баннера читаемы (нет white-on-white).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">4</span> Командный чат компании: переиспользован реальный <code>/chat</code> + звонки <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Командный чат компании — это <b>тот же диспетчерский <code>ChatPage</code></b>, переиспользованный на
+      <code>/company/chat/:companyId</code> (сайдбар, медиа, голосовые/видео-заметки и <b>звонки</b>), сделанный
+      surface-aware через <code>useChatIdentity</code> + <code>chatSurface.ts</code>: под <code>/company/*</code>
+      запросы к <code>/v1/chat/*</code> идут <b>с company-токеном</b> (<code>baseClient.resolveDefaultAuthMode</code>),
+      а обычный <code>/chat</code> остаётся байт-в-байт прежним. Владелец входит в групповой чат из кабинета,
+      приглашённые CM/DM открывают <b>ту же группу</b> в обычном <code>/chat</code>. Модалка входящего звонка
+      смонтирована и на company-чате. Плюс — карточки на <code>/company</code> переключаются кликом
+      (<code>useCompanyOpen</code>).
+    </p>
+    <img class="shot" src="img/06-company-chat.png" alt="Командный чат компании" />
+    <div class="cap">/company/chat — реальный чат-движок под бейджем «Company»: групповой чат «Acme team», иконки звонка/видео, голосовой композер.</div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">5</span> Приглашения сотрудников: переход на identity-based in-app офферы <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Приглашения сотрудников были построены на устаревшем link/token-механизме. Переведены на новую
+      <b>identity-based модель</b>: приглашаешь уже зарегистрированного пользователя по телефону →
+      <code>201 {id, status:"pending"}</code> (без <code>invite_link</code>), а приглашённому в приложение падает
+      <code>invitation_offer</code>. Он читает его через <code>GET /v1/company-users/offers</code> и принимает <b>по id</b>
+      (<code>POST /v1/invitations/:id/accept</code> / <code>decline</code>). На домашней странице кабинета добавлена
+      карточка <b>«Invitations for you»</b> (Accept / Decline) — над веткой «нет компаний», чтобы приглашённый без
+      своих компаний всё равно её видел. Разобраны ключевые ошибки создания: <code>must_register_first</code> (404),
+      <code>already_member</code> (409). Логика — <code>companyInvitationOffers.ts</code> (fail-open: скрывается только
+      явный терминальный статус). Старый <code>/accept-invite?token=</code> оставлен как legacy-fallback.
+    </p>
+    <img class="shot" src="img/07-invitation-offers-card.png" alt="Карточка входящих приглашений" />
+    <div class="cap">Кабинет компании → «Invitations for you»: «ACME Logistics · Cargo manager · приглашён Alisher» с кнопками Decline / Accept (Accept → /v1/invitations/:id/accept).</div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2><span class="n">6</span> Ролевой дропдаун приглашений: нормализация лейблов + гейт по типу компании <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Две связанные правки выпадающего списка ролей:
+    </p>
+    <ul class="tight">
+      <li><b>Мятые лейблы.</b> <code>roles[].name</code> из <code>reference/company</code> приходит в ALL-CAPS без
+        разделителей (<code>CARGOMANAGER</code>), а <code>me/permissions</code> — в PascalCase, <code>company_user_roles</code>
+        — в SNAKE_CASE. Лукап матчил только PascalCase, поэтому лейбл падал в «Cargomanager» одним словом. Теперь
+        <code>companyRoleI18nKey</code> нормализует (lowercase + вырезание не-буквенно-цифровых) — все три регистра
+        резолвятся в локализованный лейбл.</li>
+      <li><b>Список предлагал неприглашаемые роли.</b> <code>roles[]</code> шире, чем сотруднические роли — там есть
+        <code>OWNER</code> (никогда не приглашается) и не-сотруднические <code>CARRIER</code>/<code>DRIVER</code>; выбор
+        любой из них всегда давал 403. Новый <code>parseInvitableCompanyRoleOptions</code> оставляет только роли из
+        авторитетного <code>company_user_roles</code> и всегда убирает Owner. Плюс — гейт по типу компании: SHIPPER не
+        может нанимать driver/fleet-роли (зеркалит <code>forbiddenForTypes: ['SHIPPER']</code>), CARRIER/BROKER — без
+        ограничений (fail-open).</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/08-invite-role-dropdown.png" alt="Ролевой дропдаун — CARRIER" />
+        <div class="cap">CARRIER: ровно Director / Senior cargo manager / Cargo manager / Senior driver manager / Driver manager / Fleet manager / Accountant — с локализованными лейблами, без Owner/Carrier/Driver.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/09-invite-role-gating-shipper.png" alt="Ролевой дропдаун — SHIPPER" />
+        <div class="cap">SHIPPER: driver/fleet-роли скрыты — остаются Cargo manager / Senior cargo manager / Director / Accountant / Custom role.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2><span class="n">7</span> Приглашение водителя в компанию — новый режим <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      UI приглашений умел звать только офисных <b>сотрудников</b> (<code>{phone, role_id}</code>). «Водитель» намеренно
+      отсутствует в ролях (он не сотрудническая роль и 403-ит), а реальная возможность звалась через <b>отдельный</b>
+      эндпоинт. Добавлен <b>тумблер «Employee | Driver»</b> в модалке приглашения: режим Driver прячет дропдаун ролей,
+      показывает подсказку и шлёт только телефон в <code>POST /v1/companies/:id/driver-invitations {phone}</code>
+      (право <code>fleet.driver.manage</code>, доступно всем трём типам компаний). Приглашённый водитель принимает
+      <b>в приложении водителя</b>, а не в веб-кабинете. Логика — <code>buildCreateDriverInvitationPayload</code> +
+      <code>driverInvitationErrorCode</code> (+7 тестов), i18n <code>invitations.mode.*</code> / <code>invitations.driver.*</code>
+      во всех 15 локалях.
+    </p>
+    <img class="shot" src="img/10-driver-invite.png" alt="Режим приглашения водителя" />
+    <div class="cap">Режим «Driver» (SHIPPER): дропдаун ролей скрыт, подсказка «принимает в приложении водителя», submit → /v1/companies/:id/driver-invitations с одним {phone}.</div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <h2><span class="n">8</span> Уведомления диспетчера: рендер <code>invitation_offer</code> в колокольчике <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Бэкенд шлёт приглашение сотрудника как <code>invitation_offer</code> в родную ленту приглашённого (в т.ч.
+      <b>диспетчера</b>), но веб-приложение диспетчера этот тип не рисовало — приглашённый CM/DM ничего не видел.
+      В колокольчик добавлены детект/извлечение/сообщение (<code>isCompanyInvitationOfferNotification</code>,
+      <code>getCompanyInvitationOfferInfo</code>, <code>getCompanyInvitationOfferMessage</code> — роль прогоняется
+      через <code>companyRoleLabel</code>, аккуратные фолбэки), тег «Company invitation», иконка <code>Building2</code>,
+      CTA «Open invitation» (deep-link на <code>/:lang/company</code>) и явный обработчик в SSE-подписках с OS-нотификацией.
+      Роль строки — <b>осведомление</b>; принять можно, войдя в кабинет компании тем же телефоном. i18n во всех 15 локалях.
+    </p>
+    <img class="shot" src="img/11-dispatcher-invitation-bell.png" alt="Колокольчик диспетчера с приглашением" />
+    <div class="cap">Колокольчик диспетчера: тег «Company invitation», «Alisher invited you to join ACME Logistics as Director.», CTA «Open invitation» → /en/company.</div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <h2><span class="n">9</span> Офферы/грузы компании: поллинг + refetch-on-focus <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Раздел <b>«Офферы»</b> компании (очередь pending-approval, где DM/SeniorDM одобряет ставку водителя на внешний груз)
+      и по-грузовой вид входящих офферов ревалидировались только по 60-секундному <code>staleTime</code> — ни поллинга,
+      ни refetch-on-focus. У company-поверхности <b>нет realtime-моста</b>, поэтому ставка, прилетевшая пока менеджер на
+      странице, не появлялась до ручного обновления. Обеим <code>useCompanyGet</code>-запросам добавлено
+      <code>{ staleTime: 15s, refetchInterval: 20s, refetchIntervalInBackground: false, refetchOnWindowFocus: true }</code>
+      (для по-грузового вида — совмещено с существующим гейтом <code>enabled</code>). Verify-скрипт подтверждает: запрос
+      бьётся на загрузке (1) и снова в течение 24s (2).
+    </p>
+    <img class="shot" src="img/12-offers-polling.png" alt="Очередь офферов на одобрение" />
+    <div class="cap">/company · ?tab=offers — очередь pending-approval, эндпоинт повторно опрашивается по refetchInterval (0 ошибок консоли).</div>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <h2><span class="n">10</span> Чат: человекочитаемая длительность звонка в превью <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      По тикету SARB-FRONT в превью списка бесед длительность звонка показывалась сырыми секундами — «Кўнғироқ
+      якунланди <b>(73с)</b>» — вместо человекочитаемого «1 дақ. 13 сон.», которое рисует пузырь треда. Причина: превью
+      (<code>ConversationItem</code>) рендерило серверный <code>last_message_preview</code> дословно, а пузырь считает
+      лейбл из <code>payload.duration_seconds</code>. Теперь превью для звонка <b>пересобирается на клиенте</b>
+      (<code>formatChatCallEventPreview</code>) — статус + длительность, совпадая с пузырём и следуя текущему языку.
+      Плюс — под минуту минуты больше не рисуются: «0 дақ. 22 сон.» → просто «<b>22 сон.</b>» (новый ключ
+      <code>durationSecondsLabel</code> во всех 15 локалях), от минуты и выше формат прежний.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/13-chat-call-duration-sidebar.png" alt="Превью беседы" />
+        <div class="cap">Превью в списке: «Сиз: Кўнғироқ якунланди · 22 сон.» — без сырого «(22с)» и без «0 дақ.».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/14-chat-call-duration-thread.png" alt="Пузыри звонков в треде" />
+        <div class="cap">Пузыри треда: «22 сон.» / «16 сон.» для звонков под минуту и «1 дақ. 13 сон.» для 73-секундного.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section>
+    <h2><span class="n">11</span> Веб-звонки (WebRTC): ответная сторона SDP + освобождение камеры/микрофона <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Две правки веб-звонков (коммит «web call fix» + доработки):
+    </p>
+    <ul class="tight">
+      <li><b>Ответная сторона (callee) — mobile→web видео/аудио.</b> По тикету от мобильного разработчика (SDP со
+        staging): в звонке mobile→web web-ANSWER давал <code>m=audio a=recvonly</code> (web не слал звук) и
+        <code>m=video a=sendrecv a=msid:-</code> (видео без MediaStream) — картинка на телефоне замерзала, звук молчал;
+        web-как-caller работал. Причина: после <code>setRemoteDescription(offer)</code> ответная сторона недо-переназначала
+        слоты — <code>forceVideoSendrecv</code> звал <code>replaceTrack()</code> без <code>setStreams()</code> (→
+        <code>msid:-</code>), аудио-трансивер не трогался вовсе. Фикс: <code>forceVideoSendrecv</code> теперь зовёт
+        <code>setStreams()</code> (реальный msid), новые <code>findAudioTransceiver</code>/<code>forceAudioSendrecv</code>
+        пере-привязывают микрофон и форсят <code>sendrecv</code> на аудио-линии; <code>answerIncomingOffer</code>
+        пере-утверждает обе m-линии перед <code>createAnswer</code>, после чего срабатывает кап 300 kbps / 20 fps.
+        Real-engine SDP-верификация: старая стратегия воспроизводит баг, новая — обе линии <code>sendrecv</code> с
+        реальным msid.</li>
+      <li><b>Камера/микрофон оставались активны после завершения звонка.</b> <code>endCall</code> пропускал очистку при
+        сбое (ветки 409 и generic-error не звали <code>cleanupCall</code>), а устаревший <code>ACTIVE</code>-поллинг
+        мог заново захватить медиа после сброса (гард пропускал только <code>'error'</code>, не <code>'ended'</code>).
+        Фикс: <code>endCall</code> освобождает медиа <b>первым, безусловно</b> (до сетевого раунда, end/cancel POST —
+        best-effort в try/catch), а гард reconcile теперь возвращается на <code>'error' || 'ended'</code> — устаревший
+        поллинг не переоткрывает устройства.</li>
+    </ul>
+    <div class="card">
+      <b>Проверка (визуального UI нет — это протокол/медиа):</b>
+      <ul class="tight">
+        <li>SDP: <code>qa/verify-webrtc-answer-sdp.mjs</code> — headless Chromium WebRTC-loopback; новая стратегия даёт обе m-линии <code>sendrecv</code> с реальным msid (критерий №1).</li>
+        <li>Медиа: <code>track.stop()</code> на локальных стримах переводит mic+camera <code>readyState</code> live → ended (устройства освобождены) — механизм, который использует <code>cleanupCall</code>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section>
+    <h2><span class="n">12</span> Проверка</h2>
+    <table>
+      <tr><th>Гейт</th><th>Результат</th></tr>
+      <tr><td><code>tsc -b</code> (полная проверка типов проекта)</td><td class="ok">exit 0</td></tr>
+      <tr><td><code>vitest run</code></td><td class="ok">1950 / 1950</td></tr>
+      <tr><td><code>eslint --max-warnings 0</code> + <code>prettier</code> (изменённые файлы)</td><td class="ok">чисто</td></tr>
+      <tr><td>Локали</td><td class="ok">15/15 (company.* / admin.* / tripNotifications.* — en/uz/ru + плейсхолдеры)</td></tr>
+      <tr><td>Runtime-верификация каждой правки</td><td class="ok">14 новых <code>qa/verify-*.mjs</code>, 0 ошибок консоли</td></tr>
+      <tr><td>WebRTC answer-path SDP (<code>verify-webrtc-answer-sdp.mjs</code>)</td><td class="ok">обе m-линии sendrecv + реальный msid</td></tr>
+      <tr><td>Adversarial / code-review follow-ups</td><td class="ok">находки разобраны</td></tr>
+    </table>
+    <div class="card">
+      <b>Объём дня — 90+ файлов, 3 коммита + доработки в рабочем дереве:</b>
+      <ul class="tight">
+        <li><code>6762b929</code> «SARB-COMPANY-Overview … SARB-FRONT-Overview» — админ-тарифы (<code>TariffsPanel</code>, <code>AssignTariffModal</code>, <code>tariffs.ts</code>), полный профиль при регистрации (<code>companyCreate.ts</code>), обзор компании (<code>companyOverview.ts</code>, редизайн баннера удаления), командный чат компании (<code>useChatIdentity</code>, <code>chatSurface.ts</code>, <code>CompanyChatPage</code>, <code>companyGroupMessages.ts</code>), identity-приглашения (<code>companyInvitationOffers.ts</code>, <code>InvitationOffersCard</code>), гейт ролей по типу, <code>useCompanyOpen</code>.</li>
+        <li><code>dba91976</code> «invitation» — ролевой дропдаун (<code>companyRole.ts</code> нормализация + <code>parseInvitableCompanyRoleOptions</code>), длительность звонка в чате (<code>chatCallEvents.ts</code>, <code>ConversationItem</code>), тикет по driver-conflict.</li>
+        <li><code>6f5dd872</code> «web call fix» — WebRTC ответная сторона (<code>webrtcTuning.ts</code>: <code>forceAudioSendrecv</code>/<code>findAudioTransceiver</code>/<code>setStreams</code>), <code>GlobalAudioCallModal</code>.</li>
+        <li>Рабочее дерево — приглашение водителя (<code>driver-invitations</code>), рендер приглашения в колокольчике диспетчера (<code>tripNotificationUtils.ts</code>, <code>NotificationRow</code>, <code>useDispatcherSseSubscriptions</code>), освобождение камеры/микрофона на завершении звонка, поллинг очереди офферов (<code>OffersSection</code>/<code>CargoSection</code>).</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<footer style="padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center">Sarbon Frontend · сгенерировано 19.07.2026 · скриншоты — реальный Playwright-прогон (реальные компоненты, API застаблен по live-спеке)</footer>
+</body>
+</html>

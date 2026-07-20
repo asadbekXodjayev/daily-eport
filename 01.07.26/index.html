@@ -288,6 +288,21 @@
   </div>
 </section>
 
+  <div class="wrap">
+    <section style="border-top:3px solid #1639C8">
+      <h2><span class="n" style="background:#fdecc8;color:#b8860b">+</span> Дополнение (17.07.2026) — не вошло в первую версию отчёта</h2>
+      <p class="lead">При сверке git-диффа дня с отчётом обнаружены изменённые области, которые не были задокументированы. Добавлены ниже (текстовая доработка отчёта, без скриншотов).</p>
+      <p class="lead" style="margin-top:4px">Полный дифф дня — <b>99 файлов</b> (в первой версии отчёта указывалось «5»).</p>
+      <table>
+        <tr><th>Область</th><th>Значимость</th><th>Файлы / коммит</th></tr>
+        <tr><td>Admin: Excel-фильтр (AdminFilterDropdown + adminFilters.ts) раскатан почти на все списки админки</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>AdminFilterDropdown.tsx (+151), adminFilters.ts (+105) + тест (+130), применён к Cargo/Dispatchers/Drivers/Offers/Trips/Admins/Users/ModerationLog/CommandCenter/Communications/Metrics — коммит 0661ee4d</td></tr>
+        <tr><td>Admin: рефактор feature-first + перенос Summary-view в per-page components/ + чистка мёртвого кода</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>ARCHITECTURE.md (+106), docs/adr/0001 (+36), перенос 8 *SummaryView, удаления CargoCard/CargosFilter/DriverEditDrawer/… , новый adminAccess.ts — коммит 0661ee4d/dfb9100a</td></tr>
+        <tr><td>Нормализация истории рейсов (tripsHistoryNormalize.ts + рендер)</td><td><span class="badge b-ui">мелкое</span></td><td>tripsHistoryNormalize.ts (+60) + 2 теста, TripsHistoryCardsList/useTripsPresentation/useTripsTableConfig</td></tr>
+        <tr><td>Обновление локалей (15 языков) + SEO route-meta</td><td><span class="badge b-ui">мелкое</span></td><td>public/locales/*.json (+11 каждый), seo.ts, RouteSeoHead.tsx</td></tr>
+      </table>
+    </section>
+  </div>
+
 <footer>
   <div class="wrap" style="padding:0">
     Отчёт сформирован 01.07.2026 · Проект <b>sarbon-frontend</b> (staging).<br>

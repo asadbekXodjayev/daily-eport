@@ -316,6 +316,19 @@
   </div>
 </section>
 
+  <div class="wrap">
+    <section style="border-top:3px solid #1639C8">
+      <h2><span class="n" style="background:#fdecc8;color:#b8860b">+</span> Дополнение (17.07.2026) — не вошло в первую версию отчёта</h2>
+      <p class="lead">При сверке git-диффа дня с отчётом обнаружены изменённые области, которые не были задокументированы. Добавлены ниже (текстовая доработка отчёта, без скриншотов).</p>
+      <p class="lead" style="margin-top:4px">Полный дифф дня — <b>100 файлов</b>.</p>
+      <table>
+        <tr><th>Область</th><th>Значимость</th><th>Файлы / коммит</th></tr>
+        <tr><td>Тикет SARB-DRIVER_M (#66642429): дефекты страницы деталей водителя — убраны координаты lat/long, рейтинг звёздами, ФИО/паспорт/ПИНФЛ только для чтения, бейджи online/work_state, отступы KYC-алерта, i18n на 6 локалей</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>DriverDetailsPage.tsx, DriverEditPage.tsx, DriverDetailsDrawer.tsx, локали {tr,zh,kk,tg,ky,tk} — коммит 7dbc0e6d (23:26), таймлайн отчёта заканчивается на 18:05</td></tr>
+        <tr><td>Фикс сборки: устаревшие ссылки powerPlate* в карточках рейсов после удаления строки тягача</td><td><span class="badge b-ui">мелкое</span></td><td>tripDriverVehicleInfo.ts, TripsCardsList.tsx, DispatcherTripCard.tsx, TripsHistoryCardsList.tsx</td></tr>
+      </table>
+    </section>
+  </div>
+
 <footer>
   <div class="wrap" style="padding:0">
     Отчёт сформирован 29.06.2026 · Проекты <b>sarbon-frontend</b> (staging) + <b>cargolink-app</b>.<br>

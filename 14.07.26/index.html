@@ -312,6 +312,18 @@
 
 </div>
 
+  <div class="wrap">
+    <section style="border-top:3px solid #1639C8">
+      <h2><span class="n" style="background:#fdecc8;color:#b8860b">+</span> Дополнение (17.07.2026) — не вошло в первую версию отчёта</h2>
+      <p class="lead">При сверке git-диффа дня с отчётом обнаружены изменённые области, которые не были задокументированы. Добавлены ниже (текстовая доработка отчёта, без скриншотов).</p>
+      <p class="lead" style="margin-top:4px">Полный дифф дня — <b>144 файлов</b>.</p>
+      <table>
+        <tr><th>Область</th><th>Значимость</th><th>Файлы / коммит</th></tr>
+        <tr><td>Переработка ВОСПРОИЗВЕДЕНИЯ видео-заметок/голосовых в чате (useChatPlaybackStore + ChatPlaybackBar, переписаны ChatVideoNoteMessage/ChatVoiceMessage/MessageBubble/useChatMediaSrc)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>коммит d285f170 (назван «input otp auto selection», но ~1015 строк): useChatPlaybackStore.ts (97), ChatPlaybackBar.tsx (116) + тесты</td></tr>
+        <tr><td>Переработка админ-очереди модерации компаний (AdminCompaniesPage + CompanyModerationQueue/AdminCompanyDetailDrawer/CompanyModerationActions/companyModeration.ts + AdminModerationPage)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>AdminCompaniesPage.tsx (+569), CompanyModerationQueue.tsx (new 215), CompanyModerationActions.tsx (new 186) — коммит 877924a3, в отчёте описана только company-detail страница</td></tr>
+      </table>
+    </section>
+  </div>
 <footer>
   <div class="wrap">
     Отчёт сформирован 14.07.2026 · sarbon-frontend · ветка staging · коммиты d285f170…be5fe1b1 · скриншоты: живой Playwright на staging-API (раздел «Компания») · файлы: report-14.07.26.xlsx, img/*.png

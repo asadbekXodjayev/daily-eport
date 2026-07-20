@@ -293,6 +293,24 @@
 
 </div>
 
+  <div class="wrap">
+    <section style="border-top:3px solid #1639C8">
+      <h2><span class="n" style="background:#fdecc8;color:#b8860b">+</span> Дополнение (17.07.2026) — не вошло в первую версию отчёта</h2>
+      <p class="lead">При сверке git-диффа дня с отчётом обнаружены изменённые области, которые не были задокументированы. Добавлены ниже (текстовая доработка отчёта, без скриншотов).</p>
+      <p class="lead" style="margin-top:4px">Полный дифф дня — <b>71 файлов</b>.</p>
+      <table>
+        <tr><th>Область</th><th>Значимость</th><th>Файлы / коммит</th></tr>
+        <tr><td>Company: разрешение активной компании (useActiveCompany + companyActive.ts) — фикс «activeCompany null на логине»</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>useActiveCompany.ts, companyActive.ts (+test) — коммит 4b59d6ee</td></tr>
+        <tr><td>Company: права (useCompanyPermissions + companyPermissions.ts, /v1/me/permissions), метки ролей (companyRole.ts)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>useCompanyPermissions.ts, companyPermissions.ts, companyRole.ts (+тесты)</td></tr>
+        <tr><td>Company: смена компании + кросс-таб синхронизация сессии (useCompanySwitch, useCompanyContextSync, companySwitch.ts, companySessionCache.ts)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>CompanyLayout.tsx + 4 утилиты/хука (+test)</td></tr>
+        <tr><td>Company: переработка профиля (personal/account, companyProfile.ts, CompanyProfileSidebar) + гейтинг фетча на CompanyDetailPage</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>CompanyProfilePage.tsx, companyProfile.ts, CompanyDetailPage.tsx</td></tr>
+        <tr><td>Admin: переписан drawer деталей водителя + контактный дисплей (AdminDriverDetailDrawer new 377, driverContact.ts)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>AdminDriverDetailDrawer.tsx, AdminDriversPage.tsx (-249), driverContact.ts (+test)</td></tr>
+        <tr><td>Company: фикс регистрации/логина (пароль-логин, детект dispatcher-конфликта, complete/register)</td><td><span class="badge b-feat">КРУПНОЕ</span></td><td>companyPassword.ts, companyRegisterConflict.ts, CompanyCompletePage/RegisterPage — коммит 471ad5f6</td></tr>
+      </table>
+    </section>
+  </div>
+
+
 <footer>
   <div class="wrap">
     Отчёт сформирован 15.07.2026 · sarbon-frontend · ветка staging · скриншоты: живой Playwright на staging-API (админка) · файлы: report-15.07.26.xlsx, img/*.png

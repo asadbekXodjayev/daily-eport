@@ -43,24 +43,26 @@
   th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
   th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
   .ok{color:var(--ok);font-weight:700}
-  footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
-    <h1>Админка · Водители и Диспетчеры</h1>
+    <h1>Кабинет компании (/company) · Админ-модерация</h1>
     <div class="sub">Отчёт о работе · 16 июля 2026 · Sarbon Frontend</div>
     <div class="tags">
-      <span class="tag">Account статус: «No data» → эффективный</span>
-      <span class="tag">Activate-баг исправлен</span>
-      <span class="tag">Account / KYC / Moderation в модалке</span>
-      <span class="tag">Actions: View · Edit · Delete</span>
+      <span class="tag">Кабинет компании: 17 разделов + боковое меню</span>
+      <span class="tag">Команда: приглашения · роли · права</span>
+      <span class="tag">Автопарк · рейсы · финансы</span>
+      <span class="tag">Приём приглашения + групповой чат</span>
+      <span class="tag">Журнал модерации со временем</span>
+      <span class="tag">Админ: Account-статус водителей</span>
     </div>
     <div class="stats">
       <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc + vite)</div></div>
       <div class="stat good"><div class="v">1754/1754</div><div class="l">юнит-тестов пройдено</div></div>
-      <div class="stat blue"><div class="v">13</div><div class="l">файлов изменено</div></div>
+      <div class="stat blue"><div class="v">145</div><div class="l">файлов изменено за день</div></div>
       <div class="stat blue"><div class="v">15/15</div><div class="l">локалей обновлено</div></div>
     </div>
   </div>
@@ -68,121 +70,170 @@
 
 <div class="wrap">
 
+  <div class="note">
+    Отчёт дополнен: первая версия за 16.07 описывала только вечернюю правку админ-модерации
+    (водители/диспетчеры). Основной объём дня — <b>новый кабинет компании</b> (коммит
+    <code>fd7bd15a</code> «company 6 flow stages», ~126 файлов) и <b>журнал модерации со временем</b>
+    (<code>1ebc9664</code>) — добавлены разделами 1–8 ниже.
+  </div>
+
   <section>
-    <h2><span class="n">0</span> Первопричина <span class="badge b-fix">FIX</span></h2>
+    <h2><span class="n">1</span> Кабинет компании — 17 разделов вместо переключателя <span class="badge b-feat">FEATURE</span></h2>
     <p class="lead">
-      Объект <code>Driver</code> в API несёт <b>два</b> статусных поля: сырое, <b>nullable</b>
-      <code>account_status</code> и вычисляемое <code>effective_status</code> =
-      <code>COALESCE(NULLIF(TRIM(account_status),''),'active')</code>. По контракту:
-      «account_status null/пустой — водитель функционально активен». Фронт рендерил сырое поле —
-      поэтому большинство водителей (у которых статус никогда не трогали) показывались как «No data»,
-      и по ним же падал <code>activate</code>: null-водитель уже активен, <code>/moderation/inactive</code>
-      принимает null как источник, а <code>/moderation/activate</code> — нет. Отсюда «деактивируй, потом
-      активируй — работает».
+      Страница <code>/company/:companyId</code> из двухвкладочного переключателя «Профиль | Груз»
+      превратилась в полноценный кабинет с боковым меню (как в основном приложении). Разделы
+      сгруппированы: <b>Обзор</b> (обзор, аналитика), <b>Операции</b> (грузы, рейсы, доска, офферы),
+      <b>Команда</b> (сотрудники, приглашения, роли, чат), <b>Автопарк</b> (водители, ТС, сборки, ТО),
+      <b>Финансы</b> (финансы, документы), <b>Журнал</b> (аудит, настройки). Каждый раздел — отдельный
+      ленивый чанк <code>&lt;Id&gt;Section.tsx</code> + чистый логический модуль <code>company&lt;Id&gt;.ts</code>
+      + юнит-тест. Видимость раздела гейтится по правам пользователя (<code>me/permissions</code>).
+    </p>
+    <img class="shot" src="img/company-overview.png" alt="Кабинет компании — обзор" />
+    <div class="cap">/company/:id — боковое меню по группам, раздел «Обзор» (профиль, рейтинг, лимиты).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Команда: приглашения, сотрудники, роли <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">Флоу найма целиком на фронте:</p>
+    <ul class="tight">
+      <li><b>Приглашения</b> — создать (телефон + роль), список, повторно отправить, отозвать.</li>
+      <li><b>Сотрудники</b> — смена роли, тонкая настройка прав (grant / deny / inherit по каждому ключу), удаление. Синтетическая строка Owner защищена (не редактируется).</li>
+      <li><b>Роли</b> — оверлеи прав на роль (действуют ретроактивно на всех носителей роли).</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/company-employees.png" alt="Сотрудники" />
+        <div class="cap">Раздел «Сотрудники» — роль, права, действия по строке.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/company-invitations.png" alt="Приглашения" />
+        <div class="cap">Раздел «Приглашения» — создание и статус приглашений.</div>
+      </div>
+    </div>
+    <img class="shot" src="img/company-roles.png" alt="Роли и права" />
+    <div class="cap">Раздел «Роли и права» — матрица прав по ролям.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Автопарк: ТС, сборки, ТО, водители <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">Тягачи и прицепы (CRUD + запуск/завершение ТО), сборки (тягач+прицеп+водитель),
+      журнал ТО, ростер водителей. Автопарк недоступен компаниям-грузоотправителям (SHIPPER) на бэке —
+      учтено в правах.</p>
+    <img class="shot" src="img/company-vehicles.png" alt="Транспортные средства" />
+    <div class="cap">Раздел «Транспортные средства» — переключение тягачи/прицепы, статусы, ТО.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> Операции: грузы, рейсы, финансы <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">Грузы компании (все статусы), рейсы (список с фильтрами + назначение куратора-менеджера),
+      финансовый свод по валютам и расходы по рейсам. Ключевое правило домена — <b>без конвертации валют</b>:
+      прибыль считается строго внутри одной валюты, разные валюты не суммируются.</p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/company-trips.png" alt="Рейсы" />
+        <div class="cap">Раздел «Рейсы» — фильтры по статусу/роли/дате, назначение менеджера.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/company-finance.png" alt="Финансы" />
+        <div class="cap">Раздел «Финансы» — свод по валютам (доход/расход/прибыль).</div>
+      </div>
+    </div>
+    <img class="shot" src="img/company-cargo.png" alt="Грузы компании" />
+    <div class="cap">Раздел «Грузы» — грузы компании всех статусов.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span> Приём приглашения + групповой чат <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Достроена <b>сторона приглашаемого</b>: корневая страница <code>/accept-invite?token=…</code>
+      (вне <code>/company</code>, без гардов — приглашённый ещё не авторизован). Неавторизованного
+      бросает на логин через одноразовый breadcrumb в <code>sessionStorage</code>, после логина
+      <code>CompanyLayout</code> возвращает на <code>/accept-invite</code> — токен едет в URL возврата.
+      Раздел <b>«Чат»</b> кабинета — лаунчер: открывает групповую беседу компании в общем чате
+      приложения (<code>/{lang}/chat</code>). Пять состояний приёма (успех / не найдено / истёк /
+      несовпадение телефона / лимит мест) разобраны в <code>companyAcceptInvite.ts</code>.
     </p>
   </section>
 
   <section>
-    <h2><span class="n">1</span> Колонка «Account» — эффективный статус <span class="badge b-fix">FIX</span></h2>
-    <p class="lead">Теперь колонка показывает эффективный статус (null → <b>Active</b>). Никаких «No data»
-      — они остались только у настоящего пустого рейтинга. Значение используется и в сортировке, фильтрах и
-      признаке <code>isBlocked</code>.</p>
-    <img class="shot" src="img/01-drivers-table-account.png" alt="Drivers table — Account column" />
-    <div class="cap">/en/admin/drivers — Account: Active / Blocked / Inactive по каждой строке.</div>
-    <img class="shot" src="img/05-drivers-ru.png" alt="Drivers table RU" />
-    <div class="cap">Русская локаль — та же колонка.</div>
+    <h2><span class="n">6</span> Профиль компании: «мои компании» + AntdProvider uz_UZ <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">В профиль компании добавлен раздел «мои компании» (список + переключение активной
+      компании через <code>CompanyProfileCompanies</code>). <code>AntdProvider</code> для узбекского
+      теперь мапит <code>uz → uz_UZ</code> (было <code>en_US</code>, из-за чего собственный хром antd —
+      «(optional)», фильтры, пагинация — шёл на английском впереди основного языка).</p>
   </section>
 
   <section>
-    <h2><span class="n">2</span> Действия строки: только View · Edit · Delete <span class="badge b-ui">UI</span></h2>
-    <p class="lead">Кнопка «Send to moderation» убрана из колонки действий. Вся модерация теперь живёт
-      внутри модалки редактирования.</p>
+    <h2><span class="n">7</span> Админ · журнал модерации со временем <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      В <code>/admin/moderation-log</code> (<code>GET /v1/admin/moderation/log</code>) добавлены отдельные
+      колонки <code>requested_at</code> (когда объект отправили на модерацию) и <code>decided_at</code>
+      (время решения) — раньше было только одно «Дата» (<code>created_at</code>), и оператор не видел,
+      когда запись вошла в модерацию и когда её решили. (SARB-ADMIN, коммит <code>1ebc9664</code>.)
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="n">8</span> Админ · Водители и Диспетчеры — эффективный Account-статус <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Объект <code>Driver</code> несёт <b>два</b> статусных поля: сырое nullable <code>account_status</code>
+      и вычисляемое <code>effective_status</code> = <code>COALESCE(NULLIF(TRIM(account_status),''),'active')</code>.
+      Фронт рендерил сырое поле — большинство водителей показывались как «No data», и по ним падал
+      <code>activate</code> (null-водитель уже активен; <code>/moderation/activate</code> не принимает null
+      как источник, а <code>/moderation/inactive</code> — принимает). Отсюда «деактивируй, потом активируй».
+    </p>
+    <ul class="tight">
+      <li>Колонка «Account» теперь показывает эффективный статус (null → <b>Active</b>); то же значение в сортировке, фильтрах и <code>isBlocked</code>.</li>
+      <li>Действия строки сведены к <b>View · Edit · Delete</b> — вся модерация переехала в модалку редактирования.</li>
+      <li>В модалке правятся все три оси: <b>Account</b> (activate/inactive/block/unblock, гейтится по статусу), <b>KYC</b> (accept/reject), <b>Moderation/допуск</b> (approve/reject/send).</li>
+      <li>«Activate» скрыт для уже активного водителя (раньше давал 400 на null-статусе); «Send to moderation» задизейблена, пока статус ≠ Rejected (у водителя resubmit строго <code>rejected → pending</code>).</li>
+      <li>Диспетчеры — тот же паттерн, но ось жизненного цикла — <code>moderation_status</code>.</li>
+    </ul>
     <div class="grid2">
       <div>
-        <img class="shot" src="img/02-drivers-actions-column.png" alt="Drivers actions column" />
-        <div class="cap">Водители: View · Edit · Delete.</div>
+        <img class="shot" src="img/01-drivers-table-account.png" alt="Drivers table — Account column" />
+        <div class="cap">/admin/drivers — Account: Active / Blocked / Inactive по строкам.</div>
       </div>
       <div>
-        <img class="shot" src="img/07-dispatchers-actions-column.png" alt="Dispatchers actions column" />
-        <div class="cap">Диспетчеры: View · Edit · Delete.</div>
+        <img class="shot" src="img/03-driver-edit-status-editor.png" alt="Driver edit status editor" />
+        <div class="cap">Модалка «Edit driver» — блок Account / KYC / Moderation.</div>
       </div>
     </div>
-  </section>
-
-  <section>
-    <h2><span class="n">3</span> Account / KYC / Moderation — редактируются в модалке <span class="badge b-feat">FEATURE</span></h2>
-    <p class="lead">Новый блок в модалке редактирования водителя делает все три статусные оси управляемыми:</p>
-    <ul class="tight">
-      <li><b>Account</b> — activate / deactivate / block / unblock (дропдаун <code>Account status</code>, гейтится по статусу).</li>
-      <li><b>KYC</b> — Accept / Reject (с причиной), эндпоинты <code>/kyc/accept</code>, <code>/kyc/reject</code>.</li>
-      <li><b>Moderation (допуск)</b> — Accept / Reject (с причиной) / Send to moderation.</li>
-    </ul>
-    <img class="shot" src="img/03-driver-edit-status-editor.png" alt="Driver edit status editor" />
-    <div class="cap">Модалка «Edit driver» — блок Account / KYC / Moderation вверху. Лейбл дропдауна — «Account status», не «Moderation».</div>
-  </section>
-
-  <section>
-    <h2><span class="n">4</span> Activate больше не падает на «No data» <span class="badge b-fix">FIX</span></h2>
-    <p class="lead">Дропдаун «Account status» для уже активного водителя предлагает только
-      <b>Deactivate</b> и <b>Block</b> — <b>Activate скрыт</b> (раньше именно он давал 400 на null-статусе).
-      Кнопка «Send to moderation» задизейблена, пока статус модерации ≠ Rejected: у водителя
-      <code>resubmit</code> строго <code>rejected → pending</code> (иначе <code>400 driver_not_rejected</code>).</p>
-    <img class="shot" src="img/04-driver-account-status-menu.png" alt="Account status dropdown" />
-    <div class="cap">Активный водитель → в меню только Deactivate / Block. «Send to moderation» серая (статус Pending).</div>
-  </section>
-
-  <section>
-    <h2><span class="n">5</span> Диспетчеры — тот же паттерн <span class="badge b-fix">FIX</span></h2>
-    <p class="lead">Ось жизненного цикла диспетчера — <code>moderation_status</code> (а не account_status,
-      который у диспетчера захардкожен в «active»). Секция Moderation переехала в модалку; <code>isBlocked</code>
-      теперь читается из <code>moderation_status</code>. Resubmit у диспетчера работает из любого статуса, поэтому
-      остаётся в дропдауне модалки.</p>
     <div class="grid2">
       <div>
-        <img class="shot" src="img/06-dispatchers-table.png" alt="Dispatchers table" />
-        <div class="cap">/en/admin/dispatchers — Status + Moderation заполнены.</div>
+        <img class="shot" src="img/04-driver-account-status-menu.png" alt="Account status dropdown" />
+        <div class="cap">Активный водитель → только Deactivate / Block (Activate скрыт).</div>
       </div>
       <div>
         <img class="shot" src="img/08-dispatcher-edit-moderation.png" alt="Dispatcher edit moderation" />
-        <div class="cap">Модалка «Edit dispatcher» — секция Moderation с дропдауном.</div>
-      </div>
-    </div>
-    <div class="grid2">
-      <div>
-        <img class="shot" src="img/09-dispatcher-moderation-menu.png" alt="Dispatcher moderation menu" />
-        <div class="cap">Дропдаун лайфсайкла диспетчера.</div>
-      </div>
-      <div>
-        <img class="shot" src="img/10-dispatchers-ru.png" alt="Dispatchers RU" />
-        <div class="cap">Русская локаль.</div>
+        <div class="cap">Диспетчер — секция Moderation в модалке.</div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2><span class="n">6</span> Проверка</h2>
+    <h2><span class="n">9</span> Проверка</h2>
     <table>
       <tr><th>Гейт</th><th>Результат</th></tr>
       <tr><td><code>pnpm build</code> (tsc -b + vite)</td><td class="ok">exit 0</td></tr>
       <tr><td><code>eslint --max-warnings 0</code> (изменённые файлы)</td><td class="ok">чисто</td></tr>
       <tr><td><code>vitest run</code></td><td class="ok">1754 / 1754 (165 файлов)</td></tr>
-      <tr><td>Локали</td><td class="ok">2 новых ключа × 15 локалей</td></tr>
+      <tr><td>Кабинет компании — <code>qa/verify-company-workspace.mjs</code></td><td class="ok">17/17 разделов, 0 «сырых» ключей i18n</td></tr>
+      <tr><td>Приём приглашения — <code>qa/verify-accept-invite.mjs</code></td><td class="ok">7/7 состояний</td></tr>
+      <tr><td>Локали</td><td class="ok">15/15 (company.* — en/uz/ru + плейсхолдеры)</td></tr>
       <tr><td>Живой прогон (staging, admin)</td><td class="ok">10 скриншотов, поведение подтверждено</td></tr>
     </table>
     <div class="card">
-      <b>Изменённые файлы (13):</b>
+      <b>Объём дня — 145 файлов, 3 коммита:</b>
       <ul class="tight">
-        <li><code>src/utils/adminLifecycleStatus.ts</code> (new) + тест</li>
-        <li><code>src/components/shared/admin/adminModerationRoutes.ts</code>, <code>AdminModerationActions.tsx</code></li>
-        <li><code>src/pages/admin/drivers/{AdminDriversPage,AdminDriverEditDrawer}.tsx</code></li>
-        <li><code>src/pages/admin/drivers/components/{AdminDriverStatusEditor(new),AdminDriverDetailDrawer}.tsx</code></li>
-        <li><code>src/pages/admin/dispatchers/{AdminDispatchersPage,AdminDispatcherEditDrawer}.tsx</code></li>
-        <li><code>public/locales/*.json</code> ×15</li>
+        <li><code>fd7bd15a</code> «company 6 flow stages» (~126 файлов) — кабинет компании: 10 разделов <code>*Section.tsx</code> + 18 модулей <code>company*.ts</code> + 18 тестов, <code>companyWorkspaceTypes.ts</code>, <code>companyWorkspaceSections.ts</code>, <code>CompanyWorkspaceSidebar</code>, <code>CompanyDetailPage</code>, профиль «мои компании», приём приглашения, чат-лаунчер, роутер/эндпоинты/права, qa-гарнессы.</li>
+        <li><code>1ebc9664</code> «журнал модерации со временем» (~30 файлов) — <code>AdminModerationLogPage</code> + <code>moderationLogUtils</code>, чат-раздел компании (<code>ChatSection</code>/<code>companyChat</code>).</li>
+        <li><code>09b83751</code> «moderation fix» (~28 файлов) — <code>adminLifecycleStatus.ts</code> (new), <code>AdminModerationActions</code>, <code>AdminDriver/Dispatcher{Page,EditDrawer}</code>, <code>AdminDriverStatusEditor</code> (new), локали ×15.</li>
       </ul>
     </div>
   </section>
 
 </div>
-<footer>Sarbon Frontend · сгенерировано 16.07.2026 · скриншоты — реальный Playwright-прогон на staging</footer>
+<footer style="padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center">Sarbon Frontend · сгенерировано 16.07.2026, дополнено 17.07.2026 · скриншоты — реальный Playwright-прогон</footer>
 </body>
 </html>
