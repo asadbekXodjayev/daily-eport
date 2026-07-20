@@ -72,14 +72,23 @@
   .rail .dd{font-size:21px;font-weight:800;letter-spacing:-.01em;line-height:1}
   .rail .mm{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
   @media(max-width:700px){.rail .dd,.rail .mm{display:inline;font-size:13px;color:var(--muted);letter-spacing:0;text-transform:none;font-weight:700}}
-  a.rcard{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(20,30,60,.04);color:inherit;transition:border-color .12s ease,box-shadow .12s ease,transform .12s ease}
-  a.rcard:hover,a.rcard:focus-visible{border-color:#c3cff8;box-shadow:0 6px 18px rgba(20,30,60,.09);transform:translateY(-1px)}
-  a.rcard:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .rbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(20,30,60,.04);transition:border-color .12s ease,box-shadow .12s ease,transform .12s ease}
+  .rbox:hover,.rbox:focus-within{border-color:#c3cff8;box-shadow:0 6px 18px rgba(20,30,60,.09);transform:translateY(-1px)}
+  a.rcard{display:block;color:inherit}
+  a.rcard:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
   .rcard h3{margin:0 0 6px;font-size:16.5px;color:var(--blue);font-weight:700;letter-spacing:-.005em}
   .rcard p{margin:0;color:var(--muted);font-size:14px}
   .rtags{margin-top:11px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
   .rtag{display:inline-block;background:#f3f5fb;border:1px solid var(--line);color:#41506e;padding:3px 10px;border-radius:20px;font-size:12px}
   .rmetric{display:inline-block;background:#eafaf3;border:1px solid #c7eeda;color:#0b7a52;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+  a.rxls{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:#f2fbf7;border:1px solid #bde8d4;color:#0b7a52;
+         padding:4px 11px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;
+         transition:background .12s ease,border-color .12s ease,color .12s ease}
+  a.rxls svg{flex:0 0 auto;opacity:.85}
+  a.rxls:hover,a.rxls:focus-visible{background:#0f9d58;border-color:#0f9d58;color:#fff}
+  a.rxls:hover svg,a.rxls:focus-visible svg{opacity:1}
+  a.rxls:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  @media(max-width:520px){a.rxls{margin-left:0}}
   .empty{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--muted)}
   .empty.show{display:block}
 
@@ -182,242 +191,300 @@
 
       <li class="report">
         <div class="rail"><div class="dd">18</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./18.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./18.07.26/">
           <h3>Компания: тарифы · регистрация · обзор · чат · приглашения · веб-звонки</h3>
           <p>Админ-тарифы и лимиты компаний, полный профиль при регистрации, обзор со всеми ~30 полями, командный чат поверх реального /chat, identity-based приглашения (включая водителя) и две правки WebRTC.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">тарифы</span><span class="rtag">приглашения</span><span class="rtag">командный чат</span><span class="rtag">WebRTC</span>
             <span class="rmetric">1950 / 1950 тестов</span>
+            <a class="rxls" href="./18.07.26/report-18.07.26.xlsx" download title="Скачать Excel-выгрузку за 18.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">17</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./17.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./17.07.26/">
           <h3>Кабинет компании · Дашборд · Рейсы · Чат · Админ-водители</h3>
           <p>Подключены 13 live-эндпоинтов компании, автопарк скрыт для грузоотправителя, редизайн карточек. Дашборд с группировкой день/неделя/месяц, удаление и закрепление бесед, фильтр-панель водителей в админке.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">live-эндпоинты</span><span class="rtag">дашборд</span><span class="rtag">чат</span><span class="rtag">админ-водители</span>
             <span class="rmetric">1879 / 1879 тестов</span>
+            <a class="rxls" href="./17.07.26/report-17.07.26.xlsx" download title="Скачать Excel-выгрузку за 17.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">16</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./16.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./16.07.26/">
           <h3>Кабинет компании (/company) · Админ-модерация</h3>
           <p>17 разделов кабинета вместо переключателя: команда с приглашениями и правами, автопарк, рейсы и финансы, приём приглашения с групповым чатом. Журнал модерации со временем и эффективный Account-статус водителей.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">17 разделов</span><span class="rtag">команда · роли</span><span class="rtag">автопарк</span><span class="rtag">модерация</span>
             <span class="rmetric">1754 / 1754 тестов</span>
+            <a class="rxls" href="./16.07.26/report-16.07.26.xlsx" download title="Скачать Excel-выгрузку за 16.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">15</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./15.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./15.07.26/">
           <h3>Админ: диспетчеры, поиск в модерации, прогрессивная загрузка</h3>
           <p>Страница «Диспетчеры» приведена к виду «Водителей»: телефон/email, даты регистрации и активности, карточка с фото и всеми 24 полями API. Единый поиск по очередям модерации; длинные списки рендерят первые строки сразу.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">диспетчеры</span><span class="rtag">поиск в модерации</span><span class="rtag">рейсы</span><span class="rtag">прогрессивная загрузка</span>
             <span class="rmetric">1311 тестов · 15 скриншотов</span>
+            <a class="rxls" href="./15.07.26/report-15.07.26.xlsx" download title="Скачать Excel-выгрузку за 15.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">14</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./14.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./14.07.26/">
           <h3>Раздел «Компания» — третья личность продукта</h3>
           <p>Владелец компании регистрируется по телефону с Telegram-OTP, входит паролем или кодом, ведёт компанию. Баннер входа переделан из «прицела» в логистическую сцену с маршрутами. Автофокус OTP и победа над лагами видеозаписи.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">раздел «Компания»</span><span class="rtag">баннер входа</span><span class="rtag">OTP</span><span class="rtag">запись видео</span>
             <span class="rmetric">1226 / 1226 тестов</span>
+            <a class="rxls" href="./14.07.26/report-14.07.26.xlsx" download title="Скачать Excel-выгрузку за 14.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">13</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./13.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./13.07.26/">
           <h3>Заметки админа · журнал модерации · производительность чата</h3>
           <p>Внутренние заметки к грузам, водителям, менеджерам и компаниям; действия прямо из строки журнала модерации; нумерация во всех таблицах. В чате устранены тормоза телефонов от видеосообщений, добавлена панель воспроизведения.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">заметки</span><span class="rtag">журнал модерации</span><span class="rtag">производительность</span><span class="rtag">типы водителя</span>
             <span class="rmetric">1134 / 1134 тестов</span>
+            <a class="rxls" href="./13.07.26/report-13.07.26.xlsx" download title="Скачать Excel-выгрузку за 13.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">11</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./11.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./11.07.26/">
           <h3>8 рекомендаций бизнес-аналитика · дашборд · история рейсов</h3>
           <p>Реализован пакет BA-рекомендаций Sarbon_v2, на дашборде появился переключатель «Линия ↔ Столбцы» с сериями, трекер истории рейсов получил рейтинги, ФИО и цену в шагах. Плюс блок фиксов звонков в чате.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">BA-рекомендации</span><span class="rtag">дашборд</span><span class="rtag">история рейсов</span><span class="rtag">чат-звонки</span>
             <span class="rmetric">1052 / 1052 тестов</span>
+            <a class="rxls" href="./11.07.26/report-11.07.26.xlsx" download title="Скачать Excel-выгрузку за 11.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">10</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./10.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./10.07.26/">
           <h3>Редизайн Command Center · подготовка релиза staging → main</h3>
           <p>Шестая KPI-карточка и секция Summary из ~20 именованных метрик, контролы тренда и три визуальных фикса. Полный жизненный цикл модерации, серверная пагинация больших списков, GPS-карта только своих водителей.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">Command Center</span><span class="rtag">модерация</span><span class="rtag">пагинация</span><span class="rtag">release-prep</span>
             <span class="rmetric">989 / 989 тестов</span>
+            <a class="rxls" href="./10.07.26/report-10.07.26.xlsx" download title="Скачать Excel-выгрузку за 10.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">9</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./09.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./09.07.26/">
           <h3>Полная регрессия приложения: 8 багов закрыто</h3>
           <p>Три линзы × три поверхности × три роли на реальном staging-бэкенде: 8 подтверждённых багов закрыто, ~35 находок задокументировано, 5 ложных срабатываний отсеяно. Плюс перерасчёт веса и объёма в форме груза.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">регрессия</span><span class="rtag">форма груза</span><span class="rtag">чат</span><span class="rtag">админ</span>
             <span class="rmetric">929 тестов · 526 скриншотов</span>
+            <a class="rxls" href="./09.07.26/report-09.07.26.xlsx" download title="Скачать Excel-выгрузку за 09.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">8</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./08.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./08.07.26/">
           <h3>Insights реестра пользователей в админке</h3>
           <p>Единый экран показателей по трём ролям: 13 KPI-карточек, умные баннеры-предупреждения о застрявшей KYC-очереди и менеджерах без флота, тренд-график с гранулярностью день/неделя/месяц. DAU честно помечен как снапшот.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">Users registry</span><span class="rtag">Insights</span><span class="rtag">тренды</span><span class="rtag">3 роли</span>
             <span class="rmetric">13 KPI · 9 живых скриншотов</span>
+            <a class="rxls" href="./08.07.26/report-08.07.26.xlsx" download title="Скачать Excel-выгрузку за 08.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">7</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./07.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./07.07.26/">
           <h3>AI-создание груза · переработка авторизации и чат-рекордера</h3>
           <p>Новая страница: вставляешь объявление из Telegram или WhatsApp — DeepSeek парсит и заполняет форму с подсветкой по уверенности. Авторизация получила общий переключатель Telegram/Email, рекордер переписан под Telegram.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">AI-создание груза</span><span class="rtag">авторизация</span><span class="rtag">чат-рекордер</span><span class="rtag">админ</span>
             <span class="rmetric">822 / 822 тестов</span>
+            <a class="rxls" href="./07.07.26/report-07.07.26.xlsx" download title="Скачать Excel-выгрузку за 07.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">6</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./06.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./06.07.26/">
           <h3>Портретное видео · аналитика админки · аудит 87 полей</h3>
           <p>Портретные потоки телефонов больше не режутся в звонке и демонстрации экрана, видеокружки переведены в модель «удержание → блокировка → отпустить». Сверка 20 админ-страниц с бэкендом вывела в UI 87 терявшихся полей.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">видео</span><span class="rtag">аналитика</span><span class="rtag">аудит полей</span><span class="rtag">пагинация</span>
             <span class="rmetric">87 полей выведено в UI</span>
+            <a class="rxls" href="./06.07.26/report-06.07.26.xlsx" download title="Скачать Excel-выгрузку за 06.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">4</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./04.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./04.07.26/">
           <h3>Регрессия видеозвонка · Telegram-стиль · адаптив админки</h3>
           <p>Критическая регрессия — звонящий не видел камеру собеседника — найдена и исправлена, звонок переведён в полноэкранный оверлей. Видео-кружки переписаны, проведён адаптив админ-консоли от 4K до 360px без горизонтального скролла.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">видеозвонок</span><span class="rtag">видео-кружки</span><span class="rtag">адаптив</span><span class="rtag">8 дефектов</span>
             <span class="rmetric">718 / 718 тестов</span>
+            <a class="rxls" href="./04.07.26/report-04.07.26.xlsx" download title="Скачать Excel-выгрузку за 04.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">3</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./03.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./03.07.26/">
           <h3>WebRTC-видеозвонок и видео-заметки в чате</h3>
           <p>Две большие функции реального времени: видеозвонок с камерой и демонстрацией экрана поверх существующего аудио, кружочки-видеосообщения. Плюс поиск адреса маршрута на карте и переработка админ-командного центра.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">WebRTC</span><span class="rtag">видео-заметки</span><span class="rtag">поиск адреса</span><span class="rtag">командный центр</span>
             <span class="rmetric">4 функции · 3 дефекта</span>
+            <a class="rxls" href="./03.07.26/report-03.07.26.xlsx" download title="Скачать Excel-выгрузку за 03.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">2</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./02.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./02.07.26/">
           <h3>Чат · аудиозвонки · модерация менеджеров · деактивация груза</h3>
           <p>Пять областей за день: пузырёк звонка в чате, устойчивость аудиозвонка к обрыву, модерация менеджеров в админ-консоли, возврат груза в поиск и QA-инфраструктура. На закрывающем ревью найдены и устранены 2 регрессии.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">чат</span><span class="rtag">аудиозвонки</span><span class="rtag">админ-консоль</span><span class="rtag">QA</span>
             <span class="rmetric">3 дефекта · 2 функции</span>
+            <a class="rxls" href="./02.07.26/report-02.07.26.xlsx" download title="Скачать Excel-выгрузку за 02.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">1</div><div class="mm">июля</div></div>
-        <a class="rcard" href="./01.07.26/">
+        <div class="rbox">
+          <a class="rcard" href="./01.07.26/">
           <h3>Два дефекта диспетчерского приложения — закрыты в глубину</h3>
           <p>Оба бага из QA закрыты не косметической заплаткой: исправлена логика выбора получателя оценки (диспетчер → диспетчер) и упрощён показатель «машины» в списке грузов. Полный контур: code-review → тесты → verify в браузере.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">оценка диспетчера</span><span class="rtag">список грузов</span><span class="rtag">code-review</span>
             <span class="rmetric">572 / 572 тестов</span>
+            <a class="rxls" href="./01.07.26/report-01.07.26.xlsx" download title="Скачать Excel-выгрузку за 01.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">30</div><div class="mm">июня</div></div>
-        <a class="rcard" href="./30.06.26/">
+        <div class="rbox">
+          <a class="rcard" href="./30.06.26/">
           <h3>Админ-панель до production-quality: 14 задач</h3>
           <p>Пять фиксов неверных данных и девять улучшений: 8 новых компонентов аналитики, пагинация на 16 таблицах, исторические тренды на графиках, TrendBadge с delta-стрелками, полная локализация трёх представлений.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">аналитика</span><span class="rtag">пагинация</span><span class="rtag">тренды</span><span class="rtag">локализация</span>
             <span class="rmetric">16 таблиц · 15 локалей</span>
+            <a class="rxls" href="./30.06.26/report-30.06.26.xlsx" download title="Скачать Excel-выгрузку за 30.06.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">29</div><div class="mm">июня</div></div>
-        <a class="rcard" href="./29.06.26/">
+        <div class="rbox">
+          <a class="rcard" href="./29.06.26/">
           <h3>Sarbon + CargoLink: 11 задач, критический фикс потери данных</h3>
           <p>Десять задач на Sarbon, включая критическую потерю данных при редактировании груза, Excel-сортировку и фильтры во всех админ-таблицах, графики Command Center и иконки своих водителей на GPS-карте. Плюс ввод OTP в CargoLink.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">потеря данных</span><span class="rtag">Excel-таблицы</span><span class="rtag">GPS-карта</span><span class="rtag">CargoLink</span>
             <span class="rmetric">520 / 520 тестов</span>
+            <a class="rxls" href="./29.06.26/report-29.06.26.xlsx" download title="Скачать Excel-выгрузку за 29.06.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">27</div><div class="mm">июня</div></div>
-        <a class="rcard" href="./27.06.26/">
+        <div class="rbox">
+          <a class="rcard" href="./27.06.26/">
           <h3>Стабилизация: 9 фиксов и впервые полностью зелёный репозиторий</h3>
           <p>Звонки (имя, фото, соединение), редактирование груза, карта маршрута в списке и единая Excel-сетка таблиц админки — центральная визуальная правка дня. Впервые 443/443 юнит-теста и 0 предупреждений ESLint по всему проекту.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">звонки</span><span class="rtag">Excel-сетка</span><span class="rtag">зелёный репозиторий</span>
             <span class="rmetric">443 / 443 тестов</span>
           </div>
-        </a>
+        </div>
       </li>
 
       <li class="report">
         <div class="rail"><div class="dd">26</div><div class="mm">июня</div></div>
-        <a class="rcard" href="./26.06.26/">
+        <div class="rbox">
+          <a class="rcard" href="./26.06.26/">
           <h3>Сборка админ-консоли: 9 новых страниц и полный QA-прогон</h3>
           <p>Девять новых страниц плюс аналитический движок, три сессии исправления багов и прогон всех 18 страниц админки с публикацией Allure-отчёта: 314 скриншотов, 6 522 сетевых запроса без единого сбойного.</p>
+          </a>
           <div class="rtags">
             <span class="rtag">9 новых страниц</span><span class="rtag">QA-прогон</span><span class="rtag">Allure</span>
             <span class="rmetric">314 скриншотов · 0 критичных</span>
           </div>
-        </a>
+        </div>
       </li>
 
     </ol>
@@ -431,8 +498,10 @@
     <div class="note">
       Каждый отчёт — отдельная страница в папке с датой (<code>18.07.26/index.html</code>). Скриншоты внутри —
       реальный прогон Playwright на компонентах приложения; часть дней дополнена выгрузкой
-      <code>.xlsx</code> и скриптами захвата. Отчёты за 26.06 — 15.07 дополнены разделом от 17.07.2026
-      с тем, что не вошло в первую версию.
+      <code>.xlsx</code> и скриптами захвата. Там, где выгрузка есть, в карточке отчёта появляется
+      кнопка <b>Excel</b> — она скачивает файл <code>report-ДД.ММ.ГГ.xlsx</code> напрямую, не открывая отчёт;
+      у 26.06 и 27.06 выгрузки нет, поэтому кнопки там тоже нет. Отчёты за 26.06 — 15.07 дополнены
+      разделом от 17.07.2026 с тем, что не вошло в первую версию.
     </div>
   </section>
 
@@ -449,7 +518,12 @@
     var total = items.length;
 
     items.forEach(function (li) {
-      li.dataset.text = li.textContent.toLowerCase().replace(/\s+/g, ' ');
+      // Ярлык кнопки выгрузки не индексируется: иначе запрос «excel» совпал бы почти со всеми.
+      var copy = li.cloneNode(true);
+      Array.prototype.forEach.call(copy.querySelectorAll('.rxls'), function (el) {
+        el.parentNode.removeChild(el);
+      });
+      li.dataset.text = copy.textContent.toLowerCase().replace(/\s+/g, ' ');
     });
 
     function apply() {
