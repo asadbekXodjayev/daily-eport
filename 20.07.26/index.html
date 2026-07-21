@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 20.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+  header.top .sub{opacity:.9;font-size:15.5px}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed} .b-refactor{background:#64748b}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  .warn{color:var(--high);font-weight:700}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
+  .note.amber{background:#fff8ec;border-color:#f3e0b8;color:#7a5a1a}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Приглашения в компанию · рейсы/офферы админки · email водителя · Excel · названия городов</h1>
+    <div class="sub">Отчёт о работе · 20 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">Приглашения сотрудников</span>
+      <span class="tag">Email водителя</span>
+      <span class="tag">Админ: рейсы и офферы</span>
+      <span class="tag">Название города</span>
+      <span class="tag">Excel-экспорт</span>
+      <span class="tag">Архитектура кабинета компании</span>
+      <span class="tag">Merge: модерация · рейсы</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc -b + vite)</div></div>
+      <div class="stat good"><div class="v">2023/2023</div><div class="l">юнит-тестов пройдено</div></div>
+      <div class="stat blue"><div class="v">98</div><div class="l">файлов затронуто за день</div></div>
+      <div class="stat blue"><div class="v">15/15</div><div class="l">локалей обновлено</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note">
+    Шесть коммитов (<code>de3be420</code> → <code>b4c8fe8e</code> → <code>5bb23f21</code> → <code>e9c07040</code> →
+    <code>9e3bdcab</code> → <code>33e56b12</code>) плюс доработки в рабочем дереве: полная диагностика приглашений
+    сотрудников в ленте офферов диспетчера (краш <code>/offers</code>, карточка + модалка принятия/отклонения,
+    редизайн уведомления, задокументированный бэкенд-блокер), email в детальной карточке водителя, починка контракта
+    <code>/admin/trips</code> и <code>/admin/offers</code> (бэкенд сменил PascalCase на snake_case) с переименованием
+    «Удалить» → «Отменить рейс», отображение названия города до запятой с аббревиатурой административного слова,
+    и <b>повторное расследование</b> Excel-экспорта — первый сегодняшний фикс починил обрезание колонок, но
+    китайское контекстное меню оказалось не исправлено; корень найден в самом вендорном пакете и исправлен по-новому.
+    Отдельно — рефакторинг файловой архитектуры раздела компании (устранение дублирования и мёртвого кода) и два
+    смерджированных PR коллеги. Все скриншоты ниже — реальный Playwright-прогон на живом staging.
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">1</span> Приглашения сотрудников в ленте офферов диспетчера <span class="badge b-fix">FIX</span> <span class="badge b-ui">UI</span></h2>
+    <p class="lead">
+      Бэкенд обновил уведомление и офферное сообщение о приглашении в компанию для CM/DM, но диспетчер не видел
+      приглашение в <code>/offers</code>, хотя счётчик показывал «1 входящий». Полное расследование <code>/decider</code>
+      выявило цепочку из трёх находок.
+    </p>
+    <ul class="tight">
+      <li><b>Краш <code>/offers</code>.</b> <code>GET /v1/dispatchers/offers/all</code> — полиморфная лента: строки
+        приглашений приходят с <code>cargo: null</code> и <code>offer: null</code>, а тип
+        <code>SentOfferListItem</code> объявлял оба поля не-nullable. <code>item.cargo.id</code> падал с
+        <code>TypeError</code>, ErrorBoundary ловил и показывал «Что-то пошло не так». Поля сделаны nullable,
+        строки-приглашения отделены предикатом <code>isOfferListItemWithCargo</code>, приглашения — отдельным
+        предикатом <code>isCompanyInvitationOffer</code> (по <code>offer_kind === 'company_invitation'</code>).</li>
+      <li><b>Карточка + модалка принятия.</b> Приглашения рендерятся отдельной зелёной карточкой
+        (<code>CompanyInvitationOfferCard</code>) с полями компании/роли/статуса/дат и модалкой Accept/Decline.</li>
+      <li><b>Реальный блокер — не фронтенд.</b> CM/DM — обычный диспетчер, отдельное лицо от владельца/директора
+        компании, и у него физически нет company-аккаунта (<code>localStorage['sarbon_company_app_token'] → null</code>,
+        подтверждено в реальной сессии). Путь принятия, который отвечает на staging
+        (<code>/v1/invitations/:id/accept</code>), требует именно company-токен — то есть чтобы вступить в компанию,
+        нужно уже быть её пользователем: замкнутый круг для приглашённого. Путь, который подходит по модели продукта
+        (<code>POST /v1/dispatchers/invitations/{accept,decline}</code>), уже развёрнут в <b>production</b> и не
+        требует company-сессии — но ему ни разу не передаётся <code>token</code> приглашения ни в ленте офферов, ни в
+        пуше. Полная диагностика, включая пробы staging/production по HTTP-кодам (404 против 401) и разбор реальных
+        payload'ов — в <code>company-invitation-offers-backend-ticket.md</code> в корне репозитория.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/02-offers-invitation-card.png" alt="Карточка приглашения в /offers" />
+        <div class="cap">/offers → карточка «Приглашение в компанию»: NotifTest Co, роль «Директор», статус «Ожидает», даты получения/истечения.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/03-offers-invitation-modal.png" alt="Модалка приёма приглашения" />
+        <div class="cap">Модалка приёма: те же поля + кнопки «Отмена / Отклонить / Принять»; закрытие модалки не считается отклонением.</div>
+      </div>
+    </div>
+    <div class="note amber">
+      Кнопки видимы и кликабельны, но пока без <code>token</code> в ответе бэкенда запрос гарантированно вернёт
+      <code>401 Отсутствует X-User-Token</code> — фронтенд обрывает клик до сети и показывает пояснение вместо
+      бесполезного round-trip. Это не UX-заглушка «на будущее», это единственный честный вариант до правки бэкенда.
+    </div>
+    <img class="shot" src="img/01-dispatcher-invitation-bell.png" alt="Колокольчик диспетчера" style="max-width:640px" />
+    <div class="cap">Редизайн строки уведомления: структурированные поля (компания/роль/от кого/получено) вместо одной строки текста, зелёный акцент вместо фиолетового, иконка Building2.</div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">2</span> Email водителя в детальной карточке <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Тикет SARB-DISP: <code>GET /v1/dispatchers/drivers/{id}</code> отдаёт <code>email</code>, но детальная страница
+      водителя его не показывала — поле было объявлено в типе, но не выведено ни одним компонентом. Добавлена строка
+      «Email» рядом с телефоном, тем же паттерном (<code>readField</code>/<code>renderValue</code>), с тем же
+      фолбэком «Нет данных» для пустого значения — без валидации формата, значение выводится как есть.
+    </p>
+    <img class="shot" src="img/07-driver-detail-email.png" alt="Детальная карточка водителя — строка Email" style="max-width:800px" />
+    <div class="cap">/drivers/:id — новая строка «Email» между телефоном и именем; для этого водителя показан фолбэк «Нет данных» (email не указан).</div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">3</span> Админ · Рейсы и офферы: смена контракта бэкенда (snake_case) + переименование действия <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Бэкенд сменил формат ответа <code>/admin/trips</code> и <code>/admin/offers</code> с PascalCase на snake_case
+      без предупреждения — все поля (<code>Status</code>, <code>CreatedAt</code>, <code>AgreedPrice</code> и т.д.)
+      разом стали «нет данных», хотя данные реально приходили. Добавлен единый нормализатор
+      <code>normalizeAdminRowKeys</code>/<code>pascalToSnake</code> на границе запроса (<code>adminRowFields.ts</code>),
+      применённый и к чтению, и к местам, где старые PascalCase-ключи молча писались обратно в payload. Заодно —
+      кнопка удаления рейса на самом деле является мягкой отменой (soft-cancel на бэкенде), поэтому она переименована
+      в «Отменить рейс» (иконка Trash2 → Ban), включая все 15 локалей ключей <code>messages.delete*</code> →
+      <code>.cancel*</code>.
+    </p>
+    <img class="shot" src="img/08-admin-trips.png" alt="Админ — Рейсы, все поля корректны" />
+    <div class="cap">/admin/trips: статус, согласованная цена, обе оценки, даты — все поля читаются корректно; действие теперь «Отменить рейс».</div>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/09-admin-trip-detail-drawer.png" alt="Детали рейса — Хронология" />
+        <div class="cap">Панель «Детали рейса»: полная хронология (создан/начат/в пути/доставлен) без единого «нет данных» там, где данные реально есть.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/11-admin-offers.png" alt="Админ — Офферы" />
+        <div class="cap">/admin/offers: цена, тип, кто предложил, статус, дата — та же нормализация применена к списку офферов.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">4</span> Название города в адресах: до запятой + аббревиатура <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Во всех местах, показывающих адрес отправления/назначения (my-cargos, all-cargos, offers, админка), теперь
+      выводится название до первой запятой вместо либо голого города, либо полного адреса. По итогам двух уточнений:
+      административное слово (<code>область</code>, <code>viloyati</code>, <code>region</code>) не отбрасывается, а
+      <b>аббревиатурируется</b> (<code>область → обл.</code>, <code>viloyati → vil.</code>), а ведущий маркер города
+      (<code>г. Ташкент</code>) — отбрасывается. Логика — <code>cityNameFromAddress</code>/<code>abbreviateGeoWords</code>
+      в <code>addressDisplay.ts</code>, подключена через <code>summarizeCargoRoute</code> ко всем спискам разом.
+    </p>
+    <img class="shot" src="img/04-all-cargos-city-name.png" alt="Все грузы — названия городов" style="max-width:800px" />
+    <div class="cap">/all-cargos: «Актобе», «Ташкент», «Стамбул» — короткие, консистентные названия вместо полных адресов маршрута.</div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">5</span> Excel-экспорт: обрезание колонок — и повторно расследованное китайское меню <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Экспорт из <code>/all-cargos</code> (кнопка «Excel») открывает вкладку XLSX прямо в приложении через встроенный
+      в вендорный пакет <code>excel-viewer</code> движок <code>x-data-spreadsheet</code>. Жалоба была на два симптома;
+      оба были «исправлены» одним коммитом сегодня утром — но при съёмке скриншотов для этого отчёта выяснилось, что
+      <b>только первый симптом был реально устранён</b>.
+    </p>
+    <ul class="tight">
+      <li><b>Обрезание на колонке Z — исправлено и подтверждено.</b> Пакет вычисляет <code>row.len</code> из данных,
+        но никогда не передаёт <code>col.len</code>, поэтому сетка молча падала на дефолт в 26 колонок. Теперь
+        <code>col.len</code> вычисляется явно (<code>buildExcelViewData</code>/<code>resolveGridColumnCount</code>) —
+        видно на скриншотах ниже: колонки идут далеко за K, показаны реальные данные вплоть до «Обновлён»/«Нужно машин».</li>
+      <li><b>Китайское контекстное меню — утренний фикс не работал, найден настоящий корень.</b> Утренний коммит звал
+        <code>x_spreadsheet.locale(lang)</code> — выглядит как правильный API и даже задокументирован пакетом как
+        таковой. При живой проверке через Playwright меню всё равно оказалось на китайском. Трассировка минифицированного
+        бандла показала: реальный текстовый lookup идёт через внутренний хелпер <code>$(path, dict)</code>, который
+        <b>полностью игнорирует</b> состояние, которое устанавливает <code>.locale()</code>, а вместо этого на каждый
+        вызов заново читает <code>document.documentElement.getAttribute('data-excel-viewer-lang')</code>, по умолчанию
+        падая на <code>zh_cn</code>, если атрибут не выставлен. Подтверждено вручную: даже ручной вызов
+        <code>.locale('en')</code> прямо перед правым кликом ничего не менял — меню оставалось китайским. Настоящий
+        фикс — выставлять этот DOM-атрибут (<code>renderSheet()</code> в <code>ExcelViewer.tsx</code>), что и было
+        сделано сейчас, с записью в <code>bug.md</code> о ложном первом фиксе.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/05-excel-viewer-columns.png" alt="Excel-просмотрщик — колонки" />
+        <div class="cap">Экспорт грузов: колонки A…K видны без обрезания, реальные данные (контакт, телефон, ID компании).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/05b-excel-viewer-scrolled.png" alt="Excel-просмотрщик — прокрутка вправо" />
+        <div class="cap">Та же таблица, прокрученная вправо: колонки E…O — «Создан», «Обновлён», «Нужно машин», «Температура» — ничего не обрезано.</div>
+      </div>
+    </div>
+    <img class="shot" src="img/06-excel-viewer-context-menu.png" alt="Контекстное меню на английском" style="max-width:800px" />
+    <div class="cap">Правый клик по ячейке: «Copy / Cut / Paste / Paste values only / Insert row / Delete row / …» — и панель формата теперь «Normal», а не «普通». Проверено на реальном клике, не на ручном оверрайде.</div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2><span class="n">6</span> Архитектура раздела компании: устранение дублирования и мёртвого кода <span class="badge b-refactor">REFACTOR</span></h2>
+    <p class="lead">
+      По результатам <code>/arch</code>-аудита файловой и кодовой архитектуры кабинета компании (tooling-backed —
+      madge/knip) выполнен EVOLVE-проход по трём находкам без изменения поведения:
+    </p>
+    <ul class="tight">
+      <li><b>Магнит связности.</b> Surface-нейтральные хелперы (<code>toRecord</code>, <code>toRecordArray</code>,
+        <code>getEnvelopeData</code>, <code>getPageItems</code>, <code>prettifyKey</code>, …) вынесены из
+        <code>adminHelpers.ts</code> в новый <code>src/utils/recordParsing.ts</code>; admin-модуль ре-экспортирует их
+        для 42 существующих вызовов — ноль изменений на стороне потребителей.</li>
+      <li><b>Дублирование парсинга сотрудников.</b> <code>parseCompanyEmployeesResponse</code>/<code>buildManagerOptions</code>/
+        <code>ManagerOption</code> переехали из <code>companyTrips.ts</code> в <code>companyEmployees.ts</code>, где
+        им и место (там же остальная логика сотрудников); <code>shortId</code> обобщён и перенесён в
+        <code>formatters.ts</code>.</li>
+      <li><b>Мёртвый экспорт.</b> Неиспользуемый <code>COMPANY_TYPES</code> из <code>companyCreate.ts</code> удалён
+        (нулевые потребители подтверждены, включая тесты).</li>
+    </ul>
+    <div class="card">
+      Визуальных изменений нет — чисто структурный проход. Проверено полным прогоном гейтов после каждого шага.
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2><span class="n">7</span> Смерджено из ветки коллеги <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Два PR (Abdumaliks) влиты в <code>staging</code> сегодня — не моя работа, но раз в этот же день, фиксирую по
+      просьбе учитывать мерджи:
+    </p>
+    <ul class="tight">
+      <li><b>PR #297 «split manager moderation into per-role tabs».</b> Единая очередь «Менеджеры» в модерации
+        разделена на два таба — «Менеджеры по грузам» и «Менеджеры по водителям» — обе строки «Эътибор талаб қилади»
+        в командном центре теперь ведут каждая в свою очередь, а не в одну общую.</li>
+      <li><b>PR #298 «make trip detail Yuk ID / Haydovchi ID open their detail drawers».</b> В «Системной информации»
+        деталей рейса ID груза и ID водителя стали ссылками, открывающими соответствующие детальные панели (ID оффера
+        остался только копируемым — у бэкенда нет отдельного эндпоинта под него). Попутно исправлен смежный баг:
+        деталь груза показывала «нет данных» почти везде из-за той же PascalCase-проблемы, что и в разделе 3, только
+        на другом эндпоинте (<code>GET /v1/admin/cargo/{id}</code>).</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/12-admin-moderation-cargo-managers.png" alt="Таб «Менеджеры по грузам»" />
+        <div class="cap">/admin/moderation?tab=cargo_managers — активен таб «Менеджеры по грузам».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/13-admin-moderation-driver-managers.png" alt="Таб «Менеджеры по водителям»" />
+        <div class="cap">/admin/moderation?tab=driver_managers — активен таб «Менеджеры по водителям», отдельная очередь.</div>
+      </div>
+    </div>
+    <img class="shot" src="img/09b-admin-trip-system-info.png" alt="Системная информация — кликабельные ID" style="max-width:800px" />
+    <div class="cap">«Системная информация»: ID груза и ID водителя — ссылки «Детали груза»/«Детали водителя»; ID оффера — только копируемый значок.</div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <h2><span class="n">8</span> Проверка</h2>
+    <table>
+      <tr><th>Гейт</th><th>Результат</th></tr>
+      <tr><td><code>tsc -b</code> (полная проверка типов проекта)</td><td class="ok">exit 0</td></tr>
+      <tr><td><code>vitest run --no-file-parallelism</code></td><td class="ok">182/182 файлов · 2023/2023 тестов</td></tr>
+      <tr><td><code>eslint --max-warnings 0</code></td><td class="ok">чисто (весь проект)</td></tr>
+      <tr><td><code>pnpm build</code></td><td class="ok">exit 0</td></tr>
+      <tr><td>Локали</td><td class="ok">15/15 (<code>driversPage.emailLabel</code>, <code>tripNotifications.invitationOffer.*</code>, <code>admin.pages.trips.cancel.*</code>)</td></tr>
+      <tr><td>Excel-фикс перепроверен вживую после первичного (неполного) фикса</td><td class="ok">right-click на реальном клике — English, не ручной оверрайд</td></tr>
+      <tr><td>Company-invitation accept/decline</td><td class="warn">блокировано бэкендом — тикет в <code>company-invitation-offers-backend-ticket.md</code></td></tr>
+      <tr><td><code>bug.md</code></td><td class="ok">запись о повторно расследованном Excel-фиксе добавлена</td></tr>
+    </table>
+    <div class="card">
+      <b>Объём дня — 98 файлов, 6 коммитов + доработки в рабочем дереве:</b>
+      <ul class="tight">
+        <li><code>de3be420</code> «handout» — накопленная уборка (снятие устаревших тикет-файлов, <code>bug.md</code>).</li>
+        <li><code>b4c8fe8e</code> «name , comma addition» — название города до запятой + аббревиатура
+          (<code>addressDisplay.ts</code>), архитектурный рефакторинг раздела компании
+          (<code>recordParsing.ts</code>, <code>companyEmployees.ts</code>), обновление <code>CLAUDE.md</code>/<code>ARCHITECTURE.md</code>.</li>
+        <li><code>5bb23f21</code> «excel bug fix» — исправление обрезания колонок (<code>excelSheetData.ts</code>);
+          китайское меню — доисправлено сегодня же в рабочем дереве после повторной проверки.</li>
+        <li><code>e9c07040</code> / <code>9e3bdcab</code> «trips» — snake_case-нормализация
+          <code>/admin/trips</code>+<code>/admin/offers</code> (<code>adminRowFields.ts</code>), переименование
+          «Удалить» → «Отменить рейс» во всех 15 локалях.</li>
+        <li><code>33e56b12</code> «last changes of notification» — редизайн строки уведомления о приглашении
+          (<code>NotificationRow.tsx</code>).</li>
+        <li>Рабочее дерево — краш <code>/offers</code> на приглашениях (<code>cargoTypes.ts</code>, <code>OffersPage.tsx</code>),
+          карточка + модалка приглашения (<code>CompanyInvitationOfferCard.tsx</code>), email в карточке водителя
+          (<code>DriverDetailsPage.tsx</code>), настоящий фикс Excel-локали (<code>ExcelViewer.tsx</code>),
+          бэкенд-тикет по приглашениям.</li>
+        <li>Смерджено из <code>origin/staging</code> — PR #297 (табы модерации менеджеров) и PR #298 (кликабельные
+          ID в деталях рейса + фикс детали груза), оба от коллеги.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<footer style="padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center">Sarbon Frontend · сгенерировано 20.07.2026 · скриншоты — реальный Playwright-прогон (реальные компоненты, живой staging)</footer>
+</body>
+</html>
