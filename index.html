@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Отчёты о работе · Sarbon Frontend · 26.06 — 18.07.2026</title>
-<meta name="description" content="Указатель ежедневных отчётов о работе над Sarbon Frontend: 20 рабочих дней, 26 июня — 18 июля 2026." />
+<title>Отчёты о работе · Sarbon Frontend · 26.06 — 22.07.2026</title>
+<meta name="description" content="Указатель ежедневных отчётов о работе над Sarbon Frontend: 24 рабочих дня, 26 июня — 24 июля 2026." />
 <style>
   :root{
     --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
@@ -104,14 +104,14 @@
     <div class="eyebrow">Sarbon Frontend</div>
     <h1>Ежедневные отчёты о работе</h1>
     <div class="sub">
-      20 рабочих дней с 26 июня по 18 июля 2026 — от сборки админ-консоли до кабинета компании,
+      24 рабочих дня с 26 июня по 24 июля 2026 — от сборки админ-консоли до кабинета компании,
       веб-звонков и системы приглашений. Каждый отчёт открывается отдельной страницей со скриншотами
       реального прогона.
     </div>
     <div class="stats">
-      <div class="stat blue"><div class="v">20</div><div class="l">отчётов за период</div></div>
-      <div class="stat blue"><div class="v">24 дня</div><div class="l">26.06 — 18.07.2026</div></div>
-      <div class="stat good"><div class="v">443 → 1950</div><div class="l">рост юнит-тестов за месяц</div></div>
+      <div class="stat blue"><div class="v">24</div><div class="l">отчёта за период</div></div>
+      <div class="stat blue"><div class="v">29 дней</div><div class="l">26.06 — 24.07.2026</div></div>
+      <div class="stat good"><div class="v">443 → 2379</div><div class="l">рост юнит-тестов за месяц</div></div>
       <div class="stat good"><div class="v">15/15</div><div class="l">локалей поддерживается</div></div>
     </div>
   </div>
@@ -165,8 +165,17 @@
         <a class="day" href="./15.07.26/"><span><span class="d">15</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
         <a class="day" href="./16.07.26/"><span><span class="d">16</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
         <a class="day" href="./17.07.26/"><span><span class="d">17</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
-        <a class="day last" href="./18.07.26/"><span><span class="d">18</span> <span class="m">июл</span></span><span class="go">Последний →</span></a>
+        <a class="day" href="./18.07.26/"><span><span class="d">18</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
         <div class="day off"><span><span class="d">19</span> <span class="m">июл</span></span></div>
+
+        <!-- неделя 5: 20–26 июля -->
+        <a class="day" href="./20.07.26/"><span><span class="d">20</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
+        <a class="day" href="./21.07.26/"><span><span class="d">21</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
+        <a class="day" href="./22.07.26/"><span><span class="d">22</span> <span class="m">июл</span></span><span class="go">Отчёт →</span></a>
+        <div class="day off"><span><span class="d">23</span> <span class="m">июл</span></span></div>
+        <a class="day last" href="./24.07.26/"><span><span class="d">24</span> <span class="m">июл</span></span><span class="go">Последний →</span></a>
+        <div class="day off"><span><span class="d">25</span> <span class="m">июл</span></span></div>
+        <div class="day off"><span><span class="d">26</span> <span class="m">июл</span></span></div>
       </div>
 
       <div class="cal-legend">
@@ -184,10 +193,70 @@
     <div class="filter">
       <label class="sr-only" for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Поиск по отчётам</label>
       <input id="q" type="search" placeholder="Найти: чат, WebRTC, админ, компания, тесты…" autocomplete="off" />
-      <span class="count" id="count">20 из 20</span>
+      <span class="count" id="count">24 из 24</span>
     </div>
 
     <ol class="reports" id="list">
+
+      <li class="report">
+        <div class="rail"><div class="dd">24</div><div class="mm">июля</div></div>
+        <div class="rbox">
+          <a class="rcard" href="./24.07.26/">
+          <h3>GPS-модалка водителя: телефон и разбор транспорта · «Рейсы» в админке: водитель и диспетчер · груз скрыт для перевозчика · «Поделиться» в «Моих грузах»</h3>
+          <p>Четыре задачи из тикетов: пустая GPS-карточка водителя наполнена телефоном и полным разбором тягача/прицепа; в админских «Рейсах» появились колонки водитель (имя+телефон), номер тягача, «был онлайн» и диспетчер — соединением по id (рейс несёт только плоские id); вкладка «Грузы» скрыта для компании-перевозчика (CARRIER); кнопка «Поделиться» добавлена в строки «Моих грузов». Итог влит в отдельную ветку с втянутым origin/staging — PR без конфликтов.</p>
+          </a>
+          <div class="rtags">
+            <span class="rtag">GPS модалка</span><span class="rtag">телефон + ТС</span><span class="rtag">админ рейсы</span><span class="rtag">join по id</span><span class="rtag">тип CARRIER</span><span class="rtag">поделиться грузом</span><span class="rtag">слияние</span>
+            <span class="rmetric">2379 / 2379 тестов</span>
+            <a class="rxls" href="./24.07.26/report-24.07.26.xlsx" download title="Скачать Excel-выгрузку за 24.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
+          </div>
+        </div>
+      </li>
+
+      <li class="report">
+        <div class="rail"><div class="dd">22</div><div class="mm">июля</div></div>
+        <div class="rbox">
+          <a class="rcard" href="./22.07.26/">
+          <h3>Грузы кабинета компании: создание и редактирование · приглашения в один клик · выкладка в прод · утечка кеша</h3>
+          <p>У компании не существовало создания и редактирования груза — построен шов поверхности поверх мастера диспетчера (наивное переиспользование выбросило бы пользователя на диспетчерский вход), плюс выбор видимости груза, настоящая пагинация, переход с доски в рейс и 6 визуальных дефектов из скриншот-прогона. Приглашение принимается прямо в ленте офферов, права роли читаются с сервера. Выкладка staging → main и найденная после неё утечка кеша между аккаунтами.</p>
+          </a>
+          <div class="rtags">
+            <span class="rtag">создание груза</span><span class="rtag">видимость груза</span><span class="rtag">пагинация</span><span class="rtag">приглашения</span><span class="rtag">права ролей</span><span class="rtag">релиз</span><span class="rtag">кеш сессии</span>
+            <span class="rmetric">2161 / 2161 тестов</span>
+            <a class="rxls" href="./22.07.26/report-22.07.26.xlsx" download title="Скачать Excel-выгрузку за 22.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
+          </div>
+        </div>
+      </li>
+
+      <li class="report">
+        <div class="rail"><div class="dd">21</div><div class="mm">июля</div></div>
+        <div class="rbox">
+          <a class="rcard" href="./21.07.26/">
+          <h3>Кабинет компании: постраничный аудит и починка · модерация компаний · центр управления · переключатель контекста</h3>
+          <p>Экран за экраном по всему разделу компании — 16 разборов в bug.md: автопарк скрыт для грузовладельца, читаемый журнал аудита, сохранение прав ролей, локализованные ошибки авторизации, занятый ИНН на поле. Плюс четыре новые очереди модерации, восстановление после удаления, переключатель контекста диспетчера и самопроверка, нашедшая ещё 12 дефектов в собственных правках.</p>
+          </a>
+          <div class="rtags">
+            <span class="rtag">кабинет компании</span><span class="rtag">роли и права</span><span class="rtag">журнал аудита</span><span class="rtag">модерация компаний</span><span class="rtag">центр управления</span><span class="rtag">самопроверка</span>
+            <span class="rmetric">2075 / 2075 тестов</span>
+            <a class="rxls" href="./21.07.26/report-21.07.26.xlsx" download title="Скачать Excel-выгрузку за 21.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
+          </div>
+        </div>
+      </li>
+
+      <li class="report">
+        <div class="rail"><div class="dd">20</div><div class="mm">июля</div></div>
+        <div class="rbox">
+          <a class="rcard" href="./20.07.26/">
+          <h3>Приглашения в компанию · рейсы/офферы админки · email водителя · Excel · названия городов</h3>
+          <p>Полная диагностика приглашений сотрудников в ленте офферов (краш /offers, карточка приёма, задокументированный бэкенд-блокер), email в карточке водителя, snake_case-фикс /admin/trips+/offers, повторно расследованный фикс Excel-локали.</p>
+          </a>
+          <div class="rtags">
+            <span class="rtag">приглашения</span><span class="rtag">email водителя</span><span class="rtag">админ рейсы</span><span class="rtag">Excel</span>
+            <span class="rmetric">2023 / 2023 тестов</span>
+            <a class="rxls" href="./20.07.26/report-20.07.26.xlsx" download title="Скачать Excel-выгрузку за 20.07.26"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 1H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5V5.5L9 1Zm-.5 1.9L12.1 6H9a.5.5 0 0 1-.5-.5V2.9Z"/><path fill="currentColor" d="m5.9 8.2 1.1 1.6 1.1-1.6h1.3L7.7 10.6l1.8 2.6H8.2L7 11.4l-1.2 1.8H4.5l1.8-2.6-1.7-2.4h1.3Z"/></svg><span>Excel</span></a>
+          </div>
+        </div>
+      </li>
 
       <li class="report">
         <div class="rail"><div class="dd">18</div><div class="mm">июля</div></div>
@@ -489,7 +558,7 @@
 
     </ol>
 
-    <div class="empty" id="empty">По запросу ничего не найдено. Очистите поле поиска, чтобы увидеть все 20 отчётов.</div>
+    <div class="empty" id="empty">По запросу ничего не найдено. Очистите поле поиска, чтобы увидеть все 21 отчёт.</div>
   </section>
 
   <!-- 3 -->
@@ -507,7 +576,7 @@
 
 </div>
 
-<footer>Sarbon Frontend · указатель ежедневных отчётов · 26 июня — 18 июля 2026</footer>
+<footer>Sarbon Frontend · указатель ежедневных отчётов · 26 июня — 22 июля 2026</footer>
 
 <script>
   (function () {

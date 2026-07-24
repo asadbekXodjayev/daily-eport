@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 24.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:29px;letter-spacing:-.01em;position:relative;z-index:1}
+  header.top .sub{opacity:.9;font-size:15.5px;position:relative;z-index:1}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px;position:relative;z-index:1}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h3{font-size:15.5px;margin:18px 0 6px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed} .b-refactor{background:#64748b}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
+  .note.amber{background:#fff8ec;border-color:#f3e0b8;color:#7a5a1a}
+  .note.green{background:#eafaf3;border-color:#bfe9d6;color:#155c3f}
+  .back{display:inline-block;margin:22px 0 0;font-size:14px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>GPS-модалка водителя: телефон и полный разбор транспорта · «Рейсы» в админке: водитель, тягач, диспетчер · создание груза скрыто для перевозчика · «Поделиться» в «Моих грузах»</h1>
+    <div class="sub">Отчёт о работе · 24 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">GPS: телефон водителя</span>
+      <span class="tag">GPS: тягач + прицеп</span>
+      <span class="tag">Админ «Рейсы»: join по id</span>
+      <span class="tag">Тип компании CARRIER</span>
+      <span class="tag">Скрытие создания груза</span>
+      <span class="tag">Поделиться грузом</span>
+      <span class="tag">Слияние staging → ветка</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc -b + vite)</div></div>
+      <div class="stat good"><div class="v">2379/2379</div><div class="l">юнит-тестов пройдено (203 файла)</div></div>
+      <div class="stat blue"><div class="v">≈13 + 15</div><div class="l">файлов в src/ + локалей за день</div></div>
+      <div class="stat blue"><div class="v">5</div><div class="l">записей в bug.md за день</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note">
+    Четыре задачи из тикетов за день, плюс раскрытие GPS-модалки и разрешение конфликтов слияния. Все
+    скриншоты ниже — <b>реальный прогон Playwright на запущенном приложении</b> (ветка с изменениями),
+    на засеянной сессии со стаб-ответами стейджинга — тот же харнесс, которым проверялись изменения.
+    Итог дня выложен <b>в отдельную ветку</b> с уже влитым в неё <code>origin/staging</code>, чтобы
+    pull request сливался без конфликтов.
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">1</span> GPS: модалка водителя — телефон и полный разбор транспорта <span class="badge b-fix">FIX</span> <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      На странице GPS-отслеживания менеджер по водителям кликал по своему водителю — и открывалась почти
+      <b>пустая карточка</b>. Запрос <code>GET /v1/dispatchers/drivers/:id</code> уходил и возвращал данные
+      (в сети видно телефон, координаты, ТС), но панель их не показывала: <b>телефон не выводился нигде</b>,
+      а транспорт схлопывался в одну строку. У водителя без маршрута/ТС середина модалки оставалась пустой.
+    </p>
+    <h3>Что сделано</h3>
+    <ul class="tight">
+      <li><b>Карточка телефона</b> (иконка + ссылка <code>tel:</code>) — показывается, когда телефон доступен
+        (для менеджера по водителям), скрыта для ограниченных ролей.</li>
+      <li><b>Карточка «Транспорт»</b> с раздельными блоками <b>Тягач</b> и <b>Прицеп</b>: тип · модель ·
+        гос. номер · техпаспорт · владелец. Каждая строка рендерится <b>только при наличии значения</b>
+        («если null — не показываем»).</li>
+      <li>Слияние ответа профиля с ростером теперь накладывает <b>только непустые</b> поля — разрежённый
+        <code>/drivers/:id</code> больше не затирает данные о ТС/рейтинге, уже известные из ростера.</li>
+      <li>10 новых ключей <code>gpsTrackingPage.*</code> добавлены во все 15 локалей.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/06-gps-driver-modal-phone-vehicle.png" alt="GPS модалка водителя с телефоном и разбором транспорта" />
+        <div class="cap">Телефон <code>+998941780618</code>, статус в сети, и полный разбор ТС: тягач (MAN&nbsp;TGX, гос. номер, техпаспорт, владелец) + прицеп (Schmitz).</div>
+      </div>
+      <div>
+        <div class="card">
+          <h3 style="margin-top:0">Почему середина была пустой</h3>
+          <p style="margin:0;color:var(--muted);font-size:14px">
+            Панель рисует карточки условно: статус-сообщение, реалтайм-присутствие, маршрут, ТС, диспетчер.
+            У водителя без маршрута и без единой строки о ТС оставалась только карточка «в сети», а
+            <b>телефон не выводился вовсе</b> — хотя <code>detail.phone</code> уже был заполнен. Теперь
+            телефон и структурированный разбор ТС закрывают эту пустоту.
+          </p>
+        </div>
+        <div class="note amber">
+          Файлы: <code>DriverDetailSidebar.tsx</code> (карточка телефона + <code>SpecRow</code> + карточка
+          «Транспорт»), <code>useGpsDetailSelection.ts</code> (наложение непустых полей), <code>types.ts</code>
+          (<code>truck/trailer</code> получили <code>model</code>/<code>owner</code>).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">2</span> Админ-панель «Рейсы»: водитель, тягач, «был онлайн», диспетчер <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      В админской таблице рейсов (<code>/admin/trips</code>) по каждому рейсу были только базовые поля.
+      Требовалось показать имя и телефон водителя, номер тягача, время последнего онлайна и — если у
+      водителя есть диспетчер — его имя и телефон.
+    </p>
+    <div class="note">
+      Сверено с живой спецификацией (<code>base.yaml#/Trip</code>): рейс несёт <b>только плоские id</b>
+      (<code>driver_id</code>, <code>driver_manager_id</code>, …) плюс <code>vehicle_snapshot</code> —
+      встроенных объектов водителя/диспетчера нет. Поэтому решено <b>без изменений бэкенда</b>, по
+      устоявшемуся админскому паттерну: подгрузить списки <code>/v1/admin/drivers</code> и
+      <code>/v1/admin/dispatchers</code> один раз и <b>соединить по id</b> (а не N+1 запрос на строку).
+    </div>
+    <ul class="tight">
+      <li><b>Водитель</b> — имя + телефон (join по <code>driver_id</code>).</li>
+      <li><b>Номер тягача</b> — из <code>vehicle_snapshot.power_plate_number</code> рейса (с запасным
+        вариантом — гос. номер из карточки водителя).</li>
+      <li><b>Был онлайн</b> — <code>last_online_at</code> водителя.</li>
+      <li><b>Диспетчер</b> — имя + телефон через <code>driver_manager_id</code> (запасной путь —
+        <code>freelancer_id</code> водителя); при отсутствии показывает «Нет данных».</li>
+      <li>Разбор снапшота/участников считается один раз в мемоизированном индексе — сортировка не
+        перевыполняет base64-декод.</li>
+    </ul>
+    <img class="shot" src="img/01-admin-trips-driver-dispatcher-columns.png" alt="Админ Рейсы — новые колонки водитель/тягач/онлайн/диспетчер" />
+    <div class="cap">Новые колонки заполнены: имя+телефон водителя, номер тягача, «был онлайн» и диспетчер (у 3-й строки диспетчера нет — честное «Нет данных»). Новые чистые модули <code>adminTripParticipants.ts</code> + 19 юнит-тестов.</div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">3</span> Создание груза скрыто для компании-перевозчика (CARRIER) <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Кабинет компании показывал вкладку «Грузы» и кнопку «Добавить груз» всем компаниям. Перевозчик
+      (<code>CARRIER</code>) предлагает транспорт, а не груз, и постить груз не должен (бэкенд и так
+      отклоняет создание с <code>company_type_forbidden</code>). Кнопка была завязана только на право
+      <code>cargo.create</code>, которое у владельца «срабатывает по умолчанию» — так перевозчик видел
+      кнопку, которая всё равно 403.
+    </p>
+    <h3>Что сделано</h3>
+    <ul class="tight">
+      <li>Вся вкладка «Грузы» скрыта для <code>CARRIER</code> через <code>forbiddenForTypes: ['CARRIER']</code>
+        в реестре секций — она исчезает из навигации, а deep-link <code>?tab=cargo</code> откатывается на
+        обзор. У <code>SHIPPER</code>/<code>BROKER</code> вкладка остаётся.</li>
+      <li>Дополнительно (защита в глубину) — чистый предикат <code>companyTypeAllowsCargoCreation</code>
+        гейтит саму кнопку создания в секции.</li>
+      <li>Тип компании берётся как <code>company_type_canonical ?? type</code> — как и в остальном кабинете.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/02-company-carrier-no-cargo-tab.png" alt="CARRIER — вкладки Грузы нет" />
+        <div class="cap"><b>CARRIER (перевозчик):</b> в группе «Операции» — Рейсы · Доска · Предложения, <b>без «Грузы»</b>. Группа «Автопарк» присутствует.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/03-company-shipper-cargo-tab.png" alt="SHIPPER — вкладка Грузы есть" />
+        <div class="cap"><b>SHIPPER (грузовладелец):</b> «Грузы» на месте; «Автопарк» отсутствует (это уже существующее правило для грузовладельца).</div>
+      </div>
+    </div>
+    <div class="note amber">
+      Файлы: <code>companyWorkspaceSections.ts</code> (реестр), <code>companyCargoForm.ts</code>
+      (<code>companyTypeAllowsCargoCreation</code>), <code>CargoSection.tsx</code> (гейт кнопки) +
+      2 теста реестра + 3 теста предиката.
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">4</span> «Поделиться» в «Моих грузах» диспетчера <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      В таблице «Мои грузы» у менеджера по грузам не было способа поделиться собственным объявлением —
+      кнопка «Поделиться» жила только в «Общих грузах», из-за чего приходилось идти в отдельный список.
+    </p>
+    <ul class="tight">
+      <li>Тот же компонент <code>CargoShareMenu</code> (то же модальное окно «Чат Sarbon», те же ссылки и
+        эндпоинты) добавлен в колонку действий таблицы «Мои грузы» — кнопка на <b>каждой строке</b>.</li>
+      <li>Обёртка гасит всплытие клика, чтобы «Поделиться» не открывало карточку груза.</li>
+      <li>Скоуп — <b>таблица</b> (по тикету); карточный вид — единая обёртка-кнопка, куда вложенная кнопка
+        была бы недопустимой (button-in-button), оставлено на будущее.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/04-my-cargos-share-button.png" alt="Мои грузы — кнопка Поделиться в строках" />
+        <div class="cap">Табличный вид «Моих грузов» (роль «Менеджер по грузам») — иконка «Поделиться» в колонке действий каждой строки.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/05-my-cargos-share-menu.png" alt="Мои грузы — меню Поделиться открыто" />
+        <div class="cap">Открытое меню: Чат Sarbon · Копировать ссылку · WhatsApp · Telegram · Facebook · SMS · Почта · Instagram — идентично «Общим грузам».</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">5</span> Проверки и слияние <span class="badge b-refactor">CI / GIT</span></h2>
+    <table>
+      <tr><th>Проверка</th><th>Результат</th></tr>
+      <tr><td>Сборка <code>pnpm build</code> (tsc -b + vite)</td><td class="ok">0 ошибок</td></tr>
+      <tr><td>ESLint <code>--max-warnings 0</code> (изменённые файлы)</td><td class="ok">чисто</td></tr>
+      <tr><td>Юнит-тесты <code>pnpm test</code> (после слияния)</td><td class="ok">2379 / 2379 · 203 файла</td></tr>
+      <tr><td>Новые чистые модули + тесты</td><td class="ok">adminTripParticipants (19) · companyCargoForm (+3) · companyWorkspaceSections (+2)</td></tr>
+      <tr><td>Локали</td><td class="ok">15/15 парсятся с новыми ключами</td></tr>
+    </table>
+    <div class="note green">
+      <b>Слияние без потерь.</b> Пока шла работа, другой разработчик влил в <code>origin/staging</code>
+      10 коммитов (редизайн операций компании + рейсы). Прямой pull был небезопасен (грязное дерево +
+      пересечение по <code>CargoSection.tsx</code> и локалям), поэтому итог выложен в <b>отдельную ветку</b>,
+      в которую затем влит <code>origin/staging</code>: единственный содержательный конфликт —
+      строка сигнатуры <code>CargoSection</code> (у коллеги добавлен <code>i18n</code>, у нас —
+      <code>company</code>) — сведён вручную, <code>bug.md</code> и локали слиты без потерь. Ветка теперь
+      <b>строго впереди</b> staging (0 позади / 3 впереди) — PR сливается чисто.
+    </div>
+  </section>
+
+  <a class="back" href="../">← Ко всем отчётам</a>
+</div>
+</body>
+</html>

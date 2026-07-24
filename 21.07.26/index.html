@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 21.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+  header.top .sub{opacity:.9;font-size:15.5px}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h3{font-size:15.5px;margin:18px 0 6px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed} .b-refactor{background:#64748b}
+  .b-crit{background:var(--crit)} .b-open{background:var(--high)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  .warn{color:var(--high);font-weight:700}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
+  .note.amber{background:#fff8ec;border-color:#f3e0b8;color:#7a5a1a}
+  .note.red{background:#fff1f0;border-color:#f5c2c0;color:#7a1f1a}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Кабинет компании: постраничный аудит и починка · модерация компаний · центр управления · переключатель контекста</h1>
+    <div class="sub">Отчёт о работе · 21 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">Рабочее пространство компании</span>
+      <span class="tag">Роли и права</span>
+      <span class="tag">Журнал аудита</span>
+      <span class="tag">Авторизация компании</span>
+      <span class="tag">Создание компании</span>
+      <span class="tag">Профиль компании</span>
+      <span class="tag">Админ: модерация компаний</span>
+      <span class="tag">Центр управления</span>
+      <span class="tag">Переключатель контекста</span>
+      <span class="tag">Самопроверка правок</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc -b + vite)</div></div>
+      <div class="stat good"><div class="v">2075/2075</div><div class="l">юнит-тестов пройдено (187 файлов)</div></div>
+      <div class="stat blue"><div class="v">83</div><div class="l">файла в src/ и локалях за день</div></div>
+      <div class="stat blue"><div class="v">16</div><div class="l">записей в bug.md за день</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note">
+    Три коммита (<code>630985a1</code> → <code>a4a647eb</code> → <code>1a829081</code>) плюс правки в рабочем дереве.
+    День почти целиком ушёл на <b>постраничный проход по разделу компании</b> — экран за экраном, от входа и
+    регистрации до рабочего пространства и админской модерации: 16 разборов в <code>bug.md</code>, каждый с
+    корневой причиной и живой перепроверкой. Отдельно — четыре новых очереди модерации в центре управления,
+    переключатель рабочего контекста диспетчера (личный ↔ компания) и, в конце дня, <b>самопроверка собственных
+    правок</b>, которая нашла в них ещё 12 дефектов (включая один, из-за которого проглатывались узбекские
+    сообщения об ошибках). Все скриншоты ниже — реальный прогон Playwright на запущенном приложении;
+    админские экраны сняты на живом staging под настоящей сессией администратора, экраны владельца компании —
+    на засеянной сессии с застабленными ответами staging (у поверхности владельца нет разделяемого тестового
+    аккаунта).
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">1</span> Аудит рабочего пространства компании <span class="badge b-fix">FIX</span> <span class="badge b-ui">UI</span></h2>
+    <p class="lead">
+      Четыре дефекта на <code>/company/:companyId</code>: имя компании с аватаром рендерилось трижды подряд,
+      компаниям-грузовладельцам показывались данные автопарка, журнал аудита выглядел как дамп для программиста,
+      а светлая тема была «пустой» — почти белые карточки на почти белом фоне без единой тени.
+    </p>
+
+    <h3>Автопарк скрыт для грузовладельца</h3>
+    <p class="lead">
+      Боковая навигация уже скрывала всю группу «Автопарк» для <code>SHIPPER</code>
+      (<code>forbiddenForTypes</code> в реестре секций), но обзор не наследовал никакой типизации и продолжал
+      показывать лимиты <code>max_vehicles</code>/<code>max_trailers</code>/<code>max_drivers</code>, плитки квот
+      по транспорту и предупреждение о технике в ремонте. Добавлены <code>companyTypeHidesFleet</code> +
+      <code>visibleCompanySeatLimitEntries</code>/<code>visibleCompanyQuotaItems</code> — по тому же токену типа,
+      что использует навигация, так что они не могут разойтись.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/01-company-overview-carrier.png" alt="Обзор компании-перевозчика" />
+        <div class="cap">Перевозчик: группа «Автопарк» в навигации на месте (Водители · Транспорт · Назначения · Техобслуживание).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/06-company-overview-shipper-no-fleet.png" alt="Обзор компании-грузовладельца" />
+        <div class="cap">Грузовладелец: та же страница — группы «Автопарк» нет вовсе.</div>
+      </div>
+    </div>
+    <img class="shot" src="img/06f-company-overview-shipper-full.png" alt="Обзор грузовладельца целиком" />
+    <div class="cap">
+      Грузовладелец, страница целиком: в блоке «Автопарк и ресурсы» остались только Грузы / Менеджеры /
+      Старшие менеджеры — плитки транспорта, прицепов и водителей отфильтрованы, предупреждения о технике
+      в ремонте нет. Имя компании при этом выведено ровно один раз — в заголовке страницы.
+    </div>
+
+    <h3>Журнал аудита стал читаемым</h3>
+    <p class="lead">
+      Раньше таблица печатала сырые enum-коды бэкенда (<code>create</code>, <code>user_company_role</code>,
+      <code>company_user</code>), а в детальной панели лежал <code>JSON.stringify</code> объектов
+      <code>old_data</code>/<code>new_data</code> вместе с полными UUID. Добавлены
+      <code>prettifyAuditToken</code>, словари действий/сущностей/типов исполнителя и <code>diffCompanyAuditData</code>;
+      панель переписана в список «было → стало».
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/04-company-audit-humanized.png" alt="Журнал аудита" />
+        <div class="cap">Действия и объекты — словами («Создание», «Изменение», «Удаление», «Роль сотрудника»), исполнитель — «Сотрудник» / «Система».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/05b-company-audit-change-drawer.png" alt="Панель изменений" />
+        <div class="cap">«Что изменилось»: только реально изменённые поля, значение до → после. Ни сырого JSON, ни UUID.</div>
+      </div>
+    </div>
+    <div class="note">
+      Светлая тема получила токен <code>--sarbon-shadow-card</code> (мягкая двухслойная тень в дне, почти нулевая
+      в ночи) — карточки, боковая панель и скелетоны перестали сливаться с фоном. Это видно на всех скриншотах
+      раздела компании выше.
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">2</span> Роли и права: сохранение и фильтр по типу компании <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Два обращения по вкладке «Роли». Первое — от владельца продукта: выставляешь «Разрешено», жмёшь
+      «Сохранить», получаешь тост об успехе, и все переключатели тут же откатываются на «Не задано». Вопрос был
+      «это фронт или бэк» — ответ: <b>поведение фронта, но под ним дыра в API</b>.
+    </p>
+    <ul class="tight">
+      <li><b>Корневая причина.</b> Значение каждого переключателя выводилось <i>только</i> из локальной карты
+        <code>pending</code>, а обработчик успеха делал <code>setPending({})</code> — стирал единственный
+        источник, из которого переключатели читались. Так происходило независимо от того, сохранились данные или нет.</li>
+      <li><b>Дыра под этим.</b> По живой спецификации <code>/v1/companies/{companyId}/roles/{role}/permissions</code>
+        имел <b>только PUT</b> — GET'а не было ни там, ни где-либо ещё, поэтому фронт физически не мог прочитать
+        то, что сам же записал. Отправляемое тело при этом спецификации соответствовало (проверено живым тестом).</li>
+      <li><b>Что сделано.</b> Введены <code>resolveRoleSegmentValue</code> / <code>mergeAppliedRoleOverlay</code> /
+        <code>removeOverlayKey</code>: сохранённый срез складывается в карту <code>applied</code>, а не выбрасывается;
+        точечный откат (DELETE) чистит ключ из обеих карт; смена роли сбрасывает обе. На бэкенд заведён тикет
+        <code>company-role-permission-read-backend-ticket.md</code> с просьбой добавить
+        <code>GET .../roles/{role}/permissions</code>.</li>
+    </ul>
+    <img class="shot" src="img/03c-company-roles-persisted-after-save.png" alt="Права после сохранения" />
+    <div class="cap">
+      После сохранения: «Публикация груза» остаётся на «Разрешено», «Удаление груза» — на «Запрещено»,
+      рядом активны кнопки точечного отката. Нетронутые строки корректно остаются на «Не задано».
+      <b>Примечание:</b> запрошенный GET бэкенд выдал на следующее утро, и 22.07 вкладка была переведена на
+      чтение реального оверлея с сервера — снимок сделан уже на этой версии.
+    </div>
+
+    <h3>Роли, которых у компании быть не может, больше не предлагаются</h3>
+    <p class="lead">
+      Вкладка всегда показывала все 7 настраиваемых ролей, включая три «автопарковые»
+      (<code>SeniorDriverManager</code>, <code>DriverManager</code>, <code>FleetManager</code>) для грузовладельцев
+      без автопарка — их настройка всё равно вернулась бы с
+      <code>role_not_allowed_for_company_type</code>. Добавлены <code>isRoleAvailableForCompanyType</code> +
+      <code>configurableRolesForCompanyType</code>; неизвестный тип «падает открыто» (показывает все роли), а не
+      прячет по догадке.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/02-company-roles-carrier-all-roles.png" alt="Роли перевозчика" />
+        <div class="cap">Перевозчик — все 7 ролей.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/07-company-roles-shipper-filtered.png" alt="Роли грузовладельца" />
+        <div class="cap">Грузовладелец — 4 роли, автопарковые скрыты.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">3</span> Чат компании: собственная учётная запись в футере <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      На <code>/company/:companyId/chat</code> нижняя левая строка боковой панели показывала аватар «?» и подпись
+      «Вы» вместо имени вошедшего пользователя компании. Причина: <code>ChatSidebarPanel</code> — часть
+      переиспользованной диспетчерской страницы чата, и его футер был единственным местом, читавшим личность
+      напрямую из диспетчерского стора в обход surface-aware <code>useChatIdentity</code>. На поверхности компании
+      этот стор пуст. Хуже того: если в браузере параллельно жила диспетчерская сессия, в футер компании утекала
+      бы <i>её</i> личность.
+    </p>
+    <img class="shot" src="img/13-company-chat-self-footer.png" alt="Футер чата компании" />
+    <div class="cap">
+      Футер показывает «АК · Алишер Каримов · +998901234567». Добавлены чистая функция
+      <code>resolveChatSelfDisplay</code> и хук <code>useChatSelfDisplay</code> (6 тестов); диспетчерский
+      <code>/chat</code> не изменился.
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">4</span> Три критических дефекта поверхности компании <span class="badge b-crit">CRITICAL</span></h2>
+
+    <h3>4.1 Бесконечный редирект на <code>/accept-invite</code> при живой сессии</h3>
+    <p class="lead">
+      Авторизованный приглашённый, открывший ссылку-приглашение, попадал в бесконечный цикл
+      <code>accept-invite → company/login → company → accept-invite</code>: адресная строка мигает, вечный
+      спиннер, ни финальной карточки, ни выхода кроме закрытия вкладки. <b>Замерено до фикса на дев-сервере:
+      844 POST'а accept и 242 навигации за 8 секунд.</b>
+    </p>
+    <ul class="tight">
+      <li><b>Корневая причина.</b> <code>classifyAcceptInvitationError</code> откатывается к
+        <code>login_required</code> на любой 401 без маркера — правильное поведение для гостя. Но
+        <code>onError</code> вызывал <code>detourToLogin()</code> безусловно, а при живой сессии этот объезд —
+        замкнутый круг: гвард сбрасывает авторизованного со страницы входа на <code>/company</code>, лейаут
+        потребляет «хлебную крошку» отложенного приглашения и возвращает назад, страница монтируется заново
+        со свежим <code>attemptedRef</code>. Условие: обновление токена должно <i>успевать</i> — поэтому кусало
+        именно здоровые сессии, а не протухшие.</li>
+      <li><b>Фикс.</b> Чистый предикат <code>shouldDetourToLogin(kind, isAuthenticated)</code>. После:
+        <b>2 POST'а и 2 навигации</b>, стабильная карточка ошибки с предложением войти под другим аккаунтом.
+        Гость по-прежнему уезжает на вход за одну навигацию.</li>
+    </ul>
+
+    <h3>4.2 Другие вкладки не узнавали о смене компании</h3>
+    <p class="lead">
+      После переключения компании во вкладке A вкладка B продолжала рисовать компанию A, хотя её запросы уже
+      несли JWT компании B — либо 403 <code>not_member_of_company</code>, либо, что хуже, правдоподобные данные,
+      подписанные не той компанией. Кросс-табовый слушатель <code>storage</code> реагировал только на
+      <code>COMPANY_TOKEN</code>, а <code>syncAuth()</code> читает ещё контекст и профиль; переключение пишет
+      токен первым, контекст вторым — пассивная вкладка перечитывала старый контекст и игнорировала его запись.
+      Теперь слушаются все три ключа; порядок записи не тронут (токен обязан усваиваться первым).
+    </p>
+
+    <h3>4.3 «Привязать владельца» открывалась с пустым ID компании</h3>
+    <p class="lead">
+      Действие в строке (и передача после создания) открывало вкладку назначения владельца с пустым полем
+      Company ID — работало только если вкладку уже открывали в этой сессии. AntD монтирует панель вкладки при
+      первой активации, поэтому императивный <code>assignForm.setFieldValue</code> отрабатывал по неподключённому
+      инстансу формы. Решение — <code>forceRender: true</code> на вкладке; дополнительных запросов не стоит,
+      поиск владельцев и так включается только с двух символов.
+    </p>
+    <img class="shot" src="img/23-admin-companies-row-kebab.png" alt="Действия в строке компании" />
+    <div class="cap">Меню строки на <code>/admin/companies</code>: «Привязать владельца» и «Назначить тариф» открываются с корректно засеянным id компании.</div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">5</span> Центр управления: четыре новые очереди модерации <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Блок «Требует внимания» показывал только грузы и водителей из <code>totals</code>, а счётчики
+      карго-менеджеров и менеджеров водителей тянул отдельным запросом к
+      <code>/v1/admin/analytics/moderation</code>. Бэкенд начал отдавать все очереди прямо в
+      <code>totals</code> (<code>pending_moderation_cargo_managers</code>, <code>…_driver_managers</code>,
+      <code>…_companies</code>, <code>…_drivers_kyc</code>) — лишний запрос со своим спиннером и прочерками
+      удалён, добавлены строки «Компании» (→ <code>?tab=company</code>) и «KYC водителей» (→ <code>?tab=passport</code>),
+      груз теперь тоже ведёт на свою вкладку. График получил <code>height: "100%"</code> внутри
+      <code>lg:items-stretch</code>, чтобы тянуться на высоту выросшей левой колонки вместо фиксированных 176px.
+    </p>
+    <img class="shot" src="img/20-admin-command-center-attention.png" alt="Требует внимания" />
+    <div class="cap">
+      Шесть очередей в одном блоке, шесть категорий на графике, бар растянут на высоту колонки.
+      Реальные данные staging: 63 водителя и 27 карго-менеджеров ждут модерации.
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2><span class="n">6</span> Постраничный проход по авторизации компании <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Четыре экрана подряд — вход, регистрация, OTP, завершение регистрации. Общий знаменатель: наружу
+      прорывались машинные коды бэкенда, а часть отказов вообще ничего не показывала.
+    </p>
+    <table>
+      <thead><tr><th>Экран</th><th>Что было</th><th>Что стало</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Вход</b><br/><span class="cap">13:00</span></td>
+          <td>Неудачный вход молчал; сырые коды бэкенда в тосте; при пустом поле показывалась не та ошибка; вкладки способа входа не работали с клавиатуры и не были размечены как таблист</td>
+          <td>Локализованное сообщение на каждый исход, единый разбор кодов через <code>companyAuthErrorText</code>, корректная валидация пустого поля</td>
+        </tr>
+        <tr>
+          <td><b>Регистрация</b><br/><span class="cap">13:12</span></td>
+          <td>Повторная отправка кода понижала поток регистрации до входа; сырые коды; путь языка собирался руками</td>
+          <td>Повтор переиздаёт тот же запрос, что и шаг регистрации; путь через <code>buildCompanyPath</code></td>
+        </tr>
+        <tr>
+          <td><b>OTP</b><br/><span class="cap">13:40</span></td>
+          <td>Молчаливый тупик при некорректном 200; сетевые ошибки списывали попытки к лимиту в 5; сырые коды</td>
+          <td>Явная ветка отказа, <code>isTransientApiError</code> перед счётчиком неверных попыток</td>
+        </tr>
+        <tr>
+          <td><b>Завершение</b><br/><span class="cap">13:45</span></td>
+          <td>«Уже зарегистрирован» оставлял на форме, которая могла только снова упасть в 409</td>
+          <td>Переход на вход компании с предзаполненной личностью (через router state — телефон не попадает в URL и историю)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/11b-company-login-localized-error.png" alt="Вход компании" />
+        <div class="cap">401 <code>invalid_credentials</code> → «Не удалось войти. Проверьте данные и попробуйте снова.» Оба переключателя на месте: личность (Телефон/Email) и способ (Пароль/Одноразовый код).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/12b-company-otp-guard-email.png" alt="Гард экрана OTP" />
+        <div class="cap">Прямой заход на экран кода без личности в URL: предупреждение и заблокированная форма вместо живого экрана ввода с пустым адресатом.</div>
+      </div>
+    </div>
+
+    <h3>Отдельно: таймер повторной отправки кода</h3>
+    <p class="lead">
+      Обратный отсчёт был <b>одним глобальным таймером на все идентификаторы и все поверхности авторизации</b>:
+      429 по одному номеру блокировал кнопку для любого другого номера и для всех пяти диспетчерских экранов
+      сразу. Переписан на отсчёт с областью действия по идентификатору; чистая страница компании больше не
+      наследует диспетчерский отсчёт.
+    </p>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2><span class="n">7</span> Создание компании <span class="badge b-fix">FIX</span></h2>
+    <ul class="tight">
+      <li><b>Занятый ИНН показывался как литерал <code>already_exists</code>.</b> Эндпоинт отвечает на дубль
+        голым 409 без <code>data.fields</code>, поэтому карта полевых ошибок его не ловила и сырое описание
+        уходило в тост — непереведённое и не привязанное к полю, которое его вызвало. Добавлен
+        <code>isCompanyInnTakenError</code>: сообщение прикрепляется к полю ИНН через <code>form.setFields</code>
+        + <code>scrollToField</code>.</li>
+      <li><b>Нечитаемый 200 «терял» созданную компанию.</b> Если ответ не разбирался, страница показывала общую
+        ошибку и оставалась на форме — но 200 от <code>POST /companies</code> означает, что компания
+        <i>существует</i>, и повторная отправка могла только упасть в 409 по тому же ИНН без объяснений.
+        Теперь: честное сообщение + инвалидация списка + переход на него, где компания уже видна.</li>
+      <li><b>Форма оставалась активной во время дозаписи реквизитов.</b> <code>loading</code> кнопки отслеживал
+        только первую мутацию; пока шёл follow-up <code>PATCH</code>, форму можно было отправить повторно.</li>
+    </ul>
+    <img class="shot" src="img/10c-company-create-inn-taken-field.png" alt="Занятый ИНН" />
+    <div class="cap">409 по занятому ИНН: «Компания с таким ИНН уже зарегистрирована» — на самом поле, без тоста с машинным кодом.</div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <h2><span class="n">8</span> Профиль компании <span class="badge b-fix">FIX</span></h2>
+    <ul class="tight">
+      <li><b>Метки рейтинга рендерились сырыми ключами.</b> <code>company.profile.companies.rating.*</code>
+        не существовало <b>ни в одной</b> из 15 локалей (единственное такое семейство во всём разделе компании) —
+        любая компания с числовым рейтингом печатала
+        <code>company.profile.companies.rating.overall: 4.5</code>. Ключи добавлены во все 15 локалей.</li>
+      <li><b>Карточка активной компании могла намертво залипнуть в 403.</b> <code>resolveActiveCompany</code>
+        в конце цепочки берёт «первую компанию» — это эвристика отображения, а не гарантия области действия
+        JWT. При обычном входе (без серверного <code>is_current</code> и без сохранённого контекста) это
+        означало <code>GET /v1/companies/:id</code> → <code>403 not_member_of_company</code> → вечная карточка
+        ошибки, чей «Повторить» не мог сработать в принципе. Добавлен <code>isCompanyDetailFetchable</code>,
+        который пускает запрос только по подтверждённой сервером строке; а случившийся 403 показывает подсказку
+        «откройте компанию», а не ошибку с повтором.</li>
+      <li><b>Аккаунты с email вместо телефона видели «—».</b> Раздел «Вход и аккаунт» печатал
+        <code>user?.phone || '—'</code>, хотя регистрация поддерживает email-личность и телефон обнуляем.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/09-company-profile-ratings-email.png" alt="Профиль компании" />
+        <div class="cap">Email как личность входа — в боковой карточке и в разделе аккаунта (было «—»).</div>
+      </div>
+      <div>
+        <img class="shot" src="img/09b-company-profile-companies-ratings.png" alt="Мои компании" />
+        <div class="cap">«Общий: 4.5 · Как грузовладелец: 4.2 · Как перевозчик: 4.7» — ни одного сырого ключа.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <h2><span class="n">9</span> Аудит поверхности компании: 6 багов + чистки <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Сплошной аудит на чтение (авторизация, стор/сессия, дом/создание/профиль/оболочка, 18 секций рабочего
+      пространства). Один функциональный баг высокого приоритета и кластер средних.
+    </p>
+    <ul class="tight">
+      <li><b>HIGH — устаревшее замыкание в секции грузов.</b> <code>useMemo</code> колонок офферов не
+        перечислял <code>offersCargo</code> в зависимостях (за <code>eslint-disable</code>). Панель офферов
+        открывается установкой именно этого состояния — ни одна перечисленная зависимость не менялась,
+        переиспользовалось замыкание с <code>offersCargo === null</code>, и <b>«Принять» первым действием
+        молча не делал ничего</b>: ни запроса, ни спиннера, ни ошибки.</li>
+      <li><b>HIGH — молчаливый no-op при некорректном 200</b> на экранах OTP и входа (у экрана завершения
+        регистрации такой гард уже был — типичная асимметрия «у соседа правильно, здесь нет»).</li>
+      <li><b>MED</b> — двойная отправка формы создания → дубль компании; незащищённый экран OTP без валидации
+        query-параметров; транзиентные ошибки, засчитываемые как неверный код; гонка отката в секции ролей.</li>
+      <li><b>Чистки.</b> <code>setActiveCompany</code> перенесён внутрь гарда наличия токенов; хардкод
+        <code>'/create'</code> → <code>paths.COMPANY_CREATE</code>; устаревшие комментарии; депрекация AntD 6
+        <code>Alert message</code> → <code>title</code> в 11 файлах раздела.</li>
+    </ul>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <h2><span class="n">10</span> Админская модерация компаний <span class="badge b-fix">FIX</span></h2>
+
+    <h3>Восстановление после мягкого удаления было недостижимо</h3>
+    <p class="lead">
+      Подтверждение удаления обещает «можно восстановить», но список не умеет показывать удалённые
+      (проверено по живой спецификации: <code>GET /v1/admin/companies</code> принимает только
+      <code>pending|active|inactive|blocked|rejected</code> + <code>deletion_requested</code>). Как только строка
+      уезжала из списка, у <code>POST .../restore</code> не оставалось точки входа — эндпоинт, действие, иконка и
+      переводы были подключены, но не рендерились никогда. Единственный момент, когда восстановление достижимо,
+      — сразу после удаления: успех теперь показывает 10-секундное уведомление с кнопкой «Восстановить».
+      Просмотр и восстановление <i>старых</i> удалений по-прежнему требует параметра на бэкенде.
+    </p>
+
+    <h3>Устаревшие Excel-фильтры обнуляли таблицу</h3>
+    <p class="lead">
+      Обе колонки с фильтром-автофильтром (тип, статус) были неконтролируемыми, а Segmented над таблицей
+      подменяет весь серверный набор данных: галочка, поставленная в одном статусе, продолжала фильтровать
+      строки следующего статуса до пустой таблицы без видимой причины. Подключён документированный паттерн
+      <code>pruneFilteredValue</code>: контролируемый <code>filteredValue</code> из <code>onChange</code> таблицы,
+      подрезаемый по значениям, реально присутствующим в текущих строках.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/21-admin-companies-queue.png" alt="Очередь компаний" />
+        <div class="cap">Очередь модерации компаний.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/22-admin-companies-column-filter.png" alt="Фильтр колонки" />
+        <div class="cap">Фильтр статуса предлагает только значения, присутствующие в текущей выборке.</div>
+      </div>
+    </div>
+
+    <h3>Тарифы: доступ из хаба модерации + подтверждение «по умолчанию»</h3>
+    <p class="lead">
+      Вкладка «Компании» в <code>/admin/moderation</code> не получала <code>onAssignTariff</code>, поэтому
+      администратор, работающий очередь там, не имел способа задать компании лимиты <code>max_*</code>
+      (тариф — единственный механизм). В отличие от привязки владельца, у тарифа нет цели для диплинка — это
+      модальное действие строки, поэтому <code>AssignTariffModal</code> теперь смонтирована и в хабе.
+      Кнопка «Сделать тарифом по умолчанию» меняла платформенный дефолт вообще без подтверждения — закрыта
+      <code>modal.confirm</code> (новый ключ в 15 локалях).
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/27-admin-moderation-company-kebab-tariff.png" alt="Тариф из хаба модерации" />
+        <div class="cap">Хаб модерации, вкладка «Компании»: в меню строки появился пункт «Назначить тариф».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/25-admin-companies-tariffs.png" alt="Каталог тарифов" />
+        <div class="cap">Каталог тарифов (только для создателя): лимиты, метка «По умолчанию».</div>
+      </div>
+    </div>
+
+    <h3>Время и гигиена форм</h3>
+    <p class="lead">
+      <code>created_at</code> в очереди и в детальной панели шло через <code>formatDateTimeIsoClock</code>,
+      который игнорирует смещение, — UTC-метка с <code>Z</code> рисовалась как локальное время и отставала на
+      5 часов. Переведено на <code>formatCargoRouteDateTime</code>. В форме создания: <code>status</code> был
+      свободным текстовым полем (опечатка → сырой 400 бэкенда) и стал Select по каноническому списку;
+      у <code>inn</code> не было правила формата — теперь та же проверка 9/14 цифр, что и в форме владельца;
+      в блоке лимитов было 7 из 8 канонических полей — добавлен <code>max_trailers</code>. Поиск владельца
+      слал запрос на каждое нажатие клавиши — задебаунсен на 300&nbsp;мс.
+    </p>
+    <img class="shot" src="img/24-admin-companies-create-validation.png" alt="Форма создания компании" />
+    <div class="cap">
+      <code>123</code> в поле ИНН → «ИНН должен содержать 9 (юрлицо) или 14 (физлицо) цифр»; «Статус» — выпадающий
+      список; в лимитах присутствует «Макс. прицепов».
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section>
+    <h2><span class="n">11</span> Переключатель рабочего контекста диспетчера <span class="badge b-feat">FEATURE</span></h2>
+    <p class="lead">
+      Нанятый компанией диспетчер получил переключатель «личный ↔ компания» в шапке и раздел «Моя компания» в
+      боковом меню. <code>POST /v1/dispatchers/switch-context</code> выдаёт новую пару токенов — это смена
+      <b>сессии</b> на уровне JWT, а не экрана: <code>activeContext</code> хранится в <code>useAuthStore</code>
+      (ключ <code>DISPATCHER_CONTEXT</code>) и синхронизируется между вкладками, а
+      <code>useDispatcherContextSync</code> сбрасывает кеш при смене — по той же схеме, что уже работает при
+      переключении компании у владельца. Диспетчер без членств не видит контрол вовсе: выбирать не из чего.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/30-dispatcher-context-switcher.png" alt="Переключатель контекста" />
+        <div class="cap">Шапка: «Личный · Фриланс» (текущий) и компания с ролью «Карго-менеджер».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/31-dispatcher-sidebar-my-company.png" alt="Боковое меню" />
+        <div class="cap">Группа «МОЯ КОМПАНИЯ» в боковом меню — только у нанятого диспетчера.</div>
+      </div>
+    </div>
+    <div class="note">
+      В том же коммите — предзаполнение имени на шаге завершения регистрации по приглашению
+      (<code>companyRegisterPrefill</code>) и параметр <code>intent=invite</code>, который приводит приглашённого
+      не на шаг «создать компанию», а во входящие приглашения. Заодно удалено мёртвое: генератор каналов OTP,
+      три неиспользуемых чарта командного центра и ~23k строк временных спек-дампов и артефактов из корня репозитория.
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section>
+    <h2><span class="n">12</span> Самопроверка: 12 дефектов в собственных правках <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      В конце дня — обзор по 8 углам (построчно, удалённое поведение, межфайловые связи, переиспользование,
+      упрощение, эффективность, уровень абстракции, соглашения) по всему несохранённому диффу раздела компании.
+      Выжило 12 находок, все исправлены.
+    </p>
+    <div class="card">
+      <b>Худшая из партии: проглатывались узбекские сообщения.</b>
+      <code>isMachineErrorCode</code> подавлял любое описание из строчных ASCII-символов — но
+      <b>узбекский язык платформы по умолчанию и пишется строчной латиницей</b>, поэтому легитимное
+      однословное локализованное сообщение («bloklangan», «topilmadi») было неотличимо от машинного кода и
+      заменялось общей заглушкой. Регулярное выражение теперь требует хотя бы один разделитель
+      <code>_</code>/<code>-</code>/<code>.</code> (все коды этого бэкенда многосоставные:
+      <code>too_many</code>, <code>already_exists</code>, <code>not_member_of_company</code>) и стало
+      регистронезависимым, чтобы ловить и <code>OTP_EXPIRED</code>.
+    </div>
+    <ul class="tight">
+      <li><b>Отмена удаления не могла сработать.</b> Кнопка «Восстановить» в уведомлении вызывала
+        <code>useMutation</code> строки, но <code>onDone()</code> уже перезапросил список, выбросил мягко
+        удалённую строку и размонтировал её компонент — а TanStack Query v5 пропускает колбэки уровня
+        <code>mutate</code>, когда наблюдателя больше нет. POST уходил, но ни тоста, ни обновления не следовало.
+        Восстановление переведено на прямой <code>apiRequest</code>, который переживает строку так же, как
+        живёт уведомление на уровне приложения.</li>
+      <li><b>Отсчёт схлопывался через секунду</b> при заблокированном хранилище: старт выставлял состояние
+        напрямую, а секундный тик перевычислял значение из пустого хранилища. Момент окончания теперь
+        дублируется в состоянии React, отображается <code>max(сохранённое, зеркало)</code>.</li>
+      <li><b>Набор текста стирал маркер повторных неудач</b>, на который опираются пять диспетчерских страниц:
+        эффект очистки срабатывал на каждое нажатие клавиши. Теперь только на честный переход
+        «&gt;0 → 0» в пределах одной области.</li>
+      <li><b>429 или протухшая сессия считались неверным кодом</b> — <code>isOtpAttemptRejected</code> принимал
+        за вердикт любой 4xx. Исключены 401/408/425/429.</li>
+      <li><b>409 с полевыми ошибками переклеивался в «ИНН занят»</b> — проверка шла до
+        <code>applyApiFieldErrors</code>. Порядок переставлен, голый 409 стал запасным вариантом.</li>
+      <li><b>Нечитаемый 200 объявлялся успехом</b> при создании компании — заменено честным сообщением
+        (новый ключ в 15 локалях), но с сохранением ухода со страницы, чтобы повтор не упал в 409.</li>
+      <li><b>Любой 403 объявлялся «не та компания»</b> — совет, который не может сработать, плюс скрытое
+        объяснение сервера. Теперь совпадение по токену <code>not_member_of_company</code>, а к подсказке
+        откатывается только 403 без причины.</li>
+      <li><b>Явный <code>is_current: false</code> во всех строках читался как «область неизвестна»</b> — и
+        открывал ворота в тот самый 403, ради предотвращения которого гард существует.</li>
+      <li><b>Мелкие:</b> три рукописных сужения типа заменены одним протестированным
+        <code>getHttpStatus</code>/<code>hasHttpStatus</code>; модалка тарифа в хабе закрывала сама себя,
+        проглатывая предупреждение о превышении квоты; таблица модерации перестраивала все колонки на каждый
+        клик пагинации/сортировки; дубль сообщения о пустом телефоне; личность в профиле, написанная трижды
+        с расходящимися <code>||</code>/<code>??</code>.</li>
+    </ul>
+    <div class="note amber">
+      <b>Осознанно не исправлено, вынесено в следующий заход:</b> перенос <code>companyAuthErrorText</code>
+      внутрь <code>getApiErrorMessage</code>, чтобы диспетчерская и админская поверхности перестали протекать
+      кодами; ограничение областью пяти диспетчерских отсчётов; вынос дублирующихся вкладок способа входа
+      и Segmented личности в общий компонент (у диспетчерского таблиста до сих пор нет клавиатурной поддержки);
+      постоянный список удалённых компаний вместо восстановления через отмену — требует параметра
+      <code>include_deleted</code> на бэкенде.
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section>
+    <h2><span class="n">13</span> Открытая находка, обнаруженная при подготовке отчёта <span class="badge b-open">OPEN</span></h2>
+    <p class="lead">
+      При съёмке скриншота гарда экрана OTP выяснилось, что на <b>телефонном</b> канале он не срабатывает.
+    </p>
+    <div class="note red">
+      <code>CompanyOtpPage</code> вычисляет <code>phone = ensurePlusPrefix(searchParams.get('phone') || '')</code>.
+      При отсутствующем параметре это даёт строку <code>'+'</code> — <b>непустую</b>, поэтому гард
+      <code>!identifier</code> не срабатывает, и прямой заход на <code>/company/otp</code> без телефона
+      по-прежнему рисует живой экран ввода кода с адресатом «+». На email-канале
+      (<code>?channel=email</code>) гард работает корректно — см. скриншот в разделе 6.
+      Исправление: проверять не <code>identifier</code>, а исходный параметр (либо отбрасывать
+      <code>'+'</code> как пустое значение).
+    </div>
+    <img class="shot" src="img/12-company-otp-guarded.png" alt="Экран OTP на телефонном канале без параметра" />
+    <div class="cap">
+      <code>/ru/company/otp</code> без <code>?phone</code>: предупреждения нет, форма активна, адресат — одинокий «+».
+    </div>
+  </section>
+
+  <!-- verification -->
+  <section>
+    <h2><span class="n">14</span> Проверки</h2>
+    <table>
+      <thead><tr><th>Проверка</th><th>Результат</th></tr></thead>
+      <tbody>
+        <tr><td><code>tsc -b</code> (полная типизация проекта)</td><td class="ok">выход 0</td></tr>
+        <tr><td><code>pnpm build</code></td><td class="ok">выход 0</td></tr>
+        <tr><td><code>vitest</code> (на конец дня)</td><td class="ok">187 файлов / 2075 тестов</td></tr>
+        <tr><td><code>eslint --max-warnings 0</code></td><td class="ok">чисто на всех изменённых файлах</td></tr>
+        <tr><td>Синхронизация локалей</td><td class="ok">15/15 (рейтинги профиля, тексты аудита, тариф по умолчанию, неясный результат создания, очереди центра управления)</td></tr>
+        <tr><td><code>qa/verify-company-{workspace,surface,create}.mjs</code></td><td class="ok">выход 0; создание — «ALL CHECKS PASS»</td></tr>
+        <tr><td>Живая перепроверка (Playwright)</td><td class="ok">области отсчёта, отмена удаления, фильтры очереди, гард 403, права ролей, тип компании</td></tr>
+        <tr><td>Приём приглашения по ссылке при живой сессии</td><td class="ok">844 POST / 242 навигации → 2 POST / 2 навигации</td></tr>
+        <tr><td>Чтение сохранённых прав роли</td><td class="warn">на 21.07 было заблокировано отсутствием GET; тикет заведён, бэкенд выдал GET утром 22.07</td></tr>
+        <tr><td>Гард экрана OTP на телефонном канале</td><td class="warn">открыто — см. раздел 13</td></tr>
+        <tr><td>Файлов затронуто</td><td>83 в <code>src/</code> и локалях (+2651 / −1257), 3 коммита + рабочее дерево</td></tr>
+        <tr><td>Записей в <code>bug.md</code></td><td>16 за день</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>О скриншотах.</b> Админские экраны (разделы 5 и 10) сняты на живом staging под настоящей сессией
+      администратора-создателя. Экраны владельца компании (разделы 1, 2, 3, 6, 7, 8) сняты на засеянной
+      сессии с застабленными ответами staging — тем же способом, которым правки проверялись в течение дня:
+      у поверхности владельца нет разделяемого тестового аккаунта. Уведомление «Восстановить» из раздела 10
+      намеренно не переснималось: это мягко удалило бы реальную компанию на staging; оно было проверено вживую
+      в момент починки. Скрипты съёмки лежат рядом с отчётом (<code>take-company*.mjs</code>,
+      <code>take-admin*.mjs</code>, <code>take-dispatcher.mjs</code>).
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

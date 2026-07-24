@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отчёт о работе · 22.07.2026 · Sarbon Frontend</title>
+<style>
+  :root{
+    --blue:#1639C8; --blue-soft:#EEF1FF; --green:#00B87A; --ink:#16181D; --muted:#5b6477;
+    --line:#e6e9f0; --bg:#f4f6fb; --card:#ffffff;
+    --crit:#b3261e; --high:#e8590c; --med:#b8860b; --low:#2563eb; --info:#64748b; --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  code,.mono{font-family:'Cascadia Code','Consolas',ui-monospace,monospace;font-size:.86em;background:#f0f2f8;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#2a3346}
+  header.top{background:linear-gradient(120deg,#0f1d4f 0%,#1639C8 70%,#1d52d6 100%);color:#fff;padding:46px 0 38px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,122,.35),transparent 70%)}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+  header.top .sub{opacity:.9;font-size:15.5px}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 11px;border-radius:20px;font-size:12.5px;color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .stat .v{font-size:22px;font-weight:800}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.good .v{color:var(--ok)} .stat.blue .v{color:var(--blue)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;margin:0 0 4px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:15px;font-weight:800;flex:0 0 auto}
+  h3{font-size:15.5px;margin:18px 0 6px}
+  .lead{color:var(--muted);margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+  .b-fix{background:var(--ok)} .b-feat{background:var(--green)} .b-ui{background:#7c3aed} .b-refactor{background:#64748b}
+  .b-crit{background:var(--crit)} .b-open{background:var(--high)} .b-rel{background:#0ea5e9}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+  .shot{display:block;width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;box-shadow:0 2px 8px rgba(20,30,60,.06)}
+  .cap{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  ul.tight{margin:8px 0 4px;padding-left:20px} ul.tight li{margin:3px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#fafbfe}
+  .ok{color:var(--ok);font-weight:700}
+  .warn{color:var(--high);font-weight:700}
+  .note{background:var(--blue-soft);border:1px solid #d4ddff;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:13.5px;color:#26407a}
+  .note.amber{background:#fff8ec;border-color:#f3e0b8;color:#7a5a1a}
+  .note.red{background:#fff1f0;border-color:#f5c2c0;color:#7a1f1a}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Грузы кабинета компании: создание и редактирование · приглашения в один клик · продакшен-выкладка · утечка кеша между аккаунтами</h1>
+    <div class="sub">Отчёт о работе · 22 июля 2026 · Sarbon Frontend</div>
+    <div class="tags">
+      <span class="tag">Создание и редактирование груза</span>
+      <span class="tag">Видимость груза</span>
+      <span class="tag">Пагинация и фильтры</span>
+      <span class="tag">Доска → рейс</span>
+      <span class="tag">Приглашения в один клик</span>
+      <span class="tag">Права ролей с сервера</span>
+      <span class="tag">Кеш сессии</span>
+      <span class="tag">Выкладка в прод</span>
+      <span class="tag">Аудит архитектуры</span>
+    </div>
+    <div class="stats">
+      <div class="stat good"><div class="v">0</div><div class="l">ошибок сборки (tsc -b + vite)</div></div>
+      <div class="stat good"><div class="v">2161/2161</div><div class="l">юнит-тестов пройдено (192 файла)</div></div>
+      <div class="stat blue"><div class="v">58</div><div class="l">файлов в src/ и локалях за день</div></div>
+      <div class="stat blue"><div class="v">9</div><div class="l">записей в bug.md за день</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note">
+    Пять коммитов и два слияния (PR&nbsp;#299 и #300) плюс большой объём работы в рабочем дереве. Утро —
+    доводка вчерашних правок раздела компании по мере того, как <b>бэкенд выдавал обещанные эндпоинты</b>:
+    приглашение теперь принимается прямо в ленте офферов, права роли читаются с сервера и переживают
+    перезагрузку. Днём — <b>выкладка в продакшен</b> (staging → main) с временным скрытием четырёх публичных
+    входов в раздел компании, которые после пуша были возвращены обратно. После слияния — архитектурный
+    аудит, нашедший <b>утечку кеша между аккаунтами</b>, и самая крупная задача дня: у компании
+    <b>не существовало создания и редактирования груза</b>, а список грузов молча показывал только первую
+    страницу. Все скриншоты ниже — реальный прогон Playwright на запущенном приложении.
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">1</span> Грузы кабинета компании: создание и редактирование <span class="badge b-feat">FEATURE</span> <span class="badge b-fix">FIX</span></h2>
+    <p class="lead">
+      Группа «Операции» кабинета компании (грузы · рейсы · доска · предложения) была почти только на чтение.
+      Компания могла смотреть грузы и принимать предложения, но <b>создать груз не могла вовсе</b>, а список
+      уходил на сервер <b>без единого query-параметра</b> — компания с 45 объявлениями видела серверные первые
+      20 как полный список. <code>POST /v1/companies/:companyId/cargo</code> и
+      <code>PATCH …/cargo/:id</code> есть в живой спецификации, но отсутствовали в
+      <code>ENDPOINTS_COMPANY_V1</code>.
+    </p>
+
+    <h3>Почему нельзя было просто переиспользовать форму диспетчера</h3>
+    <div class="note red">
+      Единственная в репозитории форма груза (<code>src/pages/cargos/cargo-create/</code>) жёстко привязана к
+      личности диспетчера — <code>useGet</code>/<code>usePost</code>/<code>usePut</code> +
+      <code>ENDPOINTS_DISPATCHERS_V1</code>, без шва для второй поверхности. Наивное переиспользование <b>хуже,
+      чем отсутствие переиспользования</b>: ни один из её ~14 запросов не входит в <code>isPublicAuthUrl</code>,
+      поэтому под <code>/company/*</code> они разрешились бы в <code>authMode: 'dispatcher'</code>, а 401 там
+      заканчивается <code>clearSessionAfterUnauthorized('dispatcher')</code> → жёсткий
+      <code>location.replace</code> на <b>диспетчерский</b> вход — то есть выбросил бы пользователя компании
+      из его собственного рабочего пространства.
+    </div>
+    <p class="lead">
+      Решение — <b>шов поверхности, а не форк</b>, по образцу уже работающего переиспользования чата.
+      <code>cargoFormSurface.ts</code> описывает принимающую поверхность (режим авторизации, URL создания и
+      обновления, HTTP-глагол, ключи инвалидации, навигация после сохранения, поддержка видимости);
+      <code>CargoFormSurfaceContext</code> доносит это до листьев мастера (шаги и так берут общее состояние из
+      контекста, а не через пропсы). У диспетчера по умолчанию <code>authMode</code> остаётся
+      <b>undefined</b>, поэтому его запросы побайтово те же, что и до появления шва.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/02-company-cargo-create-drawer.png" alt="Создание груза в кабинете компании" />
+        <div class="cap">Тот же четырёхшаговый мастер, открытый как панель прямо в рабочем пространстве компании.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/04-company-cargo-edit-drawer.png" alt="Редактирование груза" />
+        <div class="cap">Редактирование: те же шаги, гидратированные из груза, сохранение через <code>PATCH</code> на company-scoped путь.</div>
+      </div>
+    </div>
+
+    <h3>Кто увидит груз — выбор только при создании</h3>
+    <p class="lead">
+      Создающий груз теперь выбирает аудиторию: <b>все водители</b> (<code>SEARCHING_ALL</code> — включая
+      водителей других компаний) или <b>только моя компания</b> (<code>SEARCHING_COMPANY</code>), отправляется
+      как <code>desired_search_visibility</code>. Предлагается всем, кто публикует <i>от имени компании</i>:
+      в кабинете компании и на <code>/cargo-create</code>, когда диспетчер переключился в контекст компании.
+      Диспетчер-фрилансер контрол не видит — бэкенд всё равно принудительно ставит <code>all</code>.
+    </p>
+    <img class="shot" src="img/03-company-cargo-visibility-control.png" alt="Контрол видимости груза" />
+    <div class="cap">«Кто увидит этот груз»: «Все водители» / «Только моя компания» с поясняющим текстом под переключателем.</div>
+    <div class="note amber">
+      <b>Осознанно не предлагается при редактировании.</b> В <code>CargoUpdateRequest</code> такого поля нет, а
+      единственный эндпоинт, переписывающий видимость постфактум, — легаси
+      <code>PATCH /api/cargo/:id/status</code>, диспетчерский маршрут, который отвергает токен компании голым
+      <code>400</code> (воспроизведено на staging). Ранняя итерация этот вызов подключала, и её пришлось убрать:
+      кроме того что он никогда не срабатывал, он подсовывал в форму скрытое
+      <code>desired_search_visibility: 'all'</code> при каждом редактировании — так что сохранение постороннего
+      поля на грузе «На модерации» или «Деактивирован» запускало ложный переход статуса.
+      <b>Запрос на бэкенд:</b> company-scoped эндпоинт смены видимости уже созданного груза.
+    </div>
+
+    <h3>Список: настоящая пагинация и фильтры</h3>
+    <img class="shot" src="img/12-company-cargo-pager.png" alt="Пагинация списка грузов" />
+    <div class="cap">
+      45 записей по 20 на страницу — пагинатор на месте. На проводе запрос теперь несёт
+      <code>?limit=20&amp;page=1&amp;sort=created_at:desc</code> (проверено перехватом запроса), плюс фасеты
+      <code>status</code> и <code>assigned_manager_id</code>.
+    </div>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/01-company-cargo-list-paged.png" alt="Список грузов" />
+        <div class="cap">Фильтры «Все статусы» · «Любой куратор» · сортировка и кнопка «Добавить груз».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/08-company-trips-table.png" alt="Таблица рейсов" />
+        <div class="cap">Рейсы: заголовки в одну строку, тег роли внутри своей колонки (см. раздел 2).</div>
+      </div>
+    </div>
+
+    <h3>Заодно в том же проходе</h3>
+    <ul class="tight">
+      <li><b>Карточки доски перестали быть инертными</b> — карточка рейса ведёт в детали этого рейса через
+        одноразовый параметр <code>?trip=</code>, который снимается после использования.</li>
+      <li><b>Колонка «Водитель» в предложениях была пуста</b> для каждой строки, оформленной так, как её
+        документирует спецификация: <code>companyOffers.ts</code> никогда не читал вложенный
+        <code>carrier.name</code>.</li>
+      <li><b><code>CargoForm</code> не передавал <code>cargoId</code> в первый шаг</b>, поэтому путь
+        редактирования пропускал гидратацию фотографий — поймано новым браузерным верификатором.</li>
+      <li><b><code>board.cardStatus.*</code> отсутствовал во всех 15 локалях</b> и всегда падал в сырую
+        enum-строку.</li>
+      <li><b><code>CargoForm</code> использовал статический <code>message</code> AntD</b> (предупреждающий при
+        переключении темы) вместо <code>App.useApp()</code>.</li>
+    </ul>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/05-company-board.png" alt="Доска" />
+        <div class="cap">Доска: статус над маршрутом, цена и время на отдельных строках, подсказка «нажмите на карточку».</div>
+      </div>
+      <div>
+        <img class="shot" src="img/10-company-board-trip-drilldown.png" alt="Переход с доски в рейс" />
+        <div class="cap">Клик по карточке рейса → вкладка «Рейсы» с открытой панелью деталей именно этого рейса.</div>
+      </div>
+    </div>
+    <img class="shot" src="img/07-company-offers-driver-column.png" alt="Предложения" />
+    <div class="cap">
+      Колонка «Водитель» заполнена из вложенного <code>carrier.name</code>. Обратите внимание на цены: первая
+      строка пришла с готовым <code>price_text</code>, вторая — только с числом, и теперь запасной путь
+      форматирует его как везде в продукте («9 800 000 сум»), а не печатает <code>9800000</code>.
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">2</span> Визуальный прогон группы «Операции» <span class="badge b-ui">UI</span></h2>
+    <p class="lead">
+      Перед сдачей — скриншот-прогон 4 вкладок × 3 ширины (1440 / 834 / 390) × 2 темы + состояния панелей =
+      <b>32 снимка</b>. Все шесть дефектов нашлись глазами, а не автоматическими проверками — ради этого прогон
+      и существует.
+    </p>
+    <table>
+      <thead><tr><th>#</th><th>Что было</th><th>Корневая причина и починка</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b><br/><span class="cap">High</span></td>
+          <td>Заголовок «Действия» в рейсах рендерился по букве в строку, раздувая шапку таблицы до ~190&nbsp;px сплошного тёмно-синего; «Согласованная цена» ломалась посреди слова</td>
+          <td>Сумма объявленных ширин колонок (1170&nbsp;px) превышала <code>scroll.x</code> (1160) — AntD тогда сжимает <i>каждую</i> колонку ниже объявленной ширины, а русское слово без точек переноса ломается посимвольно. Подняли <code>scroll.x</code> выше реальной суммы + хелпер <code>withNowrapHeaders()</code>: одни ширины — хрупкая защита, требуемая ширина меняется от локали</td></tr>
+        <tr><td><b>2</b><br/><span class="cap">Medium</span></td>
+          <td>Тег роли «Грузоотправитель» вываливался из колонки в цену</td>
+          <td>Колонка 110 → 160&nbsp;px плюс <code>truncate</code> на теге, чтобы любая будущая более длинная роль обрезалась внутри своей ячейки</td></tr>
+        <tr><td><b>3</b><br/><span class="cap">Medium</span></td>
+          <td>На карточках доски обрезалась именно цена</td>
+          <td>Цена конкурировала с полной меткой времени за одну строку в колонке 320&nbsp;px — и проигрывала. Строка теперь переносится; на вторую строку уходит время, а не цена</td></tr>
+        <tr><td><b>4</b><br/><span class="cap">Low</span></td>
+          <td>Одинаковые карточки обрезали маршрут по-разному: «Ташкент → Алматы» рядом с «Ташке… → Алма…»</td>
+          <td>Более длинный тег статуса соседней карточки отбирал ширину у маршрута на общей строке. Тег статуса перенесён над маршрутом</td></tr>
+        <tr><td><b>5</b><br/><span class="cap">Medium</span></td>
+          <td>Две строки одной таблицы форматировали одну валюту по-разному: «14 500 000 UZS» и «9800000 UZS»</td>
+          <td>Бэкенд отдаёт <code>price_text</code> непоследовательно, а запасной путь подставлял сырое число. Оба хелпера цены теперь идут через общий <code>formatPrice</code></td></tr>
+        <tr><td><b>6</b><br/><span class="cap">Low</span></td>
+          <td>Группа действий на карточке груза уходила на 45&nbsp;px за край карточки на 390&nbsp;px</td>
+          <td>Найдено измерением правого края каждого элемента относительно вьюпорта: <code>document.scrollWidth</code> сам по себе это не ловит — предок с <code>overflow:hidden</code> прячет нарушителя</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Итог прогона: снимков с недостижимым переполнением <b>6 → 0</b>, ошибок консоли и JS <b>0 → 0</b>, открытых визуальных дефектов <b>0</b>.</div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">3</span> Приглашение принимается прямо в ленте офферов <span class="badge b-feat">FEATURE</span> <span class="badge b-rel">КОНТРАКТ</span></h2>
+    <p class="lead">
+      Вчерашний «вариант A» заставлял диспетчера, получившего приглашение в компанию, нажать «Открыть
+      приглашение», получить OTP как company-user и пройти OTP → завершение регистрации → входящие приглашения,
+      прежде чем приглашение можно было принять. <b>Бэкенд выдал прямой приём</b>, и весь этот крюк стал легаси.
+    </p>
+    <ul class="tight">
+      <li><code>POST /v1/dispatchers/invitations/{id}/accept</code> — принимает приглашение на месте
+        <b>диспетчерским токеном</b>, автоматически заводит личность company-user по телефону (снимок профиля
+        диспетчера, роль пишется нейтрально, не OWNER) и возвращает <b>пару токенов company-user</b> +
+        <code>company_id</code>/<code>role</code>. Телефон обязан совпадать с диспетчерским, иначе
+        <code>403 invitation_not_yours</code>.</li>
+      <li><code>POST …/decline</code> — дешёвая смена состояния с проверкой телефона, без заведения личности.</li>
+      <li>На фронте: карточка приглашения переписана с одной кнопки на <b>«Принять» + «Отклонить»</b> на месте.
+        Приём → чистка кеша сессии + <code>setAuth</code> (автовход, как в OTP-входе компании) → инвалидация
+        ленты → переход в рабочее пространство присоединённой компании. 200 без пригодных токенов падает
+        громко, а не оставляет полуприменённую сессию.</li>
+    </ul>
+    <img class="shot" src="img/20-dispatcher-invitation-accept-decline.png" alt="Приглашение в ленте офферов" />
+    <div class="cap">Лента офферов диспетчера: компания, роль, срок действия и обе кнопки прямо в карточке.</div>
+    <div class="card">
+      <b>Что поймал состязательный обзор (3 угла).</b> Проверка подтвердила строки эндпоинтов, режим
+      авторизации, семантику <code>setAuth</code> (секунды, не unix-мс), порядок «синхронизировать до
+      навигации» и блокировку двойной отправки. Одна реальная находка среднего уровня:
+      <code>parseDispatcherInvitationAccept</code> принимал пару токенов, у которой
+      <code>expires_in</code>/<code>refresh_expires_in</code> отсутствовали или были нечисловыми, подставляя
+      <code>0</code> — а поскольку хранилище пишет срок как <code>(сейчас + время жизни)</code>, ноль
+      превращался в <b>уже прошедшую</b> эпоху, а не в документированный сентинел «никогда не истекает». Первый
+      же запрос компании ушёл бы в обновление токена → отказ → <code>clearAuth</code>, и пользователя выбросило
+      бы на вход сразу после тоста об успехе. Парсер теперь падает закрыто.
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">4</span> Права роли читаются с сервера и переживают перезагрузку <span class="badge b-feat">FEATURE</span> <span class="badge b-rel">КОНТРАКТ</span></h2>
+    <p class="lead">
+      Вчера вкладка «Роли» могла показывать только сессионные правки — API прав был <b>только на запись</b>,
+      и после успешного PUT все переключатели откатывались на «Не задано». Вчерашний обходной путь держал
+      сохранённое состояние до конца визита, но не переживал перезагрузку, повторное открытие вкладки,
+      переключение роли туда-обратно и не был виден другому администратору. <b>Запрошенный вчера GET
+      выдан</b> — <code>GET /v1/companies/{companyId}/roles/{role}/permissions</code>.
+    </p>
+    <ul class="tight">
+      <li>Новый <code>parseRolePermissionOverlay</code> разбирает ответ в карту
+        <code>permission_key → allowed</code> (терпим к обёртке/массиву, отбрасывает битые строки, нечисловой
+        <code>allowed</code> никогда не приводится к булеву).</li>
+      <li><b>Кеш запроса стал единственным источником истины</b>: сохранение и точечный откат патчат кеш
+        оптимистично через <code>setQueryData</code> (тот же билдер, что уходит на сервер, — round-trip без
+        потерь), затем инвалидируют ключ и сверяются с сервером. Сессионное состояние
+        <code>applied</code> и его эффект-сеялка удалены целиком.</li>
+      <li><b>Что поймал обзор:</b> состояние загрузки и ошибки нового GET нигде не показывалось — медленный или
+        упавший запрос рисовал все права как «Не задано», неотличимо от роли без переопределений, и правку
+        можно было начать с этой ложной пустоты. Теперь GET делит с секцией общий блок ошибки и повтора, а
+        переключатели заблокированы до успешной загрузки.</li>
+    </ul>
+    <img class="shot" src="img/09-company-roles-server-overlay.png" alt="Права роли после перезагрузки" />
+    <div class="cap">
+      После <b>перезагрузки страницы</b>: «Публикация груза» — «Разрешено», «Удаление груза» — «Запрещено»,
+      прочитанные с сервера. Вчера здесь было бы «Не задано» на всех строках.
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">5</span> Ещё четыре правки авторизации компании <span class="badge b-fix">FIX</span></h2>
+    <table>
+      <thead><tr><th>Что</th><th>Разбор</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Голый 409 забирали себе два разных обработчика</b><br/><span class="cap">11:12</span></td>
+          <td>И <code>isCompanyAlreadyRegistered</code> (завершение регистрации), и <code>isCompanyInnTakenError</code> (создание компании) проверяли <i>только</i> HTTP-статус. Любой 409 поэтому переклеивался: на завершении — тост «у вас уже есть аккаунт» и переход на вход с <code>replace: true</code>, теряя набранные имя и пароль и <code>session_id</code> из URL; на создании — «ИНН занят» на корректном ИНН, ошибка, которую нельзя убрать правкой поля. Новый <code>isExpectedConflict(error, status, reasons)</code>: статус по-прежнему совпадает сам по себе, когда тело не называет причину, но 409 с <i>другой</i> причиной больше не матчится и падает в обычную ошибку на месте</td>
+        </tr>
+        <tr>
+          <td><b>Отсчёт компании стирал диспетчерский маркер</b><br/><span class="cap">11:12</span></td>
+          <td><code>sarbon.otpFailedIdentifier</code> — единственный общеприложенческий маркер за 60-секундным троттлингом повторных неудач, и пишут его только диспетчерские страницы. Когда истекал <i>scoped</i> отсчёт компании, хук стирал маркер всё равно — и следующая неудачная отправка на диспетчерском входе считалась первой и троттлинг пропускала. Теперь чистить его может только глобальный (безобластной) экземпляр</td>
+        </tr>
+        <tr>
+          <td><b>Полевые ошибки были недостижимы на завершении регистрации</b><br/><span class="cap">10:55</span></td>
+          <td><code>onError</code> проверял статусные ветки первыми и уходил в навигацию, поэтому <code>409 { data: { fields: { password: … } } }</code> выбрасывал сообщение поля и уводил пользователя с формы, которую он мог исправить на месте. <code>applyApiFieldErrors</code> теперь идёт первым; редиректы не пострадали — их ответы <code>fields</code> не несут</td>
+        </tr>
+        <tr>
+          <td><b>Однословные коды ошибок протекали в интерфейс</b><br/><span class="cap">10:55</span></td>
+          <td>Фильтр машинных кодов требовал разделителя (<code>_</code>/<code>-</code>/<code>.</code>) — правило намеренное, потому что узбекский пишется строчной латиницей и однословное <code>bloklangan</code> обязано доходить до пользователя. Но <code>unauthorized</code>, <code>forbidden</code>, <code>conflict</code> проходили фильтр и печатались как есть. Добавлен <b>закрытый</b> список однословных кодов — закрытый, а не «любое английское слово», чтобы локализованное сообщение никогда не подавлялось лишь за то, что оно короткое</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2><span class="n">6</span> Удалён мёртвый барьер личностей <span class="badge b-refactor">REFACTOR</span></h2>
+    <p class="lead">
+      <code>companyRegisterConflict.ts</code> моделировал барьер бэкенда, которого больше не существует:
+      <code>409</code> с <code>data.reason: phone_belongs_to_dispatcher | phone_belongs_to_driver</code>,
+      означавший, что телефон принадлежит другой личности Sarbon и company-user'ом стать не может. На него
+      ветвились две страницы, его текст несли два ключа × 15 локалей, его утверждал набор тестов.
+    </p>
+    <div class="note">
+      Живая спецификация недвусмысленна по обеим половинам: <code>purpose=register</code> «принимается для
+      обратной совместимости, но <b>больше ни на что не влияет</b> (редизайн на Go убрал единственную проверку,
+      которая от него зависела)», а телефон или email, принадлежащий диспетчеру <b>или водителю</b>, «больше не
+      отклоняется». <code>phone_belongs_to_*</code> встречается в спецификации <b>0 раз</b>. Единственный
+      оставшийся инвариант дубликата — <code>409 phone_already_registered</code>. Заодно поправлен
+      <code>CLAUDE.md</code>, который всё ещё описывал барьер как живой — именно это вчера привело к переоценке
+      одной находки.
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2><span class="n">7</span> Выкладка в продакшен и возврат публичных входов <span class="badge b-rel">РЕЛИЗ</span></h2>
+    <p class="lead">
+      Днём — слияние staging → main (PR&nbsp;#300). Перед пушем четыре публичных входа в раздел компании были
+      <b>закомментированы</b>, а не удалены (по прямому указанию: «скрыть, но не убивать»), с маркерами
+      «раскомментировать, чтобы вернуть»: ссылка в подвале, гостевой пункт в шапке и кросс-ссылки на страницах
+      входа и регистрации диспетчера. Сам раздел <code>/company/*</code> и <code>/accept-invite</code>
+      оставались доступны по прямой ссылке, как и карточка приглашения в офферах, переключатель контекста
+      нанятого диспетчера и админская модерация.
+    </p>
+    <p class="lead">
+      После выкладки все четыре входа <b>возвращены обратно</b> — восстановлены до версий, предшествовавших
+      скрытию; <code>tsc -b</code> подтверждает, что они по-прежнему типизируются поверх слитого рефакторинга
+      OTP-отсчёта.
+    </p>
+    <div class="grid2">
+      <div>
+        <img class="shot" src="img/31-header-for-companies.png" alt="Шапка с пунктом «Для компаний»" />
+        <div class="cap">Гостевая шапка: пункт «Для компаний» на месте.</div>
+      </div>
+      <div>
+        <img class="shot" src="img/32-login-cross-identity-hint.png" alt="Подсказка на входе диспетчера" />
+        <div class="cap">Вход диспетчера: «Входите как компания или перевозчик? → Вход для компаний».</div>
+      </div>
+    </div>
+    <img class="shot" src="img/30-footer-for-companies.png" alt="Подвал со ссылкой «Для компаний»" />
+    <div class="cap">Подвал: ссылка «Для компаний» в колонке «Контакты и тарифы».</div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <h2><span class="n">8</span> Утечка кеша между аккаунтами на общем устройстве <span class="badge b-crit">HIGH</span></h2>
+    <p class="lead">
+      Найдена архитектурным аудитом сразу после слияния: та же ветка починила слои авторизации, создания,
+      профиля и админки, но выложила только <b>половину собственной находки</b> §2.1 — область очистки кеша
+      при входе и выходе осталась открытой.
+    </p>
+    <div class="card">
+      <b>Разбор.</b> <code>clearCompanySessionQueries</code> вызывается на каждом переходе сессии (вход /
+      подтверждение OTP / завершение регистрации / выход — 4 точки), но удалял <b>4 ключа из ~30</b>: только
+      аккаунтные (<code>AUTH_COMPANIES</code>, <code>PROFILE</code>, <code>COMPANY_BY_ID</code>,
+      <code>ME_PERMISSIONS</code>). Ещё ~25 <b>компанийно-скоупленных</b> ключей рабочего пространства
+      (<code>COMPANY_TRIPS</code>, <code>COMPANY_FINANCE_*</code>, <code>COMPANY_USERS</code>,
+      <code>COMPANY_DOCUMENTS</code>, <code>COMPANY_DRIVERS</code>, <code>COMPANY_INVITATIONS</code>,
+      <code>COMPANY_AUDIT</code>, <code>COMPANY_BOARD</code>, …), ключёванных <code>[key, companyId]</code>,
+      переживали переход под пятиминутным <code>gcTime</code>.
+      <br/><br/>
+      <b>Сценарий отказа.</b> Двое сотрудников одной компании за общим устройством: первый выходит, второй
+      входит в ту же компанию — и первые ~60 секунд (<code>staleTime</code>) видит закешированные данные
+      первого: рейсы, финансы, сотрудников, выданные под <i>другие</i> права.
+      <br/><br/>
+      <b>Корневая причина.</b> Список из 4 ключей, поддерживаемый вручную, который ни разу не догнал растущий
+      enum из ~30. <b>Починка:</b> чистка <b>по членству</b> — <code>removeQueries({ predicate })</code> по
+      <code>new Set(Object.values(QUERY_KEYS_COMPANY_V1))</code>, так что вновь добавленный эндпоинт компании
+      не может молча ускользнуть от очистки. Проверена межпространственная безопасность: ключи уникальны между
+      диспетчером, админом и компанией, так что диспетчерские, админские и чатовые записи не задеты.
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <h2><span class="n">9</span> Архитектурный аудит после слияния <span class="badge b-refactor">ASSESS</span></h2>
+    <p class="lead">
+      Слияние <code>company-surface-fixes</code> сопоставлено с базой до слияния по 6 областям плюс структурный
+      аудит. <b>Вердикт: слияние — настоящее улучшение, 0 регрессий.</b>
+    </p>
+    <ul class="tight">
+      <li>Починило несколько реальных багов базы: перевёрнутая проверка на <code>null</code> в разборе причины
+        409, из-за которой любой неизвестный конфликт классифицировался неверно; неразбираемый 200, оставлявший
+        пользователя на форме создания; гейт по <code>is_current</code>, дававший неповторяемый 403;
+        глобальный кросс-поверхностный OTP-отсчёт; попытки OTP, сгоравшие на транзиентных ошибках.</li>
+      <li>Улучшило разделение логики и представления: вынесены <code>companyActive.ts</code>,
+        <code>companyAuthError.ts</code>, <code>companyOtpPurpose.ts</code>, <code>httpStatus.ts</code>,
+        <code>authPhone.ts</code>, <code>otpCooldownStore.ts</code>, <code>companyProfile.ts</code> — каждый со
+        своим тестом рядом, по конвенции репозитория.</li>
+      <li>Новых структурных дыр нет: «36 неиспользуемых файлов» по knip — это отдельно стоящие скрипты
+        <code>qa/*.mjs</code>, артефакт конфигурации, а не <code>src</code>.</li>
+      <li><b>Одна открытая дыра высокого уровня найдена и закрыта</b> — раздел 8 выше.</li>
+    </ul>
+    <div class="note amber">
+      <b>Отложено (причины не изменились):</b> god-компоненты (<code>FinanceSection</code>, 1233 строки — нужен
+      GUI-базлайн перед разбором), мёртвые заготовки (<code>companyOtpChannels</code>,
+      <code>REFERENCE_COMPANY</code> — ждут бэкенд) и переносимость <code>qa/verify-*.mjs</code> (жёстко
+      прошитый путь к скиллу, playwright не в зависимостях).
+    </div>
+  </section>
+
+  <!-- verification -->
+  <section>
+    <h2><span class="n">10</span> Проверки</h2>
+    <table>
+      <thead><tr><th>Проверка</th><th>Результат</th></tr></thead>
+      <tbody>
+        <tr><td><code>pnpm build</code> (<code>tsc -b</code> + vite)</td><td class="ok">выход 0</td></tr>
+        <tr><td><code>eslint . --max-warnings 0</code></td><td class="ok">чисто</td></tr>
+        <tr><td><code>vitest</code> (полный прогон на конец дня)</td><td class="ok">192 файла / 2161 тест</td></tr>
+        <tr><td><code>qa/verify-company-cargo-create.mjs</code> (новый)</td><td class="ok">22/22, 0 ошибок консоли</td></tr>
+        <tr><td><code>qa/verify-company-workspace.mjs</code></td><td class="ok">18/18 секций, 0 сырых ключей i18n</td></tr>
+        <tr><td><code>qa/verify-company-invite-roles.mjs</code></td><td class="ok">выход 0</td></tr>
+        <tr><td>Скриншот-прогон группы «Операции»</td><td class="ok">32 снимка; переполнений 6 → 0, ошибок консоли 0</td></tr>
+        <tr><td>Синхронизация локалей</td><td class="ok">15/15 (+34 ключа на локаль в задаче по грузам, ни одного удалённого)</td></tr>
+        <tr><td>Диспетчерская форма груза не затронута</td><td class="warn">под застабленным стендом не проверялась — та же пустая отрисовка и у нетронутой страницы «Мои грузы», то есть ограничение стенда, а не регрессия; гарантия держится на типах, линте и юнит-тестах, утверждающих <code>authMode: undefined</code>, <code>PUT /api/cargo/:id</code> и отсутствие поля видимости в payload</td></tr>
+        <tr><td>Смена видимости у существующего груза</td><td class="warn">невозможна — нужен company-scoped эндпоинт (запрос на бэкенд)</td></tr>
+        <tr><td>Живой end-to-end приёма приглашения</td><td class="warn">не проверялся — нет тестового приглашения на staging; сервер остаётся источником истины по проверке телефона и гардам</td></tr>
+        <tr><td>Файлов затронуто</td><td>58 в <code>src/</code> и локалях (из них 8 новых модулей и 15 файлов локалей), 5 коммитов + 2 слияния + рабочее дерево</td></tr>
+        <tr><td>Записей в <code>bug.md</code></td><td>9 за день</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>О скриншотах.</b> Экраны кабинета компании и лента офферов сняты на засеянной сессии с застабленными
+      ответами staging — тем же стендом, которым правки проверялись
+      (<code>qa/verify-company-cargo-create.mjs</code>, <code>qa/shoot-company-operations.mjs</code>): у
+      поверхности владельца нет разделяемого тестового аккаунта, а живого приглашения на staging нет. Вход в
+      ленту офферов выполнен настоящей сессией диспетчера, застаблен только ответ ленты. Публичные экраны
+      (подвал, шапка, вход) — без стабов вовсе. Скрипты съёмки лежат рядом с отчётом
+      (<code>take-company-ops.mjs</code>, <code>take-rest.mjs</code>).
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
